@@ -135,11 +135,11 @@ const Page = () => {
 
       <div className="container-fluid user-table py-3">
         {/* Header */}
-        <div className="d-flex justify-content-between align-items-center my-4">
+        {/* <div className="d-flex justify-content-between align-items-center my-4">
           <h4 className="mb-0">All Service Subcategories</h4>
 
           <div className="d-flex align-items-center">
-            {/* Search */}
+
             <form className="input-group search ms-2 d-none d-md-flex">
               <span className="input-group-text input-span">
                 <i className="bi bi-search" />
@@ -151,7 +151,7 @@ const Page = () => {
               />
             </form>
 
-            {/* Status Filter */}
+          
             <div className="dropdown me-2">
               <button
                 className="btn btn-light dropdown-toggle border height37"
@@ -178,7 +178,7 @@ const Page = () => {
               )}
             </div>
 
-            {/* Add Button */}
+       
             <button
               className="btn bgThemePrimary shadow-sm"
               onClick={() => router.push("/service-subcategory/create")}
@@ -186,7 +186,62 @@ const Page = () => {
               + Add Subcategory
             </button>
           </div>
+        </div> */}
+
+        <div className="d-flex justify-content-between align-items-center my-4">
+        <h4 className="mb-0"> All Services SubCategories</h4>
+        <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center px-2 user-search">
+            <form className="input-group search ms-2 d-none d-md-flex">
+              <span className="input-group-text input-span">
+                <i className="bi bi-search" />
+              </span>
+              <input
+                type="search"
+                className="form-control search-input"
+                placeholder="Name"
+              />
+            </form>
+          </div>
+
+          <div className="dropdown me-2">
+            <button
+              className="btn btn-light dropdown-toggle border height37"
+              type="button"
+              onClick={() => setOpen(!open)}
+              style={{
+                width: "200px",
+                fontSize: "14px",
+              }}
+            > {label}
+            </button>
+           {open && (
+        <ul className="dropdown-menu show">
+          {["All", "Active", "Inactive"].map((item) => (
+            <li key={item}>
+              <button
+                className="dropdown-item"
+                onClick={() => {
+                  setLabel(item);
+                  setOpen(false);
+                }}
+              >
+                {item}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+          </div>
+         
+          <button
+            className="btn bgThemePrimary shadow-sm"
+            onClick={() => router.push("/service-subcategory/create")}
+          >
+            + Add Subcategory
+          </button>
         </div>
+      </div>
 
         {/* Table */}
         <div className="card shadow-sm border-0">
