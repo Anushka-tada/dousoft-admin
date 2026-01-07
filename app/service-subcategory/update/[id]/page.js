@@ -8,6 +8,7 @@ import {
   updateServiceCategoryServ,
   singleServiceCategoryServ
 } from "@/app/services/serviceSubcategory.service";
+import Editor from "@/app/Components/Editor";
 
 import { getServiceCategoryServ } from "@/app/services/serviceCategory.service";
 
@@ -45,6 +46,7 @@ const Page = () => {
           name: res.data.data.name || "",
           type: res.data.data.type || "general",
           status: res.data.data.status || "active",
+          content: res.data.data.content || "",
         });
       } catch (error) {
         toast.error("Failed to load subcategory");
@@ -80,6 +82,7 @@ const Page = () => {
                   name: values.name,
                   type: values.type,
                   status: values.status,
+                   content: values.content, 
                 };
 
                 const res = await updateServiceCategoryServ(id, payload);
@@ -95,7 +98,8 @@ const Page = () => {
               }
             }}
           >
-            {({ isSubmitting }) => (
+           {({ isSubmitting, values, setFieldValue }) => (
+
               <Form>
                 <div className="form-section shadow-sm mb-3">
                   <div className="form-section-header">
@@ -171,6 +175,21 @@ const Page = () => {
                   </div>
                 </div>
 
+                {/* CONTENT */}
+<div className="col-md-12">
+  <label className="form-label">
+    Subcategory Content <span className="text-danger">*</span>
+  </label>
+
+  <Editor
+    value={values.content}
+    onChange={(content) => {
+      setFieldValue("content", content);
+    }}
+  />
+</div>
+
+
                 {/* BUTTONS */}
                 <div className="d-flex justify-content-end mb-5 mt-4">
                   <button
@@ -190,6 +209,8 @@ const Page = () => {
                   </button>
                 </div>
               </Form>
+
+
             )}
           </Formik>
         </div>

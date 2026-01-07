@@ -5,7 +5,13 @@ import React from 'react'
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useState } from 'react';
+
+
 function TopNav({setIsCollapsed, isCollapsed}) {
+
+  const [open, setOpen] = useState(false);
+
   // const { globalState, setGlobalState } = useGlobalState();
     const router = useRouter();
    const handleLogoutFunc = () => {
@@ -16,11 +22,12 @@ function TopNav({setIsCollapsed, isCollapsed}) {
       //   token: null,
       //   permissions: null,
       // });
+
       toast.success("Admin logged out successfully");
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      localStorage.removeItem("permissions");
-      router.push("/");
+
+     localStorage.removeItem("admin_token");
+  localStorage.removeItem("admin_user");
+      router.replace("/authentication");
     }
   };
   return (
@@ -95,43 +102,54 @@ function TopNav({setIsCollapsed, isCollapsed}) {
               </div>
             </div>
             {/* Profile */}
-            <div className="dropdown" data-hover="dropdown">
-              <button
-                className="btn btn-light d-flex align-items-center gap-2"
-                data-bs-toggle="dropdown"
+           <div className="dropdown position-relative">
+  <button
+    className="btn btn-light d-flex align-items-center gap-2"
+    onClick={() => setOpen(!open)}
+  >
+    <img
+      src="https://static.vecteezy.com/system/resources/previews/051/718/888/non_2x/3d-cartoon-boy-avatar-with-open-mouth-and-eyes-free-png.png"
+      className="rounded-circle"
+      width={28}
+      height={28}
+      alt="avatar"
+    />
+  </button>
 
-              >
-                {/* <img
-                  src= {globalState?.user?.profilePic || "https://static.vecteezy.com/system/resources/previews/051/718/888/non_2x/3d-cartoon-boy-avatar-with-open-mouth-and-eyes-free-png.png"}
-                  className="rounded-circle"
-                  width={28}
-                  height={28}
-                  alt="avatar"
-                /> */}
-                <img
-  src="https://static.vecteezy.com/system/resources/previews/051/718/888/non_2x/3d-cartoon-boy-avatar-with-open-mouth-and-eyes-free-png.png"
-  className="rounded-circle"
-  width={28}
-  height={28}
-  alt="avatar"
-/>
+  {open && (
+    <div className="dropdown-menu  shadow card-soft show" style={{right: 0}}>
+      <button
+        className="dropdown-item"
+        onClick={() => {
+          setOpen(false);
+          router.push("/my-profile");
+        }}
+      >
+        <i className="bi bi-person me-2" /> Profile
+      </button>
 
-              </button>
-              <div className="dropdown-menu dropdown-menu-end shadow card-soft">
-                <a className="dropdown-item cursor" onClick={()=>router.push("/my-profile")}>
-                  <i className="bi bi-person me-2" /> Profile
-                </a>
-                 <a className="dropdown-item cursor" onClick={()=>router.push("/permissions")}>
-                  <i className="bi bi-grid me-2" /> Permissions
-                </a>
-                
-                <div className="dropdown-divider" />
-                <a className="dropdown-item text-danger cursor" onClick={()=>handleLogoutFunc()} >
-                  <i className="bi bi-box-arrow-right me-2" />
-                  Logout
-                </a>
-              </div>
-            </div>
+      <button
+        className="dropdown-item"
+        onClick={() => {
+          setOpen(false);
+          router.push("/permissions");
+        }}
+      >
+        <i className="bi bi-grid me-2" /> Permissions
+      </button>
+
+      <div className="dropdown-divider" />
+
+      <button
+        className="dropdown-item text-danger"
+        onClick={handleLogoutFunc}
+      >
+        <i className="bi bi-box-arrow-right me-2" /> Logout
+      </button>
+    </div>
+  )}
+</div>
+
           </div>
         </div>
   )

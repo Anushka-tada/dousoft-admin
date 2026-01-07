@@ -35,6 +35,10 @@ const ServiceSubCategorySchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+     content: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

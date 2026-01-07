@@ -7,10 +7,11 @@ import ServiceCategory from "@/models/ServiceCategory";
    🔹 CORS CONFIG
 ======================= */
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "http://localhost:3000",
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
+
 
 /* =======================
    🔹 PREFLIGHT
@@ -36,7 +37,7 @@ export async function PUT(req, { params }) {
     }
 
     const body = await req.json();
-    const { categoryId, name, type, status } = body;
+    const { categoryId, name, type, status , content } = body;
 
     // 🔴 Mandatory fields check
     if (!categoryId || !name || !type) {
@@ -84,6 +85,7 @@ export async function PUT(req, { params }) {
           slug,
           type,
           status,
+          content,
         },
         { new: true }
       ).populate("categoryId", "name");

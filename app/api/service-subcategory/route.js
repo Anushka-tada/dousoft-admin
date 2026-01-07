@@ -7,10 +7,11 @@ import ServiceCategory from "@/models/ServiceCategory";
    🔹 CORS HEADERS
 ======================= */
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "http://localhost:3000",
-  "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
+
 
 export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders });
@@ -24,12 +25,13 @@ export async function POST(req) {
     await connectDB();
 
     const body = await req.json();
-    const { categoryId, name, type, status } = body;
+    const { categoryId, name, type, status , content } = body;
 
  
     if (!categoryId || !name || !type) {
       return NextResponse.json(
-        { message: "categoryId, name and type are required" },
+        { status: 400,
+          message: "categoryId, name and type are required" },
         { status: 400, headers: corsHeaders }
       );
     }
@@ -38,7 +40,8 @@ export async function POST(req) {
     const categoryExists = await ServiceCategory.findById(categoryId);
     if (!categoryExists) {
       return NextResponse.json(
-        { message: "Service category not found" },
+        {  status: 404,
+           message: "Service category not found" },
         { status: 404, headers: corsHeaders }
       );
     }
@@ -56,7 +59,8 @@ export async function POST(req) {
 
     if (alreadyExists) {
       return NextResponse.json(
-        { message: "Subcategory already exists" },
+        { status: 400,
+           message: "Subcategory already exists" },
         { status: 409, headers: corsHeaders }
       );
     }
@@ -66,11 +70,12 @@ export async function POST(req) {
       name,
       slug,
       type,
+      content,
       status: status || "active",
     });
 
     return NextResponse.json(
-      {
+      { status:201,
         message: "Service subcategory created successfully",
         data: subCategory,
       },
@@ -78,7 +83,8 @@ export async function POST(req) {
     );
   } catch (error) {
     return NextResponse.json(
-      { message: error.message },
+      { status: 500,
+        message: error.message },
       { status: 500, headers: corsHeaders }
     );
   }
@@ -107,7 +113,7 @@ export async function GET(req) {
       .sort({ createdAt: -1 });
 
     return NextResponse.json(
-      {
+      { status: 200,
         message: "Service subcategories fetched successfully",
         data: subCategories,
       },
@@ -115,7 +121,8 @@ export async function GET(req) {
     );
   } catch (error) {
     return NextResponse.json(
-      { message: error.message },
+      { status: 500,
+        message: error.message },
       { status: 500, headers: corsHeaders }
     );
   }

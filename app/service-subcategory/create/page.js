@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 import { getServiceCategoryServ } from '@/app/services/serviceCategory.service';
 import { createServiceCategoryServ } from "@/app/services/serviceSubcategory.service";
+import Editor from "@/app/Components/Editor";
 
 const kpiData = [
   {
@@ -104,6 +105,7 @@ const Page = () => {
               name: "",
               type: "general",
               status: "active",
+               content: "",   
             }}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               try {
@@ -112,6 +114,7 @@ const Page = () => {
                   name: values.name,
                   type: values.type,
                   status: values.status,
+                    content: values.content, 
                 };
 
                 console.log("Payload:", payload);
@@ -133,7 +136,8 @@ const Page = () => {
               }
             }}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, values, setFieldValue }) => (
+
               <Form>
                 <div className="form-section shadow-sm mb-3">
                   <div className="form-section-header">
@@ -218,6 +222,25 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* CONTENT SECTION */}
+<div className="form-section shadow-sm mb-3">
+  <div className="form-section-header">
+    Subcategory Page Content
+  </div>
+
+  <div className="form-section-body">
+    <Editor
+      value={values.content}
+      onChange={(content) =>
+        setFieldValue("content", content)
+      }
+    />
+  </div>
+</div>
+
+
+             
 
                 {/* BUTTONS */}
                 <div className="d-flex justify-content-end align-items-center mb-5 mt-4">
