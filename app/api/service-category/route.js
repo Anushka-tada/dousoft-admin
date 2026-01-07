@@ -58,7 +58,7 @@ export async function POST(req) {
 /* =======================
    🔹 LIST CATEGORIES
 ======================= */
-export async function GET() {
+export async function GET(req) {
   try {
     await connectDB();
 
