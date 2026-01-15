@@ -13,7 +13,7 @@ export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders });
 }
 
-// 🔹 CREATE CATEGORY (Admin)
+// CREATE CATEGORY 
 export async function POST(req) {
   try {
     await connectDB();
@@ -55,9 +55,7 @@ export async function POST(req) {
   }
 }
 
-/* =======================
-   🔹 LIST CATEGORIES
-======================= */
+/*  LIST CATEGORIES */
 export async function GET(req) {
   try {
     await connectDB();
