@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const MeetingSchema = new mongoose.Schema(
- {
+  {
     name: {
       type: String,
       required: true,
@@ -17,23 +17,16 @@ const MeetingSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    subject: {
+    message: {
       type: String,
       required: true,
       trim: true,
     },
-    date: {
-      type: String, 
-      required: true,
-    },
-    time: {
-      type: String, 
-      required: true,
-    },
-    } ,{
+  },
+  {
     timestamps: true,
   }
-)
+);
 
 export default mongoose.models.Meeting ||
   mongoose.model("Meeting", MeetingSchema);

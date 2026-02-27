@@ -38,7 +38,7 @@ function Sidebar({ isCollapsed }) {
         {
           menu: "Appointments",
           icon: "bi bi-cash-coin",
-         
+          path:"/appointments"
         },
        
       ],
@@ -87,7 +87,7 @@ function Sidebar({ isCollapsed }) {
         {
           menu: "Blogs",
           icon: "bi bi-gear",
-          path: "/system-configration",
+          path: "/blogs",
         },
        
       ],
