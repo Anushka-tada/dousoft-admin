@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import React, { useEffect, useState } from "react";
 import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
 import { useRouter } from "next/navigation";
+import { deleteBlogServ, getBlogsServ } from "../services/blog.service";
 
 const Page = () => {
   const router = useRouter();
@@ -38,6 +40,19 @@ const Page = () => {
       createdAt: "2024-01-20",
     },
   ];
+  
+  // fetch blogs
+
+  const fetchBlogs = async () => {
+      try {
+        const res = await getBlogsServ();
+        setBlogs(res?.data?.data || []);
+        setAllBlogs(res?.data?.data || []);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
 
   // 🔹 KPI Data
   const kpiData = [
@@ -68,17 +83,20 @@ const Page = () => {
   ];
 
   useEffect(() => {
-    setBlogs(dummyBlogs);
-    setAllBlogs(dummyBlogs);
+    fetchBlogs();
   }, []);
 
   // 🔥 Delete Blog (Local)
-  const handleDeleteFunc = () => {
-    const updated = blogs.filter((item) => item._id !== deleteId);
-    setBlogs(updated);
-    setAllBlogs(updated);
-    setShowConfirm(false);
-    setDeleteId(null);
+  const handleDeleteFunc =  async() => {
+  try{
+     const res = await deleteBlogServ(deleteId)
+     console.log(res)
+     setShowConfirm(false);
+     fetchBlogs();
+
+  }catch(err){
+    console.log(err);
+  }
   };
 
   // 🔹 Status Filter
@@ -215,7 +233,13 @@ const Page = () => {
                         <td className="text-center">{index + 1}</td>
                         <td>{item.title}</td>
                         <td>{item.author}</td>
-                        <td>{item.createdAt}</td>
+                      <td>
+  {new Date(item.createdAt).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  })}
+</td>
                         <td className="text-center">
                           <span
                             className={`badge ${

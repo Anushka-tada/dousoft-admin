@@ -36,7 +36,7 @@ body {
   background: var(--bg);
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
-  font-family: "Avenir LT Pro", "sans-serif" !important;
+  font-family: 'Geist' !important;
 }
 
 a {

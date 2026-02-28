@@ -63,7 +63,7 @@ function Sidebar({ isCollapsed }) {
 
          {
           menu: "Add Service Category",
-          icon: "bi bi-gear",
+          icon: "bi bi-plus-circle",
           path: "/service-category/create",
         },
 
@@ -75,7 +75,7 @@ function Sidebar({ isCollapsed }) {
 
          {
           menu: "Add Service SubCategory",
-          icon: "bi bi-gear",
+         icon: "bi bi-plus-circle",
           path: "/service-subcategory/create",
         },
        
@@ -86,8 +86,14 @@ function Sidebar({ isCollapsed }) {
       list: [
         {
           menu: "Blogs",
-          icon: "bi bi-gear",
+          icon: "bi bi-journal-text",
           path: "/blogs",
+        },
+
+         {
+          menu: "Add Blog",
+         icon: "bi bi-journal-plus",
+          path: "/blogs/create",
         },
        
       ],
