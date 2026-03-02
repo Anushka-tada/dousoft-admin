@@ -2,6 +2,20 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Subscribe from "@/models/Subscribe";
 
+/* =======================
+   🔹 CORS HEADERS
+======================= */
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { status: 200, headers: corsHeaders });
+}
+
 export async function POST(req) {
   try {
     await connectDB();
@@ -10,7 +24,8 @@ export async function POST(req) {
     if (!email) {
       return NextResponse.json(
         { error: "Email is required" },
-        { status: 400 }
+        { status: 400 },
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -20,7 +35,7 @@ export async function POST(req) {
     if (existingEmail) {
       return NextResponse.json(
         { message: "You are already subscribed." },
-        { status: 200 }
+        { status: 201, headers: corsHeaders }
       );
     }
 
@@ -31,12 +46,13 @@ export async function POST(req) {
         message: "Thank you for subscribing to our newsletter!",
         data: subscriber,
       },
-      { status: 201 }
+      { status: 201 },
+      { status: 201, headers: corsHeaders }
     );
   } catch (error) {
     return NextResponse.json(
       { error: error.message },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }

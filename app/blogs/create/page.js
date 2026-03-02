@@ -84,6 +84,25 @@ const Page = () => {
     className="text-danger small"
   />
 </div>
+
+  {/* title  */}
+                  <div className="col-md-6">
+                    <label className="form-label">
+                      Title <span className="text-danger">*</span>
+                    </label>
+                    <Field
+                      type="text"
+                      name="title"
+                      className="form-control"
+                      placeholder="Enter title"
+                    />
+                    <ErrorMessage
+                      name="title"
+                      component="div"
+                      className="text-danger small"
+                    />
+                  </div>
+
                   {/* Slug */}
                   <div className="col-md-6">
                     <label className="form-label">

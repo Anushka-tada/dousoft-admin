@@ -41,3 +41,27 @@ export const deleteBlogServ = async (id) => {
     throw error;
   }
 };
+
+// update
+
+export const UpdateBlogServ = async (id , payload) => {
+  try {
+    const response = await axios.put(BASE_URL + `blog/update/${id}` , payload);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+// get by id
+
+export const getSingleBlogServ = async (id) => {
+  try {
+    const response = await axios.get(BASE_URL + `blogs/${id}`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
