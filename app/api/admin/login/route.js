@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -16,7 +18,11 @@ export async function OPTIONS() {
 }
 
 export async function POST(req) {
+
+   console.log("🔥 LOGIN API CALLED");
   try {
+
+    
     await connectDB();
 
     const body = await req.json();
