@@ -40,6 +40,11 @@ function Sidebar({ isCollapsed }) {
           icon: "bi bi-cash-coin",
           path:"/appointments"
         },
+         {
+          menu: "Contact Requests",
+          icon: "bi bi-cash-coin",
+          path:"/contact-requests"
+        },
        
       ],
     },

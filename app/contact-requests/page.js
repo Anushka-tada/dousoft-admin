@@ -3,14 +3,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
-import {  deleteMeetingRequestServ, getmeetingServ } from "../services/appointment.service";
+import { deleteContactRequestServ, getContactRequestServ } from "../services/appointment.service";
 
 const Page = () => {
   const [appointments, setAppointments] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-
+  // 🔹 Dummy Appointments Data
   const dummyAppointments = [
     {
       _id: "1",
@@ -67,7 +67,7 @@ const Page = () => {
 
   const getContactRequest = async () => {
     try{
-      const res = await getmeetingServ();
+      const res = await getContactRequestServ();
       console.log(res?.data.data)
       setAppointments(res?.data.data);
     }
@@ -83,15 +83,15 @@ const Page = () => {
 
   // 🔥 Delete Appointment (Local State Only)
   const handleDeleteFunc = async () => {
-    try{
-          const res = await deleteMeetingRequestServ(deleteId);
-          console.log(res);
-          setShowConfirm(false);
-          getContactRequest();
-   
-        }catch(err){
-         console.log(err)
-        }
+     try{
+       const res = await deleteContactRequestServ(deleteId);
+       console.log(res);
+       setShowConfirm(false);
+       getContactRequest();
+
+     }catch(err){
+      console.log(err)
+     }
   };
 
   return (
