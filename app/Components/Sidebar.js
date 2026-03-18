@@ -103,6 +103,23 @@ function Sidebar({ isCollapsed }) {
        
       ],
     },
+     {
+      title: "Policy Management",
+      list: [
+        {
+          menu: "Privacy policies",
+          icon: "bi bi-journal-text",
+          path: "/privacy-policy",
+        },
+
+         {
+          menu: "Add Privacy Policy",
+         icon: "bi bi-journal-plus",
+          path: "/privacy-policy/create",
+        },
+       
+      ],
+    },
   ];
 
   return (
