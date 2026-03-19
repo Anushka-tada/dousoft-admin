@@ -1,72 +1,58 @@
 import { NextResponse } from "next/server";
+import connectDB from "@/lib/db";
 import PrivacyPolicy from "@/models/PrivacyPolicy";
-import { connectDB } from "@/lib/mongodb";
+import mongoose from "mongoose";
 
+// ✅ CORS Headers
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-// ✅ Preflight (CORS)
+// ✅ Preflight
 export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders });
 }
 
-// ✅ CREATE POLICY
-export async function POST(req) {
+// ✅ GET SINGLE POLICY
+export async function GET(req, { params }) {
   try {
     await connectDB();
 
-    const { title, description, order, status } = await req.json();
+    const { id } = await params;
 
-    // validation
-    if (!title || !description) {
+    // 🔹 Validate Mongo ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
-        { message: "Title and Description are required" },
+        { success: false, message: "Invalid ID" },
         { status: 400, headers: corsHeaders }
       );
     }
 
-    const policy = await PrivacyPolicy.create({
-      title,
-      description,
-      order: order || 0,
-      status: status || "active",
-    });
+    const policy = await PrivacyPolicy.findById(id);
+
+    if (!policy) {
+      return NextResponse.json(
+        { success: false, message: "Policy not found" },
+        { status: 404, headers: corsHeaders }
+      );
+    }
 
     return NextResponse.json(
       {
-        message: "Privacy Policy created successfully",
+        success: true,
         data: policy,
-      },
-      { status: 201, headers: corsHeaders }
-    );
-  } catch (err) {
-    return NextResponse.json(
-      { message: err.message },
-      { status: 500, headers: corsHeaders }
-    );
-  }
-}
-
-// ✅ GET ALL POLICIES
-export async function GET() {
-  try {
-    await connectDB();
-
-    const policies = await PrivacyPolicy.find().sort({ order: 1 });
-
-    return NextResponse.json(
-      {
-        message: "Policies fetched successfully",
-        data: policies,
       },
       { status: 200, headers: corsHeaders }
     );
-  } catch (err) {
+
+  } catch (error) {
     return NextResponse.json(
-      { message: err.message },
+      {
+        success: false,
+        message: error.message,
+      },
       { status: 500, headers: corsHeaders }
     );
   }

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
 import { useRouter } from "next/navigation";
 import { deleteBlogServ, getBlogsServ } from "../services/blog.service";
-import { getPolicyServ } from "../services/policy.service";
+import { deletePolicyServ, getPolicyServ } from "../services/policy.service";
 
 const Page = () => {
   const router = useRouter();
@@ -54,7 +54,7 @@ const Page = () => {
   // 🔥 Delete Policy
   const handleDeleteFunc = async () => {
     try {
-      await deleteBlogServ(deleteId); // 👉 change later
+      await deletePolicyServ(deleteId); // 👉 change later
       setShowConfirm(false);
       fetchPolicies();
     } catch (err) {

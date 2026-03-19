@@ -28,3 +28,39 @@ export const createpolicyServ = async (formdata) => {
     throw error;
   }
 };
+
+// delete
+
+export const deletePolicyServ = async (id) => {
+  try {
+    const response = await axios.delete(BASE_URL + `privacy-policy/delete/${id}`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+// update
+
+export const updatePolicyServ = async (id , payload) => {
+  try {
+    const response = await axios.put(BASE_URL + `privacy-policy/update/${id}` , payload);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+// get by id
+
+export const getSinglePolicyServ = async (id) => {
+  try {
+    const response = await axios.get(BASE_URL + `privacy-policy/${id}`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
