@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import PrivacyPolicy from "@/models/PrivacyPolicy";
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/mongodb";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
