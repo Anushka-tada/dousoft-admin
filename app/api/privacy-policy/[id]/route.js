@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/mongodb";
 import PrivacyPolicy from "@/models/PrivacyPolicy";
 import mongoose from "mongoose";
 
@@ -21,7 +21,7 @@ export async function GET(req, { params }) {
     await connectDB();
 
     const { id } = await params;
-
+     
     // 🔹 Validate Mongo ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(

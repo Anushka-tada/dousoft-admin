@@ -20,7 +20,7 @@ export async function PUT(req, { params }) {
   try {
     await connectDB();
 
-    const { id } = params;
+    const { id } = await params;
 
     // ✅ Validate ID
     if (!mongoose.Types.ObjectId.isValid(id)) {

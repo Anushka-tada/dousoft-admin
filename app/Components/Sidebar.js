@@ -54,6 +54,12 @@ function Sidebar({ isCollapsed }) {
         {
           menu: "All Jobs",
           icon: "bi bi-people",
+           path:"/career"
+        },
+          {
+          menu: "Create Job",
+          icon: "bi bi-people",
+           path:"/career/create"
         },
       ],
     },
