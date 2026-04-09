@@ -124,12 +124,10 @@ export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders });
 }
 
-// 🔥 UPDATED API (FormData + File Upload)
 export async function POST(req) {
   try {
     await connectDB();
 
-    // ✅ GET FORM DATA (NOT JSON)
     const formData = await req.formData();
 
     const jobId = formData.get("jobId");
@@ -140,44 +138,38 @@ export async function POST(req) {
     const portfolio = formData.get("portfolio");
     const experience = formData.get("experience");
     const coverLetter = formData.get("coverLetter");
-    const file = formData.get("resume"); // 👈 file
+    const file = formData.get("resume");
 
-    // ✅ Validation
     if (!jobId || !name || !email || !phone || !coverLetter || !file) {
       return NextResponse.json(
         { message: "All required fields must be filled" },
-        { status: 400, headers: corsHeaders }
+        { status: 400 }
       );
     }
 
-    // ✅ Check job exists
-    const job = await Career.findById(jobId);
-    if (!job) {
-      return NextResponse.json(
-        { message: "Invalid job" },
-        { status: 404, headers: corsHeaders }
-      );
-    }
-
-    // ✅ FILE SAVE LOGIC
+    // ✅ Convert file buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const fileName = `${Date.now()}-${file.name}`;
+    // ✅ Create uploads folder if not exists
+    const fs = require("fs");
+    const path = require("path");
 
-    // make sure folder exists
     const uploadDir = path.join(process.cwd(), "public/uploads");
+
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
+    // ✅ Unique filename
+    const fileName = Date.now() + "-" + file.name;
     const filePath = path.join(uploadDir, fileName);
+
     fs.writeFileSync(filePath, buffer);
 
-    // ✅ SAVE URL
-    const resumeUrl = `/uploads/${fileName}`;
+    const fileUrl = `/uploads/${fileName}`;
 
-    // ✅ SAVE IN DB
+    // ✅ Save in DB
     const application = await JobApplication.create({
       jobId,
       name,
@@ -187,19 +179,38 @@ export async function POST(req) {
       portfolio,
       experience,
       coverLetter,
-      resume: resumeUrl,
+      resume: fileUrl,
     });
+
+    return NextResponse.json({
+      message: "Application submitted successfully",
+      data: application,
+    });
+
+  } catch (error) {
+    return NextResponse.json(
+      { message: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    await connectDB();
+
+    const applications = await JobApplication.find()
+      .populate("jobId", "title slug");
 
     return NextResponse.json(
       {
-        message: "Application submitted successfully",
-        data: application,
+        message: "Applications fetched successfully",
+        data: applications,
       },
-      { status: 201, headers: corsHeaders }
+      { status: 200, headers: corsHeaders }
     );
 
   } catch (error) {
-    console.error("UPLOAD ERROR:", error); // 👈 VERY IMPORTANT
     return NextResponse.json(
       { message: error.message },
       { status: 500, headers: corsHeaders }
