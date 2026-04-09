@@ -2,20 +2,18 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Career from "@/models/Career";
 
-// ✅ CORS Headers
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-// ✅ Preflight Request
+
 export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders });
 }
 
-
-// 🔹 CREATE JOB
 export async function POST(req) {
   try {
     await connectDB();

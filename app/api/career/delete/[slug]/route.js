@@ -19,7 +19,7 @@ export async function DELETE(req, { params }) {
   try {
     await connectDB();
 
-    const { slug } = params;
+    const { slug } =  await params;
 
     
     const job = await Career.findOne({ slug });

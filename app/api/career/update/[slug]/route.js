@@ -20,7 +20,7 @@ export async function PUT(req, { params }) {
   try {
     await connectDB();
 
-    const { slug } = params;
+    const { slug } = await params;
     const body = await req.json();
 
     const {

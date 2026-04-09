@@ -31,9 +31,9 @@ export const createCareerServ = async (formdata) => {
 
 // delete
 
-export const deletePolicyServ = async (id) => {
+export const deleteCareerServ = async (slug) => {
   try {
-    const response = await axios.delete(BASE_URL + `privacy-policy/delete/${id}`);
+    const response = await axios.delete(BASE_URL + `career/delete/${slug}`);
     return response;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -43,9 +43,9 @@ export const deletePolicyServ = async (id) => {
 
 // update
 
-export const updatePolicyServ = async (id , payload) => {
+export const updateCareerServ = async (slug , payload) => {
   try {
-    const response = await axios.put(BASE_URL + `privacy-policy/update/${id}` , payload);
+    const response = await axios.put(BASE_URL + `career/update/${slug}` , payload);
     return response;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -55,9 +55,9 @@ export const updatePolicyServ = async (id , payload) => {
 
 // get by id
 
-export const getSinglePolicyServ = async (id) => {
+export const getSingleCareerServ = async (slug) => {
   try {
-    const response = await axios.get(BASE_URL + `privacy-policy/${id}`);
+    const response = await axios.get(BASE_URL + `career/${slug}`);
     return response;
   } catch (error) {
     console.error("Error fetching data:", error);

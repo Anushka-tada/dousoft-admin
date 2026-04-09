@@ -203,7 +203,7 @@ const Page = () => {
                         <button
                           className="btn btn-sm btn-outline-primary me-2"
                           onClick={() =>
-                            router.push(`/career/update/${item._id}`)
+                            router.push(`/career/update/${item.slug}`)
                           }
                         >
                           ✏️
