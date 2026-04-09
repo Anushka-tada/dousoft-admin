@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
 import { useRouter } from "next/navigation";
-import {  getCareerServ } from "../services/career.service";
+import {  deleteCareerServ, getCareerServ } from "../services/career.service";
 
 const Page = () => {
   const router = useRouter();
@@ -52,8 +52,9 @@ const Page = () => {
 
   // 🔥 Delete Job
   const handleDeleteFunc = async () => {
+    console.log("deleting" , deleteId);
     try {
-    //   await deleteCareerServ(deleteId);
+      await deleteCareerServ(deleteId); 
       setShowConfirm(false);
       fetchJobs();
     } catch (err) {
@@ -212,7 +213,7 @@ const Page = () => {
                         <button
                           className="btn btn-sm btn-outline-danger"
                           onClick={() => {
-                            setDeleteId(item._id);
+                            setDeleteId(item.slug);
                             setShowConfirm(true);
                           }}
                         >
