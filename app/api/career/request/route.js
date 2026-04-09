@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
-import JobApplication from "@/models/JobApplication";
+import JobApplication from "@/models/jobRequest";
 import Career from "@/models/Career";
 
 // ✅ CORS Headers
