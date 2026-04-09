@@ -61,6 +61,11 @@ function Sidebar({ isCollapsed }) {
           icon: "bi bi-people",
            path:"/career/create"
         },
+         {
+          menu: "Job Requests",
+          icon: "bi bi-people",
+           path:"/career/requests"
+        },
       ],
     },
     {

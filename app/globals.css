@@ -1248,3 +1248,8 @@ a {
     font-size: 1.7rem;
   }
 }
+
+.modal-backdrop.show{
+  z-index: -1;
+}
+

@@ -64,3 +64,16 @@ export const getSingleCareerServ = async (slug) => {
     throw error;
   }
 };
+
+
+// job request
+
+export const getCareerRequestsServ = async () => {
+  try {
+    const response = await axios.get(BASE_URL + "career/request");
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
