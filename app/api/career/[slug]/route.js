@@ -10,27 +10,21 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-// ✅ Preflight
+
 export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders });
 }
 
-// ✅ GET SINGLE JOB
+
 export async function GET(req, { params }) {
   try {
     await connectDB();
 
-    const { id } = await params; // ✅ FIXED
+    const { slug } = await params; 
 
-    // 🔹 Validate ID
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return NextResponse.json(
-        { message: "Invalid job ID" },
-        { status: 400, headers: corsHeaders }
-      );
-    }
+   
 
-    const job = await Career.findById(id);
+    const job = await Career.findOne({ slug });
 
     if (!job) {
       return NextResponse.json(
