@@ -92,7 +92,7 @@ export async function GET() {
 
     return NextResponse.json(
       {
-        message: "Applications fetched successfully",
+        message: "Applications fetched successfully   ",
         data: applications,
       },
       { status: 200, headers: corsHeaders }

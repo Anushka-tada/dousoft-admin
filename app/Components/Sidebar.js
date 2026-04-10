@@ -53,7 +53,7 @@ function Sidebar({ isCollapsed }) {
       list: [
         {
           menu: "All Jobs",
-          icon: "bi bi-people",
+          icon: "bi bi",
            path:"/career"
         },
           {
