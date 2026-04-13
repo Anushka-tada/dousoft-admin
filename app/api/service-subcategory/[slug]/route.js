@@ -1,54 +1,45 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
-import ServiceCategory from "@/models/ServiceCategory";
+import ServiceSubCategory from "@/models/ServiceSubCategory";
 
 /* =======================
-   🔹 CORS CONFIG
+   🔹 CORS
 ======================= */
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+  "Access-Control-Allow-Methods": "GET,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-
-/* =======================
-   🔹 PREFLIGHT
-======================= */
 export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders });
 }
 
 /* =======================
-   🔹 DELETE CATEGORY
+   🔹 GET SUBCATEGORY BY SLUG
 ======================= */
-export async function DELETE(req, {params}) {
- 
+export async function GET(req, { params }) {
   try {
     await connectDB();
- 
-    const {id} = await params;
 
-     console.log("DELETE ID:", id);
+    const { slug } = await params;
 
-    if (!id) {
+    if (!slug) {
       return NextResponse.json(
-        {
-          status: 400,
-          message: "Category ID is required",
-        },
+        { status: 400, message: "Slug is required" },
         { status: 400, headers: corsHeaders }
       );
     }
 
-    const category = await ServiceCategory.findByIdAndDelete(id);
+    const subCategory = await ServiceSubCategory.findOne({
+      slug,
+      isPublished: true,
+      status: "active",
+    }).populate("categoryId", "name slug");
 
-    if (!category) {
+    if (!subCategory) {
       return NextResponse.json(
-        {
-          status: 404,
-          message: "Service category not found",
-        },
+        { status: 404, message: "Subcategory not found" },
         { status: 404, headers: corsHeaders }
       );
     }
@@ -56,17 +47,15 @@ export async function DELETE(req, {params}) {
     return NextResponse.json(
       {
         status: 200,
-        message: "Service category deleted successfully",
-        data: category,
+        message: "Subcategory fetched successfully",
+        data: subCategory,
       },
       { status: 200, headers: corsHeaders }
     );
+
   } catch (error) {
     return NextResponse.json(
-      {
-        status: 500,
-        message: error.message,
-      },
+      { status: 500, message: error.message },
       { status: 500, headers: corsHeaders }
     );
   }

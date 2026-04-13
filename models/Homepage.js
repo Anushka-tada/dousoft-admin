@@ -7,7 +7,6 @@ const HomeSchema = new mongoose.Schema({
   // HERO SECTION
   hero: {
     heading: String,
-    subheading: String,
     description: String,
     primaryBtnText: String,
     primaryBtnLink: String,
@@ -41,13 +40,13 @@ const HomeSchema = new mongoose.Schema({
   // WHY CHOOSE US (assumed)
   whyChooseUs: {
     heading: String,
+    description: String,
     points: [
       {
         title: String,
         description: String,
         icon: String,
         img: String,
-        type: String,
           order:       { type: Number, default: 0 },   // ← ADD
         isActive:    { type: Boolean, default: true } // ← ADD
       }

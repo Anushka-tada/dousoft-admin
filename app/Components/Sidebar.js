@@ -6,7 +6,11 @@ import { useRouter, usePathname } from "next/navigation";
 function Sidebar({ isCollapsed }) {
  const router = useRouter();          // ✅ replaced
   const pathname = usePathname(); 
-  const [isOpen, setIsOpen] = useState([]);
+ const [isOpen, setIsOpen] = useState([
+  "Dashboard",
+  "Page Management"
+]);
+  
 
   const toggleMenu = (menu) => {
     setIsOpen((prev) =>
@@ -25,13 +29,53 @@ function Sidebar({ isCollapsed }) {
           path: "/dashboard",
           icon: "bi bi-speedometer2",
         },
-        {
-          menu: "Users",
-          path: "/analytics",
-          icon: "bi bi-graph-up",
-        },
       ],
     },
+    {
+  title: "Page Management",
+  list: [
+    {
+      menu: "Home",
+      icon: "bi bi-house",
+      path: "/pages/home",
+    },
+    {
+      menu: "About",
+      icon: "bi bi-info-circle",
+      path: "/pages/about",
+    },
+    {
+      menu: "Pricing",
+      icon: "bi bi-tags",
+      path: "/pages/pricing",
+    },
+    {
+      menu: "Portfolio",
+      icon: "bi bi-briefcase",
+      path: "/pages/portfolio",
+    },
+    {
+      menu: "Career Page Content",
+      icon: "bi bi-person-workspace",
+      path: "/pages/career-page",
+    },
+  ],
+},
+{
+  title: "Solution Management",
+  list: [
+    {
+      menu: "All Solutions",
+      icon: "bi bi-grid",
+      path: "/solutions",
+    },
+    {
+      menu: "Add Solution",
+      icon: "bi bi-plus-circle",
+      path: "/solutions/create",
+    },
+  ],
+},
     {
       title: "Appointment Management",
       list: [
@@ -144,10 +188,23 @@ function Sidebar({ isCollapsed }) {
       <nav className="menu">
         {navItems.map((section, i) => (
           <div key={i} className="mb-4">
-            {!isCollapsed && (
-              <div className="section-title">{section.title}</div>
-            )}
+           <div
+  className="section-title cursor d-flex justify-content-between items-center"
+  onClick={() => toggleMenu(section.title)}
+>
+  <span className="me-1">{section.title}</span>
+  {!isCollapsed && (
+    <i
+      className={`bi ${
+        isOpen.includes(section.title)
+          ? "bi-chevron-up"
+          : "bi-chevron-down"
+      }`}
+    />
+  )}
+</div>
 
+          {isOpen.includes(section.title) && (
             <ul className="list-unstyled m-0">
               {section.list.map((item, j) => {
                 if (item.subMenu) {
@@ -198,6 +255,7 @@ function Sidebar({ isCollapsed }) {
                 );
               })}
             </ul>
+          )}
           </div>
         ))}
       </nav>

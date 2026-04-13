@@ -7,10 +7,9 @@ import ServiceCategory from "@/models/ServiceCategory";
 ======================= */
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+  "Access-Control-Allow-Methods": "DELETE,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
-
 
 /* =======================
    🔹 PREFLIGHT
@@ -20,55 +19,44 @@ export async function OPTIONS() {
 }
 
 /* =======================
-   🔹 UPDATE CATEGORY
+   🔹 DELETE CATEGORY BY SLUG
 ======================= */
-export async function PUT(req, {params}) {
+export async function DELETE(req, { params }) {
   try {
     await connectDB();
 
-     const {id} = await params;
+    const { slug } = await params;
 
-    if (!id) {
+    if (!slug) {
       return NextResponse.json(
-        { status: 400, message: "Category ID is required" },
+        { success: false, message: "Slug is required" },
         { status: 400, headers: corsHeaders }
       );
     }
 
-    const body = await req.json();
-    const { name, status, order  , description} = body;
+    const deletedCategory = await ServiceCategory.findOneAndDelete({
+      slug,
+    });
 
-    if (!name) {
+    if (!deletedCategory) {
       return NextResponse.json(
-        { status: 400, message: "Name is required" },
-        { status: 400, headers: corsHeaders }
-      );
-    }
-
-    const updatedCategory = await ServiceCategory.findByIdAndUpdate(
-      id,
-      { name, status, order , description },
-      { new: true, runValidators: true }
-    );
-
-    if (!updatedCategory) {
-      return NextResponse.json(
-        { status: 404, message: "Service category not found" },
+        { success: false, message: "Category not found" },
         { status: 404, headers: corsHeaders }
       );
     }
 
     return NextResponse.json(
       {
-        status: 200,
-        message: "Service category updated successfully",
-        data: updatedCategory,
+        success: true,
+        message: "Service category deleted successfully",
+        data: deletedCategory,
       },
       { status: 200, headers: corsHeaders }
     );
+
   } catch (error) {
     return NextResponse.json(
-      { status: 500, message: error.message },
+      { success: false, message: error.message },
       { status: 500, headers: corsHeaders }
     );
   }
