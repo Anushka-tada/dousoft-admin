@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
-import Career from "@/models/Career";
+import CareerSchema from "@/models/CareerPage";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -17,7 +17,7 @@ export async function POST(req) {
     await connectDB();
     const body = await req.json();
 
-    const data = await Career.findOneAndUpdate(
+    const data = await CareerSchema.findOneAndUpdate(
       {},
       body,
       { new: true, upsert: true }
@@ -45,7 +45,7 @@ export async function GET() {
   try {
     await connectDB();
 
-    const data = await Career.findOne();
+    const data = await CareerSchema.findOne();
 
     return NextResponse.json(
       { success: true, data },
