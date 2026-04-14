@@ -57,7 +57,7 @@ function Sidebar({ isCollapsed }) {
     {
       menu: "Career Page Content",
       icon: "bi bi-person-workspace",
-      path: "/pages/career-page",
+      path: "/pages/career",
     },
   ],
 },
@@ -181,7 +181,7 @@ function Sidebar({ isCollapsed }) {
     <aside className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
       <div className="brand">
         <div className="">
-          <img src="/assets/logo.png" alt="logo" width="100%" />
+          <img src="/assets/new-logo.webp" alt="logo" width="100%" />
         </div>
       </div>
 

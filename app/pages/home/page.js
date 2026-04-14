@@ -567,12 +567,12 @@ const TechSectionEditor = ({ data, onChange }) => {
       <style>{`
         .cms-cat-list    { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
         .cms-cat-row     { display: flex; align-items: center; gap: 10px; }
-        .cms-cat-pill    { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; min-width: 90px; text-align: center; }
-        .cms-select      { width: 100%; padding: 9px 13px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; color: #111827; background: #fff; outline: none; cursor: pointer; transition: border 0.15s; box-sizing: border-box; }
+        .cms-cat-pill    { font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; min-width: 90px; text-align: center; }
+        .cms-select      { width: 100%; padding: 9px 13px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; color: #111827; background: #fff; outline: none; cursor: pointer; transition: border 0.15s; box-sizing: border-box; }
         .cms-select:focus { border-color: #16a34a; box-shadow: 0 0 0 3px #dcfce7; }
-        .cms-no-cats-msg { padding: 9px 13px; background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; font-size: 13px; color: #92400e; display: flex; align-items: center; gap: 6px; }
+        .cms-no-cats-msg { padding: 9px 13px; background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; font-size: 14px; color: #92400e; display: flex; align-items: center; gap: 6px; }
         .cms-orbit-block { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px; margin: 12px 0; }
-        .cms-empty-state { font-size: 13px; color: #9ca3af; font-style: italic; padding: 12px; background: #f9fafb; border-radius: 8px; border: 1px dashed #e5e7eb; text-align: center; margin-bottom: 12px; }
+        .cms-empty-state { font-size: 14px; color: #9ca3af; font-style: italic; padding: 12px; background: #f9fafb; border-radius: 8px; border: 1px dashed #e5e7eb; text-align: center; margin-bottom: 12px; }
       `}</style>
     </div>
   );
@@ -770,9 +770,13 @@ export default function HomeAdminPage() {
     const load = async () => {
       try {
         const res = await getHomePageServ();
-        if (res.ok) {
-          const json = await res.json();
-          if (json.data) { setFormData(json.data); setIsPublished(json.data.isPublished !== false); }
+        if (res?.data?.success) {
+         const data = res.data.data;
+
+         if (data) {
+          setFormData(data);
+          setIsPublished(data.isPublished !== false);
+        }
         }
       } catch (e) { console.error(e); }
       finally { setLoading(false); }
@@ -791,9 +795,11 @@ export default function HomeAdminPage() {
     try {
       const payload = { ...formData, isPublished }; // ← same payload
       const res = await createHomePageServ(payload);
-      if (res.ok) { showToast("Home page saved successfully!", "success"); setUnsaved(false); }
+      if (res.data?.success) { showToast("Home page saved successfully!", "success"); setUnsaved(false); }
       else showToast("Failed to save. Please try again.", "error");
-    } catch { showToast("Network error. Please try again.", "error"); }
+    } catch (error) {
+      showToast("Network error. Please try again.", "error");
+    }
     finally { setSaving(false); }
   };
 
@@ -847,7 +853,7 @@ export default function HomeAdminPage() {
           margin-bottom: 18px;
         }
         .cms-block-title {
-          font-size: 13px;
+          font-size: 15px;
           font-weight: 700;
           color: #374151;
           text-transform: uppercase;
@@ -860,14 +866,14 @@ export default function HomeAdminPage() {
         /* ── Fields ── */
         .cms-field      { margin-bottom: 16px; }
         .cms-field:last-child { margin-bottom: 0; }
-        .cms-label      { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 6px; }
-        .cms-hint       { font-size: 12px; color: #9ca3af; margin-top: 5px; }
+        .cms-label      { display: block; font-size: 15px; font-weight: 600; color: #374151; margin-bottom: 6px; }
+        .cms-hint       { font-size: 14px; color: #9ca3af; margin-top: 5px; }
         .cms-input {
           width: 100%;
           padding: 9px 13px;
           border: 1px solid #d1d5db;
           border-radius: 8px;
-          font-size: 14px;
+          font-size: 15px;
           color: #111827;
           background: #fff;
           outline: none;
@@ -880,7 +886,7 @@ export default function HomeAdminPage() {
           padding: 9px 13px;
           border: 1px solid #d1d5db;
           border-radius: 8px;
-          font-size: 14px;
+          font-size: 15px;
           color: #111827;
           background: #fff;
           outline: none;
@@ -891,7 +897,7 @@ export default function HomeAdminPage() {
           line-height: 1.6;
         }
         .cms-textarea:focus { border-color: #16a34a; box-shadow: 0 0 0 3px #dcfce7; }
-        .cms-char-count { font-size: 12px; color: #9ca3af; text-align: right; margin-top: 4px; }
+        .cms-char-count { font-size: 13px; color: #9ca3af; text-align: right; margin-top: 4px; }
         .cms-char-count.over { color: #ef4444; }
 
         /* ── Image upload ── */
@@ -915,16 +921,16 @@ export default function HomeAdminPage() {
         /* ── Sortable list items ── */
         .cms-list-item { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 14px; overflow: hidden; }
         .cms-list-item-header { display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; background: #f3f4f6; border-bottom: 1px solid #e5e7eb; }
-        .cms-list-item-title { font-size: 13px; font-weight: 600; color: #374151; }
+        .cms-list-item-title { font-size: 14px; font-weight: 600; color: #374151; }
         .cms-list-item-actions { display: flex; gap: 5px; }
-        .cms-list-item-actions button { padding: 5px 9px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; font-size: 13px; color: #6b7280; transition: all 0.15s; }
+        .cms-list-item-actions button { padding: 5px 9px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; color: #6b7280; transition: all 0.15s; }
         .cms-list-item-actions button:hover { background: #f3f4f6; color: #111; }
         .cms-list-item-actions button.danger:hover { background: #fef2f2; color: #ef4444; border-color: #fca5a5; }
         .cms-list-item-body { padding: 16px; }
 
         /* ── Tag rows / add buttons ── */
         .cms-tag-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
-        .cms-icon-btn { padding: 9px 11px; border: 1px solid #d1d5db; background: #fff; border-radius: 8px; cursor: pointer; font-size: 14px; color: #6b7280; flex-shrink: 0; }
+        .cms-icon-btn { padding: 9px 11px; border: 1px solid #d1d5db; background: #fff; border-radius: 8px; cursor: pointer; font-size: 15px; color: #6b7280; flex-shrink: 0; }
         .cms-icon-btn.danger:hover { background: #fef2f2; color: #ef4444; border-color: #fca5a5; }
         .cms-add-btn { display: flex; align-items: center; gap: 6px; padding: 9px 16px; border: 1.5px dashed #d1d5db; background: transparent; border-radius: 8px; cursor: pointer; font-size: 13px; color: #6b7280; width: 100%; justify-content: center; transition: all 0.15s; margin-top: 4px; }
         .cms-add-btn:hover { border-color: #16a34a; color: #16a34a; background: #f0fdf4; }
@@ -942,7 +948,7 @@ export default function HomeAdminPage() {
           padding-top: 8px;
         }
         .cms-preview-divider span {
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 700;
           color: #6b7280;
           text-transform: uppercase;
@@ -959,13 +965,13 @@ export default function HomeAdminPage() {
         }
 
         /* ── Toast ── */
-        .cms-toast { position: fixed; bottom: 24px; right: 24px; padding: 13px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,.15); animation: cmsSlideUp .2s ease; }
+        .cms-toast { position: fixed; bottom: 24px; right: 24px; padding: 13px 22px; border-radius: 10px; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,.15); animation: cmsSlideUp .2s ease; }
         .cms-toast.success { background: #16a34a; color: #fff; }
         .cms-toast.error   { background: #ef4444; color: #fff; }
         @keyframes cmsSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         /* ── Loading ── */
-        .cms-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh; gap: 16px; color: #6b7280; font-size: 15px; }
+        .cms-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh; gap: 16px; color: #6b7280; font-size: 16px; }
         .cms-spinner { width: 36px; height: 36px; border: 3px solid #e5e7eb; border-top-color: #16a34a; border-radius: 50%; animation: cmsSpin .8s linear infinite; }
         @keyframes cmsSpin { to { transform: rotate(360deg); } }
 

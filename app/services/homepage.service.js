@@ -9,7 +9,6 @@ export const getHomePageServ = async () => {
     return response;
   } catch (error) {
     console.error("Error fetching data:", error);
-    throw error;
   }
 };
 

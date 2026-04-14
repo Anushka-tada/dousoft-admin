@@ -61,13 +61,13 @@ export default function HomePreview({ formData = {} }) {
           border: 1px solid #d1d5db;
           border-radius: 6px;
           padding: 4px 14px;
-          font-size: 12px;
+          font-size: 13px;
           color: #6b7280;
           min-width: 220px;
           text-align: center;
         }
         .hp-label {
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 600;
           color: #9ca3af;
           text-transform: uppercase;
@@ -76,13 +76,13 @@ export default function HomePreview({ formData = {} }) {
           align-items: center;
           gap: 6px;
         }
-        .hp-label i { font-size: 13px; }
+        .hp-label i { font-size: 14px; }
 
         /* ── Shared preview styles ── */
         .hp-section { padding: 28px 32px; }
         .hp-section + .hp-section { border-top: 1px solid #f3f4f6; }
         .hp-section-title {
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.08em;
@@ -94,7 +94,7 @@ export default function HomePreview({ formData = {} }) {
         }
         .hp-badge {
           display: inline-block;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 600;
           padding: 3px 12px;
           border-radius: 20px;
@@ -104,10 +104,10 @@ export default function HomePreview({ formData = {} }) {
         }
         .hp-h1 { font-size: 22px; font-weight: 700; color: #111827; margin: 0 0 6px; line-height: 1.3; }
         .hp-h2 { font-size: 18px; font-weight: 700; color: #111827; margin: 0 0 6px; line-height: 1.3; }
-        .hp-h3 { font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 4px; }
-        .hp-p  { font-size: 13px; color: #6b7280; margin: 0 0 6px; line-height: 1.6; }
+        .hp-h3 { font-size: 16px; font-weight: 600; color: #111827; margin: 0 0 4px; }
+        .hp-p  { font-size: 14px; color: #6b7280; margin: 0 0 6px; line-height: 1.6; }
         .hp-highlight { color: #16a34a; }
-        .hp-empty { font-size: 12px; color: #d1d5db; font-style: italic; }
+        .hp-empty { font-size: 13px; color: #d1d5db; font-style: italic; }
 
         /* ── Hero ── */
         .hp-hero {
@@ -140,15 +140,15 @@ export default function HomePreview({ formData = {} }) {
           align-items: center;
           justify-content: center;
           color: rgba(255,255,255,0.3);
-          font-size: 11px;
+          font-size: 12px;
         }
         .hp-hero-content { flex: 1; }
         .hp-hero h1 { color: #fff; font-size: 20px; font-weight: 700; margin: 0 0 6px; }
-        .hp-hero p  { color: #d1fae5; font-size: 13px; margin: 0 0 14px; }
+        .hp-hero p  { color: #d1fae5; font-size: 14px; margin: 0 0 14px; }
         .hp-hero-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-        .hp-btn-p { font-size: 12px; padding: 7px 16px; background: #16a34a; color: #fff; border-radius: 20px; font-weight: 600; }
-        .hp-btn-s { font-size: 12px; padding: 7px 16px; border: 1px solid rgba(255,255,255,0.4); color: #fff; border-radius: 20px; }
-        .hp-trust { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 10px; }
+        .hp-btn-p { font-size: 13px; padding: 7px 16px; background: #16a34a; color: #fff; border-radius: 20px; font-weight: 600; }
+        .hp-btn-s { font-size: 13px; padding: 7px 16px; border: 1px solid rgba(255,255,255,0.4); color: #fff; border-radius: 20px; }
+        .hp-trust { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 10px; }
 
         /* ── Marquee ── */
         .hp-marquee {
@@ -161,7 +161,7 @@ export default function HomePreview({ formData = {} }) {
           overflow: hidden;
         }
         .hp-marquee-tag {
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 600;
           color: #4ade80;
           white-space: nowrap;
@@ -190,7 +190,7 @@ export default function HomePreview({ formData = {} }) {
           display: flex; align-items: center; justify-content: center;
           margin-bottom: 8px;
         }
-        .hp-card-icon i { color: #16a34a; font-size: 14px; }
+        .hp-card-icon i { color: #16a34a; font-size: 15px; }
         .hp-card-inactive { opacity: 0.35; }
 
         /* ── Stats ── */
@@ -207,7 +207,7 @@ export default function HomePreview({ formData = {} }) {
           text-align: center;
         }
         .hp-stat-num { font-size: 24px; font-weight: 700; color: #16a34a; }
-        .hp-stat-lbl { font-size: 12px; color: #6b7280; margin-top: 4px; }
+        .hp-stat-lbl { font-size: 13px; color: #6b7280; margin-top: 4px; }
 
         /* ── Features list ── */
         .hp-features {
@@ -220,14 +220,14 @@ export default function HomePreview({ formData = {} }) {
           display: flex;
           align-items: center;
           gap: 8px;
-          font-size: 13px;
+          font-size: 14px;
           color: #374151;
           padding: 8px 10px;
           background: #f9fafb;
           border-radius: 8px;
           border: 1px solid #e5e7eb;
         }
-        .hp-feature-item i { color: #16a34a; font-size: 14px; }
+        .hp-feature-item i { color: #16a34a; font-size: 15px; }
 
         /* ── Process steps ── */
         .hp-steps {
@@ -250,7 +250,7 @@ export default function HomePreview({ formData = {} }) {
           margin: 0 auto 8px;
           display: flex; align-items: center; justify-content: center;
           color: #fff;
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 700;
         }
         .hp-step-line {
@@ -291,14 +291,14 @@ export default function HomePreview({ formData = {} }) {
           border-radius: 50%;
           background: #dcfce7;
           display: flex; align-items: center; justify-content: center;
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 700;
           color: #16a34a;
           flex-shrink: 0;
         }
-        .hp-stars { color: #f59e0b; font-size: 12px; margin-bottom: 4px; }
-        .hp-testi-quote { font-size: 12px; color: #6b7280; font-style: italic; line-height: 1.5; }
-        .hp-verified { font-size: 10px; color: #16a34a; font-weight: 600; }
+        .hp-stars { color: #f59e0b; font-size: 14px; margin-bottom: 4px; }
+        .hp-testi-quote { font-size: 13px; color: #6b7280; font-style: italic; line-height: 1.5; }
+        .hp-verified { font-size: 11px; color: #16a34a; font-weight: 600; }
 
         /* ── FAQ ── */
         .hp-faqs { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
@@ -312,8 +312,8 @@ export default function HomePreview({ formData = {} }) {
           align-items: center;
           gap: 12px;
         }
-        .hp-faq-q { font-size: 13px; color: #374151; font-weight: 500; }
-        .hp-faq-icon { color: #9ca3af; font-size: 14px; flex-shrink: 0; }
+        .hp-faq-q { font-size: 14px; color: #374151; font-weight: 500; }
+        .hp-faq-icon { color: #9ca3af; font-size: 15px; flex-shrink: 0; }
 
         /* ── CTA ── */
         .hp-cta {
@@ -323,10 +323,10 @@ export default function HomePreview({ formData = {} }) {
           text-align: center;
         }
         .hp-cta h2 { color: #fff; font-size: 18px; font-weight: 700; margin: 0 0 8px; }
-        .hp-cta p  { color: #d1fae5; font-size: 13px; margin: 0 0 18px; }
+        .hp-cta p  { color: #d1fae5; font-size: 14px; margin: 0 0 18px; }
         .hp-cta-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         .hp-cta-chips { display: flex; gap: 12px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
-        .hp-cta-chip { font-size: 12px; color: #d1fae5; display: flex; align-items: center; gap: 5px; }
+        .hp-cta-chip { font-size: 13px; color: #d1fae5; display: flex; align-items: center; gap: 5px; }
         .hp-cta-chip i { color: #4ade80; }
 
         /* ── SEO ── */
@@ -336,12 +336,12 @@ export default function HomePreview({ formData = {} }) {
           border-radius: 10px;
           padding: 18px 20px;
         }
-        .hp-seo-url  { font-size: 13px; color: #16a34a; margin: 0 0 4px; }
+        .hp-seo-url  { font-size: 14px; color: #16a34a; margin: 0 0 4px; }
         .hp-seo-title { font-size: 18px; color: #1a0dab; font-weight: 500; margin: 0 0 4px; }
-        .hp-seo-desc { font-size: 13px; color: #4d5156; margin: 0; line-height: 1.5; }
+        .hp-seo-desc { font-size: 14px; color: #4d5156; margin: 0; line-height: 1.5; }
         .hp-seo-keywords { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
         .hp-seo-kw {
-          font-size: 11px;
+          font-size: 12px;
           background: #eff6ff;
           border: 1px solid #bfdbfe;
           color: #1d4ed8;
@@ -369,7 +369,7 @@ export default function HomePreview({ formData = {} }) {
          /* ── Technologies ── */
         .hp-tech-cats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
         .hp-tech-cat-btn {
-          font-size: 11px; font-weight: 600;
+          font-size: 12px; font-weight: 600;
           padding: 5px 14px; border-radius: 20px;
           border: 1.5px solid #e5e7eb;
           background: #f9fafb; color: #6b7280;
@@ -401,7 +401,7 @@ export default function HomePreview({ formData = {} }) {
           border: 1.5px dashed rgba(255,255,255,0.2);
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
-          color: rgba(255,255,255,0.3); font-size: 11px;
+          color: rgba(255,255,255,0.3); font-size: 12px;
         }
         .hp-tech-grid {
           display: grid;
@@ -427,10 +427,10 @@ export default function HomePreview({ formData = {} }) {
           border-radius: 6px;
           display: flex; align-items: center; justify-content: center;
         }
-        .hp-tech-chip-placeholder i { color: rgba(255,255,255,0.3); font-size: 14px; }
-        .hp-tech-chip-name { font-size: 10px; color: rgba(255,255,255,0.6); text-align: center; }
+        .hp-tech-chip-placeholder i { color: rgba(255,255,255,0.3); font-size: 15px; }
+        .hp-tech-chip-name { font-size: 11px; color: rgba(255,255,255,0.6); text-align: center; }
         .hp-tech-chip-cat {
-          font-size: 9px; font-weight: 600; padding: 1px 7px;
+          font-size: 11px; font-weight: 600; padding: 1px 7px;
           border-radius: 10px; background: rgba(255,255,255,0.08);
           color: rgba(255,255,255,0.45);
         }
@@ -440,7 +440,7 @@ export default function HomePreview({ formData = {} }) {
           margin-top: 16px; flex-wrap: wrap;
         }
         .hp-tech-stat {
-          font-size: 12px; color: rgba(255,255,255,0.5);
+          font-size: 13px; color: rgba(255,255,255,0.5);
           display: flex; align-items: center; gap: 5px;
         }
         .hp-tech-stat span { color: #4ade80; font-weight: 700; }
@@ -487,7 +487,7 @@ export default function HomePreview({ formData = {} }) {
               <h1 style={{ color: "#fff", fontSize: 20, fontWeight: 700, margin: "0 0 8px", lineHeight: 1.3 }}>
                 {hero.heading || <span className="hp-empty">No heading set</span>}
               </h1>
-              {hero.description && <p style={{ color: "#d1fae5", fontSize: 12, margin: "0 0 12px" }}>{hero.description}</p>}
+              {hero.description && <p style={{ color: "#d1fae5", fontSize: 13, margin: "0 0 12px" }}>{hero.description}</p>}
               <div className="hp-hero-btns">
                 {(hero.primaryBtnText || hero.secondaryBtnText) ? (
                   <>
@@ -553,7 +553,7 @@ export default function HomePreview({ formData = {} }) {
                 <div key={i} className="hp-card">
                   <div className="hp-card-icon"><i className={p.icon || "bi bi-star"} /></div>
                   <p className="hp-h3">{p.title || `Point ${i + 1}`}</p>
-                  <p className="hp-p" style={{ fontSize: 12 }}>{p.description}</p>
+                  <p className="hp-p" style={{ fontSize: 13 }}>{p.description}</p>
                 </div>
               ))}
             </div>
@@ -574,9 +574,9 @@ export default function HomePreview({ formData = {} }) {
               <div key={i} className="hp-card">
                 <div className="hp-card-icon"><i className="bi bi-gear-fill" /></div>
                 <p className="hp-h3">{s.name || `Service ${i + 1}`}</p>
-                <p className="hp-p" style={{ fontSize: 12 }}>{s.description?.substring(0, 70)}{s.description?.length > 70 ? "..." : ""}</p>
+                <p className="hp-p" style={{ fontSize: 13 }}>{s.description?.substring(0, 70)}{s.description?.length > 70 ? "..." : ""}</p>
                 {(s.points || []).slice(0, 2).map((pt, j) => (
-                  <p key={j} style={{ fontSize: 11, color: "#16a34a", margin: "2px 0" }}>✓ {pt}</p>
+                  <p key={j} style={{ fontSize: 12, color: "#16a34a", margin: "2px 0" }}>✓ {pt}</p>
                 ))}
               </div>
             ))}
@@ -618,8 +618,8 @@ export default function HomePreview({ formData = {} }) {
                   </div>
                 )}
                 <div style={{ padding: "10px 12px" }}>
-                  <p className="hp-h3" style={{ fontSize: 13 }}>{ind.name || `Industry ${i + 1}`}</p>
-                  <p className="hp-p" style={{ fontSize: 11 }}>{ind.description?.substring(0, 50)}{ind.description?.length > 50 ? "..." : ""}</p>
+                  <p className="hp-h3" style={{ fontSize: 14 }}>{ind.name || `Industry ${i + 1}`}</p>
+                  <p className="hp-p" style={{ fontSize: 12 }}>{ind.description?.substring(0, 50)}{ind.description?.length > 50 ? "..." : ""}</p>
                 </div>
               </div>
             ))}
@@ -655,7 +655,7 @@ export default function HomePreview({ formData = {} }) {
                 )}
               </p>
               {techSection.description && (
-                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", margin: "0 0 16px" }}>
+                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", margin: "0 0 16px" }}>
                   {techSection.description}
                 </p>
               )}
@@ -683,7 +683,7 @@ export default function HomePreview({ formData = {} }) {
                       <i className="bi bi-cpu" />
                     </div>
                   )}
-                  <p style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 6 }}>Center Logo</p>
+                  <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginTop: 6 }}>Center Logo</p>
                 </div>
 
                 {/* Tech chips grid */}
@@ -716,13 +716,13 @@ export default function HomePreview({ formData = {} }) {
                     })}
                     {activeTechs.length > 15 && (
                       <div className="hp-tech-chip" style={{ justifyContent: "center" }}>
-                        <span style={{ fontSize: 14, color: "#4ade80", fontWeight: 700 }}>+{activeTechs.length - 15}</span>
+                        <span style={{ fontSize: 15, color: "#4ade80", fontWeight: 700 }}>+{activeTechs.length - 15}</span>
                         <span className="hp-tech-chip-name">more</span>
                       </div>
                     )}
                   </div>
                 ) : (
-                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", textAlign: "center", padding: "20px 0" }}>
+                  <p style={{ fontSize: 14, color: "rgba(255,255,255,0.3)", textAlign: "center", padding: "20px 0" }}>
                     No active technologies added yet
                   </p>
                 )}
@@ -751,8 +751,8 @@ export default function HomePreview({ formData = {} }) {
               {agileSection.steps.map((s, i) => (
                 <div key={i} className="hp-step">
                   <div className="hp-step-dot" style={{ background: s.color || "#16a34a" }}>{i + 1}</div>
-                  <p className="hp-h3" style={{ fontSize: 12 }}>{s.title}</p>
-                  <p className="hp-p" style={{ fontSize: 11 }}>{s.description?.substring(0, 40)}...</p>
+                  <p className="hp-h3" style={{ fontSize: 13 }}>{s.title}</p>
+                  <p className="hp-p" style={{ fontSize: 12 }}>{s.description?.substring(0, 40)}...</p>
                   {s.progress > 0 && (
                     <div style={{ background: "#f3f4f6", height: 4, borderRadius: 2, marginTop: 6, overflow: "hidden" }}>
                       <div style={{ height: "100%", width: `${s.progress}%`, background: s.color || "#16a34a", borderRadius: 2 }} />
@@ -786,9 +786,9 @@ export default function HomePreview({ formData = {} }) {
                     </div>
                   </div>
                   <div className="hp-stars">{"★".repeat(Math.min(t.rating || 5, 5))}</div>
-                  {t.title && <p className="hp-h3" style={{ fontSize: 12, marginBottom: 4 }}>{t.title}</p>}
+                  {t.title && <p className="hp-h3" style={{ fontSize: 13, marginBottom: 4 }}>{t.title}</p>}
                   <p className="hp-testi-quote">{t.quote || t.description}</p>
-                  {t.tagLine && <p style={{ fontSize: 11, color: "#16a34a", marginTop: 8, fontWeight: 600 }}>{t.tagLine}</p>}
+                  {t.tagLine && <p style={{ fontSize: 12, color: "#16a34a", marginTop: 8, fontWeight: 600 }}>{t.tagLine}</p>}
                 </div>
               ))}
             </div>
