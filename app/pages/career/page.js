@@ -400,7 +400,7 @@ const JoinCTAEditor = ({ data, onChange }) => {
       </Field>
 
       {/* Inline CTA preview */}
-      {(data?.heading || data?.email) && (
+      {/* {(data?.heading || data?.email) && (
         <div className="cr-cta-preview">
           <p className="cr-cta-preview-heading">{data?.heading || "Heading not set"}</p>
           {data?.description && <p className="cr-cta-preview-desc">{data.description}</p>}
@@ -410,7 +410,7 @@ const JoinCTAEditor = ({ data, onChange }) => {
           </div>
           {data?.bottomText && <p className="cr-cta-preview-bottom">{data.bottomText}</p>}
         </div>
-      )}
+      )} */}
     </div>
   );
 };
@@ -542,7 +542,7 @@ const CareerPreview = ({ formData }) => {
       {activeBenefits.length > 0 && (
         <div className="crpv-section crpv-benefits-section">
           <div className="crpv-sec-label" style={{ color: "#4ade80" }}><i className="bi bi-gift" /> Benefits</div>
-          {benefitsSection.heading && <h2 className="crpv-h2" style={{ color: "#fff" }}>{benefitsSection.heading}</h2>}
+          {benefitsSection.heading && <h2 className="crpv-h2" >{benefitsSection.heading}</h2>}
           <div className="crpv-benefits-grid">
             {activeBenefits.map((b, i) => (
               <div key={i} className="crpv-benefit-card">
@@ -818,12 +818,12 @@ export default function CareerAdminPage() {
         .crpv-card-title { font-size: 14px; font-weight: 600; color: #111827; margin: 0 0 8px; }
         .crpv-points     { padding-left: 16px; margin: 0; }
         .crpv-points li  { font-size: 13px; color: #6b7280; margin-bottom: 3px; }
-        .crpv-benefits-section { background: #0f2618; border-top: none; }
-        .crpv-benefits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+        .crpv-benefits-section { background: #e1f3e8; border-top: none; }
+        .crpv-benefits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(396px, 1fr)); gap: 12px; margin-top: 16px; }
         .crpv-benefit-card { display: flex; gap: 12px; align-items: flex-start; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 14px; }
         .crpv-benefit-card i { font-size: 20px; color: #4ade80; flex-shrink: 0; margin-top: 2px; }
-        .crpv-benefit-title { font-size: 14px; font-weight: 600; color: #fff; margin: 0 0 4px; }
-        .crpv-benefit-desc  { font-size: 13px; color: rgba(255,255,255,.6); margin: 0; }
+        .crpv-benefit-title { font-size: 14px; font-weight: 600; color: #000; margin: 0 0 4px; }
+        .crpv-benefit-desc  { font-size: 13px; color: #000; margin: 0; }
         .crpv-accordion { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
         .crpv-acc-item  { border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; }
         .crpv-acc-item.open { border-color: #16a34a; }

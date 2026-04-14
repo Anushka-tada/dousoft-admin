@@ -57,3 +57,32 @@ export const createCareerPageServ = async (formdata) => {
     throw error;
   }
 };
+
+
+// Portfolio page services
+// get
+
+export const getPortfolioPageServ = async () => {
+  try {
+    const response = await axios.get(BASE_URL + "portfolio");
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+// post
+
+export const createPortfolioPageServ = async (formdata) => {
+  try {
+    const response = await axios.post(BASE_URL + "portfolio" , formdata , {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};

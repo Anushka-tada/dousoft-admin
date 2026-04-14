@@ -9,12 +9,12 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-// ✅ Preflight
+
 export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders });
 }
 
-// ✅ GET (Fetch portfolio page)
+
 export async function GET() {
   try {
     await connectDB();
@@ -50,7 +50,7 @@ export async function POST(req) {
     const body = await req.json();
 
     const data = await PortfolioSchema .findOneAndUpdate(
-      {},          // 🔥 single document
+      {},       
       body,
       {
         new: true,
