@@ -805,28 +805,28 @@ export default function PortfolioAdminPage() {
 
         /* ── Blocks ── */
         .pf-section-block  { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 22px; margin-bottom: 18px; }
-        .pf-block-title    { font-size: 13px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: .06em; margin: 0 0 6px; padding-bottom: 12px; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; gap: 7px; }
+        .pf-block-title    { font-size: 14px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: .06em; margin: 0 0 6px; padding-bottom: 12px; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; gap: 7px; }
         .pf-block-title i  { color: #16a34a; }
-        .pf-section-hint   { font-size: 13px; color: #9ca3af; margin: 0 0 16px; }
+        .pf-section-hint   { font-size: 14px; color: #9ca3af; margin: 0 0 16px; }
 
         /* ── Fields ── */
         .pf-field          { margin-bottom: 16px; }
         .pf-field:last-child { margin-bottom: 0; }
-        .pf-label          { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 6px; }
-        .pf-hint           { font-size: 12px; color: #9ca3af; margin-top: 4px; }
-        .pf-input          { width: 100%; padding: 9px 13px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; color: #111827; background: #fff; outline: none; transition: border .15s; box-sizing: border-box; }
+        .pf-label          { display: block; font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 6px; }
+        .pf-hint           { font-size: 13px; color: #9ca3af; margin-top: 4px; }
+        .pf-input          { width: 100%; padding: 9px 13px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; color: #111827; background: #fff; outline: none; transition: border .15s; box-sizing: border-box; }
         .pf-input:focus    { border-color: #16a34a; box-shadow: 0 0 0 3px #dcfce7; }
-        .pf-textarea       { width: 100%; padding: 9px 13px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; color: #111827; background: #fff; outline: none; resize: vertical; font-family: inherit; transition: border .15s; box-sizing: border-box; line-height: 1.6; }
+        .pf-textarea       { width: 100%; padding: 9px 13px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; color: #111827; background: #fff; outline: none; resize: vertical; font-family: inherit; transition: border .15s; box-sizing: border-box; line-height: 1.6; }
         .pf-textarea:focus { border-color: #16a34a; box-shadow: 0 0 0 3px #dcfce7; }
-        .pf-char-count     { font-size: 12px; color: #9ca3af; text-align: right; margin-top: 3px; }
+        .pf-char-count     { font-size: 13px; color: #9ca3af; text-align: right; margin-top: 3px; }
         .pf-char-count.over { color: #ef4444; }
 
         /* ── Image upload ── */
         .pf-img-upload     { display: flex; flex-direction: column; gap: 8px; }
         .pf-img-preview    { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid #e5e7eb; }
         .pf-img-preview img { width: 100%; height: 180px; object-fit: cover; display: block; }
-        .pf-img-remove     { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.6); color: #fff; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; }
-        .pf-img-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 28px; border: 2px dashed #d1d5db; border-radius: 8px; cursor: pointer; color: #9ca3af; font-size: 13px; text-align: center; transition: border .15s; }
+        .pf-img-remove     { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.6); color: #fff; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+        .pf-img-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 28px; border: 2px dashed #d1d5db; border-radius: 8px; cursor: pointer; color: #9ca3af; font-size: 14px; text-align: center; transition: border .15s; }
         .pf-img-placeholder:hover { border-color: #16a34a; color: #16a34a; }
         .pf-img-placeholder i { font-size: 26px; }
 
@@ -844,10 +844,10 @@ export default function PortfolioAdminPage() {
         .pf-list-header     { display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; background: #f3f4f6; border-bottom: 1px solid #e5e7eb; cursor: pointer; user-select: none; }
         .pf-list-header:hover { background: #eef0f2; }
         .pf-list-header-left { display: flex; align-items: center; gap: 8px; }
-        .pf-chevron         { font-size: 11px; color: #6b7280; }
-        .pf-list-title      { font-size: 13px; font-weight: 600; color: #374151; }
+        .pf-chevron         { font-size: 13px; color: #6b7280; }
+        .pf-list-title      { font-size: 14px; font-weight: 600; color: #374151; }
         .pf-list-actions    { display: flex; gap: 5px; }
-        .pf-list-actions button { padding: 5px 9px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; font-size: 13px; color: #6b7280; transition: all .15s; }
+        .pf-list-actions button { padding: 5px 9px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; color: #6b7280; transition: all .15s; }
         .pf-list-actions button:hover { background: #f3f4f6; }
         .pf-list-actions button.danger:hover { background: #fef2f2; color: #ef4444; border-color: #fca5a5; }
         .pf-list-body       { padding: 16px; }
@@ -856,57 +856,57 @@ export default function PortfolioAdminPage() {
         .pf-para-section    { margin-bottom: 16px; }
         .pf-para-header     { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
         .pf-tag-row         { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .pf-para-num        { width: 24px; height: 24px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #6b7280; flex-shrink: 0; }
-        .pf-add-inline-btn  { display: flex; align-items: center; gap: 5px; padding: 5px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; color: #16a34a; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .pf-para-num        { width: 24px; height: 24px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #6b7280; flex-shrink: 0; }
+        .pf-add-inline-btn  { display: flex; align-items: center; gap: 5px; padding: 5px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; color: #16a34a; font-size: 13px; font-weight: 600; cursor: pointer; }
         .pf-add-inline-btn:hover { background: #dcfce7; }
-        .pf-add-btn         { display: flex; align-items: center; gap: 6px; padding: 10px 16px; border: 1.5px dashed #d1d5db; background: transparent; border-radius: 8px; cursor: pointer; font-size: 13px; color: #6b7280; width: 100%; justify-content: center; transition: all .15s; margin-top: 4px; }
+        .pf-add-btn         { display: flex; align-items: center; gap: 6px; padding: 10px 16px; border: 1.5px dashed #d1d5db; background: transparent; border-radius: 8px; cursor: pointer; font-size: 14px; color: #6b7280; width: 100%; justify-content: center; transition: all .15s; margin-top: 4px; }
         .pf-add-btn:hover   { border-color: #16a34a; color: #16a34a; background: #f0fdf4; }
-        .pf-icon-btn        { padding: 9px 11px; border: 1px solid #d1d5db; background: #fff; border-radius: 8px; cursor: pointer; font-size: 14px; color: #6b7280; flex-shrink: 0; }
+        .pf-icon-btn        { padding: 9px 11px; border: 1px solid #d1d5db; background: #fff; border-radius: 8px; cursor: pointer; font-size: 15px; color: #6b7280; flex-shrink: 0; }
         .pf-icon-btn.danger:hover { background: #fef2f2; color: #ef4444; border-color: #fca5a5; }
-        .pf-empty-state     { font-size: 13px; color: #9ca3af; font-style: italic; padding: 14px; background: #f9fafb; border-radius: 8px; border: 1px dashed #e5e7eb; text-align: center; margin-bottom: 8px; }
+        .pf-empty-state     { font-size: 14px; color: #9ca3af; font-style: italic; padding: 14px; background: #f9fafb; border-radius: 8px; border: 1px dashed #e5e7eb; text-align: center; margin-bottom: 8px; }
 
         /* ── Metrics inline preview ── */
         .pf-metrics-preview { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid #f3f4f6; }
         .pf-metric-chip     { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 18px; text-align: center; min-width: 90px; }
-        .pf-metric-val      { display: block; font-size: 20px; font-weight: 700; color: #16a34a; }
-        .pf-metric-lbl      { display: block; font-size: 11px; color: #6b7280; margin-top: 2px; }
+        .pf-metric-val      { display: block; font-size: 21px; font-weight: 700; color: #16a34a; }
+        .pf-metric-lbl      { display: block; font-size: 13px; color: #6b7280; margin-top: 2px; }
 
         /* ── Channels chip preview ── */
         .pf-chips-preview   { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #f3f4f6; }
-        .pf-channel-chip    { font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 20px; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; }
+        .pf-channel-chip    { font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 20px; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; }
 
         /* ── Tech stack preview ── */
         .pf-tech-preview    { margin-top: 18px; padding-top: 16px; border-top: 1px solid #f3f4f6; display: flex; flex-direction: column; gap: 8px; }
         .pf-tech-row-preview { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .pf-tech-cat        { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 6px; border: 1px solid; white-space: nowrap; }
+        .pf-tech-cat        { font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 6px; border: 1px solid; white-space: nowrap; }
         .pf-tech-vals       { display: flex; flex-wrap: wrap; gap: 6px; }
-        .pf-tech-val-chip   { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: #f3f4f6; border: 1px solid #e5e7eb; color: #374151; }
+        .pf-tech-val-chip   { font-size: 13px; padding: 3px 10px; border-radius: 20px; background: #f3f4f6; border: 1px solid #e5e7eb; color: #374151; }
 
         /* ── SEO ── */
         .pf-serp-wrap  { margin-top: 20px; }
-        .pf-serp-label { font-size: 12px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+        .pf-serp-label { font-size: 13px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
         .pf-serp-box   { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px 20px; }
-        .pf-serp-url   { font-size: 13px; color: #16a34a; margin: 0 0 4px; }
+        .pf-serp-url   { font-size: 14px; color: #16a34a; margin: 0 0 4px; }
         .pf-serp-title { font-size: 18px; color: #1a0dab; font-weight: 500; margin: 0 0 4px; }
-        .pf-serp-desc  { font-size: 13px; color: #4d5156; margin: 0; line-height: 1.5; }
+        .pf-serp-desc  { font-size: 14px; color: #4d5156; margin: 0; line-height: 1.5; }
         .pf-serp-empty { color: #9ca3af; }
         .pf-kw-chips   { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-        .pf-kw-chip    { font-size: 11px; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 3px 10px; border-radius: 20px; }
+        .pf-kw-chip    { font-size: 13px; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 3px 10px; border-radius: 20px; }
 
         /* ── Preview divider ── */
         .pf-preview-divider  { display: flex; align-items: center; gap: 12px; margin: 32px 0 0; }
         .pf-preview-divider-line { flex: 1; height: 1px; background: #e5e7eb; }
-        .pf-preview-title    { font-size: 13px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
-        .pf-preview-note     { font-size: 12px; color: #9ca3af; white-space: nowrap; }
+        .pf-preview-title    { font-size: 14px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+        .pf-preview-note     { font-size: 13px; color: #9ca3af; white-space: nowrap; }
 
         /* ── Toast ── */
-        .pf-toast      { position: fixed; bottom: 24px; right: 24px; padding: 13px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,.15); animation: pfSlide .2s ease; }
+        .pf-toast      { position: fixed; bottom: 24px; right: 24px; padding: 13px 22px; border-radius: 10px; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,.15); animation: pfSlide .2s ease; }
         .pf-toast.success { background: #16a34a; color: #fff; }
         .pf-toast.error   { background: #ef4444; color: #fff; }
         @keyframes pfSlide { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         /* ── Loading ── */
-        .pf-loading    { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh; gap: 16px; color: #6b7280; font-size: 15px; }
+        .pf-loading    { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh; gap: 16px; color: #6b7280; font-size: 16px; }
         .pf-spinner    { width: 36px; height: 36px; border: 3px solid #e5e7eb; border-top-color: #16a34a; border-radius: 50%; animation: pfSpin .8s linear infinite; }
         @keyframes pfSpin { to { transform: rotate(360deg); } }
 
@@ -926,24 +926,24 @@ export default function PortfolioAdminPage() {
         .pfpv-dot.r  { background: #f87171; }
         .pfpv-dot.y  { background: #fbbf24; }
         .pfpv-dot.g  { background: #4ade80; }
-        .pfpv-url    { background: #fff; border: 1px solid #d1d5db; border-radius: 6px; padding: 4px 16px; font-size: 12px; color: #6b7280; min-width: 200px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 320px; }
-        .pfpv-chrome-label { font-size: 11px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; gap: 5px; }
+        .pfpv-url    { background: #fff; border: 1px solid #d1d5db; border-radius: 6px; padding: 4px 16px; font-size: 13px; color: #6b7280; min-width: 200px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 320px; }
+        .pfpv-chrome-label { font-size: 12px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; gap: 5px; }
 
         /* Hero */
         .pfpv-hero       { background: linear-gradient(135deg, #071a0e, #0f2618); padding: 36px 32px; text-align: center; }
-        .pfpv-hero-bread { font-size: 12px; color: rgba(255,255,255,.4); margin-bottom: 10px; }
+        .pfpv-hero-bread { font-size: 13px; color: rgba(255,255,255,.4); margin-bottom: 10px; }
         .pfpv-hero-title { font-size: 26px; font-weight: 700; color: #fff; margin: 0 0 10px; line-height: 1.3; }
-        .pfpv-hero-desc  { font-size: 14px; color: #d1fae5; max-width: 480px; margin: 0 auto; }
+        .pfpv-hero-desc  { font-size: 15px; color: #d1fae5; max-width: 480px; margin: 0 auto; }
 
         /* Generic section */
         .pfpv-section    { padding: 28px 32px; border-top: 1px solid #f3f4f6; }
-        .pfpv-sec-label  { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #9ca3af; margin-bottom: 14px; display: flex; align-items: center; gap: 5px; }
+        .pfpv-sec-label  { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #9ca3af; margin-bottom: 14px; display: flex; align-items: center; gap: 5px; }
         .pfpv-h2         { font-size: 20px; font-weight: 700; color: #111827; margin: 0 0 10px; }
-        .pfpv-subtitle   { font-size: 14px; color: #6b7280; margin: 0 0 4px; }
-        .pfpv-tagline    { font-size: 13px; color: #16a34a; font-weight: 600; margin: 0; }
-        .pfpv-p          { font-size: 13px; color: #6b7280; margin: 0 0 8px; line-height: 1.6; }
+        .pfpv-subtitle   { font-size: 15px; color: #6b7280; margin: 0 0 4px; }
+        .pfpv-tagline    { font-size: 14px; color: #16a34a; font-weight: 600; margin: 0; }
+        .pfpv-p          { font-size: 14px; color: #6b7280; margin: 0 0 8px; line-height: 1.6; }
         .pfpv-empty      { color: #d1d5db; font-style: italic; }
-        .pfpv-more       { font-size: 11px; color: #9ca3af; font-style: italic; margin-top: 4px; }
+        .pfpv-more       { font-size: 12px; color: #9ca3af; font-style: italic; margin-top: 4px; }
 
         /* Two-col */
         .pfpv-two-col    { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
@@ -955,16 +955,16 @@ export default function PortfolioAdminPage() {
         /* Project info card */
         .pfpv-info-card  { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         .pfpv-info-meta  { display: flex; flex-direction: column; gap: 8px; }
-        .pfpv-meta-row   { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; }
-        .pfpv-meta-row i { color: #16a34a; font-size: 14px; flex-shrink: 0; }
+        .pfpv-meta-row   { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #374151; }
+        .pfpv-meta-row i { color: #16a34a; font-size: 15px; flex-shrink: 0; }
 
         /* Highlight banner */
-        .pfpv-highlight-banner { background: linear-gradient(90deg, #dcfce7, #f0fdf4); border-left: 3px solid #16a34a; border-radius: 6px; padding: 10px 16px; font-size: 14px; font-weight: 600; color: #15803d; margin-bottom: 14px; }
+        .pfpv-highlight-banner { background: linear-gradient(90deg, #dcfce7, #f0fdf4); border-left: 3px solid #16a34a; border-radius: 6px; padding: 10px 16px; font-size: 15px; font-weight: 600; color: #15803d; margin-bottom: 14px; }
 
         /* Bullet lists */
         .pfpv-bullet-list { list-style: none; padding: 0; margin: 0; }
-        .pfpv-bullet-list li { font-size: 13px; color: rgba(255,255,255,.7); padding: 5px 0; padding-left: 16px; position: relative; }
-        .pfpv-bullet-list li::before { content: "→"; position: absolute; left: 0; color: #4ade80; font-size: 11px; }
+        .pfpv-bullet-list li { font-size: 14px; color: rgba(255,255,255,.7); padding: 5px 0; padding-left: 16px; position: relative; }
+        .pfpv-bullet-list li::before { content: "→"; position: absolute; left: 0; color: #4ade80; font-size: 13px; }
         .pfpv-bullet-green li { color: #374151; }
         .pfpv-bullet-green li::before { color: #16a34a; }
 
@@ -972,33 +972,33 @@ export default function PortfolioAdminPage() {
         .pfpv-metrics-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 12px; }
         .pfpv-metric-card  { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px; text-align: center; }
         .pfpv-metric-val   { font-size: 22px; font-weight: 700; color: #16a34a; }
-        .pfpv-metric-lbl   { font-size: 11px; color: #6b7280; margin-top: 3px; }
+        .pfpv-metric-lbl   { font-size: 13px; color: #6b7280; margin-top: 3px; }
 
         /* KPI cards */
         .pfpv-kpi-grid  { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-top: 10px; }
         .pfpv-kpi-card  { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 12px; }
         .pfpv-kpi-val   { font-size: 18px; font-weight: 700; color: #4ade80; }
-        .pfpv-kpi-lbl   { font-size: 11px; color: rgba(255,255,255,.5); margin-top: 2px; }
+        .pfpv-kpi-lbl   { font-size: 13px; color: rgba(255,255,255,.5); margin-top: 2px; }
 
         /* Growth */
         .pfpv-growth-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 14px; }
         .pfpv-growth-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 10px; padding: 16px; text-align: center; }
         .pfpv-growth-val  { font-size: 22px; font-weight: 700; color: #4ade80; }
-        .pfpv-growth-lbl  { font-size: 11px; color: rgba(255,255,255,.5); margin-top: 3px; }
+        .pfpv-growth-lbl  { font-size: 13px; color: rgba(255,255,255,.5); margin-top: 3px; }
 
         /* Marketing channels */
         .pfpv-channels-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-        .pfpv-channel-chip  { font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 20px; border: 1.5px solid; }
+        .pfpv-channel-chip  { font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 20px; border: 1.5px solid; }
 
         /* Tech table */
         .pfpv-tech-table { display: flex; flex-direction: column; gap: 10px; }
         .pfpv-tech-row   { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .pfpv-tech-cat   { font-size: 11px; font-weight: 700; padding: 5px 14px; border-radius: 6px; border: 1px solid; white-space: nowrap; min-width: 90px; text-align: center; }
+        .pfpv-tech-cat   { font-size: 13px; font-weight: 700; padding: 5px 14px; border-radius: 6px; border: 1px solid; white-space: nowrap; min-width: 90px; text-align: center; }
         .pfpv-tech-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-        .pfpv-tech-chip  { font-size: 11px; padding: 4px 12px; border-radius: 20px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.7); }
+        .pfpv-tech-chip  { font-size: 13px; padding: 4px 12px; border-radius: 20px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.7); }
 
         /* Button preview */
-        .pfpv-btn-preview { display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; color: #4ade80; border: 1.5px solid #16a34a; border-radius: 20px; padding: 6px 16px; margin-top: 12px; }
+        .pfpv-btn-preview { display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #4ade80; border: 1.5px solid #16a34a; border-radius: 20px; padding: 6px 16px; margin-top: 12px; }
 
         @media (max-width: 640px) {
           .pfpv-two-col { grid-template-columns: 1fr; }

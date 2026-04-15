@@ -59,23 +59,28 @@ function Sidebar({ isCollapsed }) {
       icon: "bi bi-person-workspace",
       path: "/pages/career",
     },
-  ],
-},
-{
-  title: "Solution Management",
-  list: [
     {
-      menu: "All Solutions",
+      menu: "Solutions",
       icon: "bi bi-grid",
-      path: "/solutions",
-    },
-    {
-      menu: "Add Solution",
-      icon: "bi bi-plus-circle",
-      path: "/solutions/create",
+      path: "/pages/solution",
     },
   ],
 },
+// {
+//   title: "Solution Management",
+//   list: [
+//     {
+//       menu: "All Solutions",
+//       icon: "bi bi-grid",
+//       path: "/solutions",
+//     },
+//     {
+//       menu: "Add Solution",
+//       icon: "bi bi-plus-circle",
+//       path: "/solutions/create",
+//     },
+//   ],
+// },
     {
       title: "Appointment Management",
       list: [

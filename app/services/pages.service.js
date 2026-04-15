@@ -86,3 +86,61 @@ export const createPortfolioPageServ = async (formdata) => {
     throw error;
   }
 };
+
+// Solution page services
+// get
+
+export const getAllSolutionsServ = async () => {
+  try {
+    const response = await axios.get(BASE_URL + "solution");
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+
+
+export const getSolutionByIdServ = async (slug) => {
+  try {
+    const response = await axios.get(BASE_URL + `solution/${slug}`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const updateSolutionServ = async (slug, solutionData) => {
+  try {
+    const response = await axios.put(BASE_URL + `solution/${slug}`, solutionData);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const deleteSolutionServ  = async (slug) => {
+  try {
+    const response = await axios.delete(BASE_URL + `solution/${slug}`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+
+// post
+
+export const createSolutionServ = async (formdata) => {
+  try {
+    const response = await axios.post(BASE_URL + "solution" , formdata , {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};

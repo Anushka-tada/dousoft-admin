@@ -15,6 +15,8 @@ const SolutionSchema = new mongoose.Schema({
 
   isPublished: { type: Boolean, default: true },
 
+  order: { type: Number, default: 0 },
+
   // HERO SECTION
   hero: {
     title: String,
@@ -39,7 +41,6 @@ const SolutionSchema = new mongoose.Schema({
         description: String,
         icon: String,
         pointHeading: String,
-        order: { type: Number, default: 0 },
 
         points: [
           {
