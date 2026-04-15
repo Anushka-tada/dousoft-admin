@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { getAllSolutionsServ, deleteSolutionServ } from "@/app/services/solutions.service";
+import { getAllSolutionsServ, deleteSolutionServ } from "@/app/services/pages.service";
 
 // ─── Mock service stubs (replace with real imports above) ─────────────────────
 // const getAllSolutionsServ = async () => { ... }

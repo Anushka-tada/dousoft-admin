@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import CmsTabs from "@/app/Components/CmsTabs";
-// import { createSolutionServ, getSolutionByIdServ, updateSolutionServ } from "@/app/services/solutions.service";
+import { createSolutionServ, getSolutionByIdServ, updateSolutionServ } from "@/app/services/pages.service";
 
 // ─── Tab config ───────────────────────────────────────────────────────────────
 const TABS = [
@@ -574,7 +574,7 @@ export default function SolutionEditor({ mode = "create", solutionId = null }) {
       if (res?.data?.success) {
         showToast(mode === "create" ? "Solution created successfully!" : "Solution updated successfully!");
         setUnsaved(false);
-        if (mode === "create") setTimeout(() => router.push("/admin/solutions"), 1200);
+        if (mode === "create") setTimeout(() => router.push("/pages/solution"), 1200);
       } else {
         showToast(res?.data?.message || "Failed to save. Please try again.", "error");
       }
