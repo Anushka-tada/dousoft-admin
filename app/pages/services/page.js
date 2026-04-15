@@ -16,7 +16,7 @@ export default function ServicesListPage() {
     (async () => {
       try {
         const res = await getServiceCategoryServ();
-        if (res?.data?.success) setServices(res.data.data);
+        if (res?.data?.success) setServices(res?.data?.data);
         // Mock data for illustration:
         // setServices([
         //   { _id: "1", name: "Cloud Computing", slug: "cloud-computing", status: "active", order: 1, isPublished: true, description: "Scalable cloud infrastructure solutions." },

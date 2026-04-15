@@ -172,7 +172,7 @@ export async function GET() {
   try {
     await connectDB();
 
-    const categories = await ServiceCategory.find({ status: "active" })
+    const categories = await ServiceCategory.find()
       // .select("name slug order") 
       // .sort({ order: 1 });
 
