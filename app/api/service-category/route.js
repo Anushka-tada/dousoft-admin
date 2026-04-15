@@ -173,8 +173,8 @@ export async function GET() {
     await connectDB();
 
     const categories = await ServiceCategory.find({ status: "active" })
-      .select("name slug order") // 🔥 lightweight for navbar
-      .sort({ order: 1 });
+      // .select("name slug order") 
+      // .sort({ order: 1 });
 
     return NextResponse.json(
       {

@@ -64,6 +64,11 @@ function Sidebar({ isCollapsed }) {
       icon: "bi bi-grid",
       path: "/pages/solution",
     },
+     {
+      menu: "Services",
+      icon: "bi bi-grid",
+      path: "/pages/services",
+    },
   ],
 },
 // {

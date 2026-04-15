@@ -202,7 +202,7 @@ export default function SolutionsListPage() {
             <h1>Solutions</h1>
             <p>Manage all solution pages — content, sections, and SEO.</p>
           </div>
-          <button className="sl-add-btn" onClick={() => router.push("/admin/solution/create")}>
+          <button className="sl-add-btn" onClick={() => router.push("/pages/solution/create")}>
             <i className="bi bi-plus-lg" />
             Add Solution
           </button>

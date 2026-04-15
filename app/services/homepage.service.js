@@ -27,3 +27,8 @@ export const createHomePageServ = async (formdata) => {
     throw error;
   }
 };
+
+
+// service category
+
+

@@ -522,8 +522,223 @@ const SeoEditor = ({ data, onChange }) => {
   );
 };
 
+// ─── Full-page Preview ────────────────────────────────────────────────────────
+const SolutionPreview = ({ formData }) => {
+  const {
+    hero = {},
+    introSection = {},
+    approachSection = {},
+    frameworkSection = {},
+    servicesSection = {},
+    benefitsSection = {},
+    whyChooseSection = {},
+    ctaSection = {},
+    seo = {},
+  } = formData;
+
+  const activeCards    = (approachSection.cards    || []).filter((c) => c.isActive !== false);
+  const activeSteps    = (frameworkSection.steps   || []).filter((s) => s.isActive !== false);
+  const activeServices = (servicesSection.services || []).filter((s) => s.isActive !== false);
+  const activeBenefits = (benefitsSection.benefits || []).filter((b) => b.isActive !== false);
+  const activePoints   = (whyChooseSection.points  || []).filter((p) => p.isActive !== false);
+
+  return (
+    <div className="scpv-wrap">
+      {/* Browser chrome */}
+      <div className="scpv-chrome">
+        <div className="scpv-chrome-left">
+          <div className="scpv-dots">
+            <span className="scpv-dot r" /><span className="scpv-dot y" /><span className="scpv-dot g" />
+          </div>
+          <div className="scpv-url">yourdomain.com/solutions/{formData.slug || "slug"}</div>
+        </div>
+        <span className="scpv-chrome-label"><i className="bi bi-eye" /> Full Page Preview</span>
+      </div>
+
+      {/* ── HERO ── */}
+      <div className="scpv-hero">
+     
+        <h1 className="scpv-hero-title">{hero.title || <span className="scpv-empty">Page title not set</span>}</h1>
+        {hero.description && <p className="scpv-hero-desc">{hero.description}</p>}
+           <div className="scpv-hero-bread">{hero.breadcrumb || "Home / Solutions"}</div>
+      </div>
+
+      {/* ── INTRO ── */}
+      {(introSection.heading || (introSection.paragraphs || []).length > 0 || introSection.image) && (
+        <div className="scpv-section">
+          <div className="scpv-sec-label"><i className="bi bi-text-paragraph" /> Intro</div>
+          <div className="scpv-two-col">
+            <div>
+              {introSection.heading && <h2 className="scpv-h2">{introSection.heading}</h2>}
+              {(introSection.paragraphs || []).slice(0, 2).map((p, i) => (
+                <p key={i} className="scpv-p">{p}</p>
+              ))}
+              {(introSection.paragraphs || []).length > 2 && (
+                <p className="scpv-more">+{introSection.paragraphs.length - 2} more paragraphs</p>
+              )}
+            </div>
+            <div className="scpv-img-col">
+              {introSection.image ? (
+                <img src={introSection.image} className="scpv-section-img" alt="" onError={(e) => (e.target.style.display = "none")} />
+              ) : (
+                <div className="scpv-img-placeholder"><i className="bi bi-image" /><span>No image</span></div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── APPROACH ── */}
+      {(approachSection.heading || activeCards.length > 0) && (
+        <div className="scpv-section">
+          <div className="scpv-sec-label"><i className="bi bi-grid-1x2" /> Approach</div>
+          {approachSection.heading && <h2 className="scpv-h2" style={{ marginBottom: 16 }}>{approachSection.heading}</h2>}
+          <div className="scpv-cards-grid">
+            {activeCards.map((c, i) => (
+              <div key={i} className="scpv-approach-card">
+                <div className="scpv-card-icon-row">
+                  <i className={c.icon || "bi bi-star"} />
+                  <span className="scpv-card-title">{c.title}</span>
+                </div>
+                {c.description && <p className="scpv-p" style={{ marginTop: 6 }}>{c.description}</p>}
+                {(c.points || []).length > 0 && (
+                  <div className="scpv-point-list">
+                    {c.points.slice(0, 3).map((pt, j) => (
+                      <div key={j} className="scpv-point-chip">
+                        <i className={pt.icon || "bi bi-check-circle"} />
+                        <span>{pt.text}</span>
+                      </div>
+                    ))}
+                    {c.points.length > 3 && <p className="scpv-more">+{c.points.length - 3} more</p>}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          {activeCards.length === 0 && <div className="scpv-empty">No active cards</div>}
+        </div>
+      )}
+
+      {/* ── FRAMEWORK ── */}
+      {(frameworkSection.heading || activeSteps.length > 0) && (
+        <div className="scpv-section scpv-dark-section">
+          <div className="scpv-sec-label" style={{ color: "#4ade80" }}><i className="bi bi-diagram-3" /> Framework</div>
+          {frameworkSection.heading && <h2 className="scpv-h2" style={{ color: "#fff", marginBottom: 16 }}>{frameworkSection.heading}</h2>}
+          {frameworkSection.description && <p className="scpv-p" style={{ color: "#d1fae5", marginBottom: 16 }}>{frameworkSection.description}</p>}
+          <div className="scpv-steps-row">
+            {activeSteps.map((s, i) => (
+              <div key={i} className="scpv-step-card">
+                <div className="scpv-step-num">{s.stepNumber || i + 1}</div>
+                <div className="scpv-step-title">{s.title || `Step ${i + 1}`}</div>
+                {(s.points || []).length > 0 && (
+                  <ul className="scpv-step-points">
+                    {s.points.slice(0, 2).map((pt, j) => <li key={j}>{pt}</li>)}
+                    {s.points.length > 2 && <li style={{ opacity: .6 }}>+{s.points.length - 2} more</li>}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+          {frameworkSection.bottomText && <p className="scpv-p" style={{ color: "rgba(255,255,255,.5)", marginTop: 16, fontStyle: "italic" }}>{frameworkSection.bottomText}</p>}
+        </div>
+      )}
+
+      {/* ── SERVICES ── */}
+      {(servicesSection.heading || activeServices.length > 0) && (
+        <div className="scpv-section">
+          <div className="scpv-sec-label"><i className="bi bi-gear" /> Services</div>
+          {servicesSection.heading && <h2 className="scpv-h2" style={{ marginBottom: 16 }}>{servicesSection.heading}</h2>}
+          <div className="scpv-services-grid">
+            {activeServices.map((s, i) => (
+              <div key={i} className="scpv-service-card">
+                {s.image ? (
+                  <img src={s.image} className="scpv-service-img" alt="" onError={(e) => (e.target.style.display = "none")} />
+                ) : (
+                  <div className="scpv-service-img-ph"><i className="bi bi-image" /></div>
+                )}
+                <div className="scpv-service-body">
+                  <p className="scpv-card-title">{s.title || `Service ${i + 1}`}</p>
+                  {s.description && <p className="scpv-p" style={{ fontSize: 13 }}>{s.description.slice(0, 80)}{s.description.length > 80 ? "…" : ""}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+          {activeServices.length === 0 && <div className="scpv-empty">No active services</div>}
+        </div>
+      )}
+
+      {/* ── BENEFITS ── */}
+      {(benefitsSection.heading || activeBenefits.length > 0) && (
+        <div className="scpv-section">
+          <div className="scpv-sec-label"><i className="bi bi-star" /> Benefits</div>
+          {benefitsSection.heading && <h2 className="scpv-h2" style={{ marginBottom: 16 }}>{benefitsSection.heading}</h2>}
+          <div className="scpv-benefits-grid">
+            {activeBenefits.map((b, i) => (
+              <div key={i} className="scpv-benefit-chip">
+                <i className={b.icon || "bi bi-check-circle"} />
+                <span>{b.title}</span>
+              </div>
+            ))}
+          </div>
+          {activeBenefits.length === 0 && <div className="scpv-empty">No active benefits</div>}
+        </div>
+      )}
+
+      {/* ── WHY CHOOSE ── */}
+      {(whyChooseSection.heading || activePoints.length > 0 || whyChooseSection.image) && (
+        <div className="scpv-section">
+          <div className="scpv-sec-label"><i className="bi bi-trophy" /> Why Choose Us</div>
+          <div className="scpv-two-col">
+            <div>
+              {whyChooseSection.heading && <h2 className="scpv-h2">{whyChooseSection.heading}</h2>}
+              {activePoints.map((pt, i) => (
+                <div key={i} className="scpv-why-point">
+                  <i className={pt.icon || "bi bi-check-circle"} />
+                  <span>{pt.text}</span>
+                </div>
+              ))}
+              {activePoints.length === 0 && <div className="scpv-empty">No active points</div>}
+              {whyChooseSection.bottomText && <p className="scpv-p" style={{ marginTop: 10, fontStyle: "italic" }}>{whyChooseSection.bottomText}</p>}
+            </div>
+            <div className="scpv-img-col">
+              {whyChooseSection.image ? (
+                <img src={whyChooseSection.image} className="scpv-section-img" alt="" onError={(e) => (e.target.style.display = "none")} />
+              ) : (
+                <div className="scpv-img-placeholder"><i className="bi bi-image" /><span>No image</span></div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── CTA ── */}
+      {(ctaSection.heading || ctaSection.description) && (
+        <div className="scpv-section scpv-cta-section">
+          <div className="scpv-sec-label" style={{ color: "#4ade80" }}><i className="bi bi-megaphone" /> CTA</div>
+          <p className="scpv-cta-heading">{ctaSection.heading || <span className="scpv-empty">No CTA heading</span>}</p>
+          {ctaSection.description && <p className="scpv-p" style={{ color: "#d1fae5" }}>{ctaSection.description}</p>}
+          {ctaSection.buttonText && (
+            <div className="scpv-cta-btn">{ctaSection.buttonText}</div>
+          )}
+        </div>
+      )}
+
+      {/* ── SEO ── */}
+      <div className="scpv-section">
+        <div className="scpv-sec-label"><i className="bi bi-search" /> SEO</div>
+        <div className="sc-serp-box" style={{ maxWidth: 560 }}>
+          <p className="sc-serp-url">yourdomain.com/solutions/{formData.slug || "slug"}</p>
+          <p className="sc-serp-title">{seo.title || <span style={{ color: "#9ca3af" }}>Meta title not set</span>}</p>
+          <p className="sc-serp-desc">{seo.description || <span style={{ color: "#9ca3af" }}>Meta description not set</span>}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 // ─── Main Editor Component ────────────────────────────────────────────────────
-export default function SolutionEditor({ mode = "create", solutionId = null }) {
+export default function SolutionEditor({ mode = "create", slug = null }) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("meta");
   const [formData, setFormData]   = useState({ isPublished: true, order: 0 });
@@ -535,11 +750,13 @@ export default function SolutionEditor({ mode = "create", solutionId = null }) {
   const toastRef = useRef(null);
 
   // ── Load existing on edit ─────────────────────────────────────────────────
+
   useEffect(() => {
-    if (mode !== "edit" || !solutionId) return;
+    console.log("inside fucntion" , slug);
+    if (mode !== "edit" || !slug) return;
     (async () => {
       try {
-        const res = await getSolutionByIdServ(solutionId);
+        const res = await getSolutionByIdServ(slug);
         if (res?.data?.success && res.data.data) {
           setFormData(res.data.data);
           setIsPublished(res.data.data.isPublished !== false);
@@ -547,7 +764,10 @@ export default function SolutionEditor({ mode = "create", solutionId = null }) {
       } catch (e) { console.error(e); }
       finally { setLoading(false); }
     })();
-  }, [mode, solutionId]);
+  }, [mode, slug]);
+
+  
+
 
   // ── Toast ─────────────────────────────────────────────────────────────────
   const showToast = (msg, type = "success") => {
@@ -568,7 +788,7 @@ export default function SolutionEditor({ mode = "create", solutionId = null }) {
       if (mode === "create") {
         res = await createSolutionServ(payload);
       } else {
-        res = await updateSolutionServ(solutionId, payload);
+        res = await updateSolutionServ(slug, payload);
       }
 
       if (res?.data?.success) {
@@ -733,6 +953,96 @@ export default function SolutionEditor({ mode = "create", solutionId = null }) {
         @media (max-width: 768px) {
           .sc-grid-2, .sc-grid-3 { grid-template-columns: 1fr; }
         }
+        
+         /* ── Preview divider ── */
+        .sc-preview-divider { display: flex; align-items: center; gap: 12px; margin: 32px 0 0; padding-top: 8px; }
+        .sc-preview-divider span { font-size: 14px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+        .sc-preview-divider-line { flex: 1; height: 1px; background: #e5e7eb; }
+        .sc-preview-note { font-size: 13px; color: #9ca3af; text-transform: none; letter-spacing: 0; font-weight: 400 !important; }
+
+        /* ══════════════════════════════════════
+           SOLUTION PREVIEW STYLES
+        ══════════════════════════════════════ */
+        .scpv-wrap { border: 1.5px solid #e5e7eb; border-radius: 14px; overflow: hidden; background: #fff; margin-top: 32px; }
+
+        /* Chrome bar */
+        .scpv-chrome { display: flex; align-items: center; justify-content: space-between; padding: 11px 18px; background: #f9fafb; border-bottom: 1px solid #e5e7eb; }
+        .scpv-chrome-left { display: flex; align-items: center; gap: 10px; }
+        .scpv-dots  { display: flex; gap: 5px; }
+        .scpv-dot   { width: 10px; height: 10px; border-radius: 50%; }
+        .scpv-dot.r { background: #f87171; }
+        .scpv-dot.y { background: #fbbf24; }
+        .scpv-dot.g { background: #4ade80; }
+        .scpv-url   { background: #fff; border: 1px solid #d1d5db; border-radius: 6px; padding: 4px 14px; font-size: 13px; color: #6b7280; min-width: 220px; text-align: center; }
+        .scpv-chrome-label { font-size: 13px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; gap: 5px; }
+
+        /* Hero */
+        .scpv-hero { background: linear-gradient(135deg,#0f2618,#1e3d28); padding: 32px; text-align: center; }
+        .scpv-hero-bread { font-size: 13px; color: rgba(255,255,255,.45); margin-bottom: 10px; }
+        .scpv-hero-title { font-size: 28px; font-weight: 700; color: #fff; margin: 0 0 10px; }
+        .scpv-hero-desc  { font-size: 15px; color: #d1fae5; margin: 0 auto; max-width: 500px; }
+
+        /* Generic section */
+        .scpv-section { padding: 28px 32px; border-top: 1px solid #f3f4f6; }
+        .scpv-sec-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #9ca3af; margin-bottom: 14px; display: flex; align-items: center; gap: 5px; }
+        .scpv-h2    { font-size: 20px; font-weight: 700; color: #111827; margin: 0 0 8px; }
+        .scpv-p     { font-size: 14px; color: #6b7280; margin: 0 0 8px; line-height: 1.6; }
+        .scpv-more  { font-size: 13px; color: #9ca3af; font-style: italic; }
+        .scpv-empty { font-size: 13px; color: #d1d5db; font-style: italic; padding: 8px 0; }
+
+        /* Two col */
+        .scpv-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+        .scpv-img-col { display: flex; align-items: flex-start; }
+        .scpv-section-img { width: 100%; border-radius: 10px; object-fit: cover; max-height: 200px; }
+        .scpv-img-placeholder { width: 100%; min-height: 140px; background: #f3f4f6; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: #d1d5db; font-size: 13px; }
+        .scpv-img-placeholder i { font-size: 28px; }
+
+        /* Approach cards */
+        .scpv-cards-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+        .scpv-approach-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 16px; }
+        .scpv-card-icon-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+        .scpv-card-icon-row i { font-size: 18px; color: #16a34a; }
+        .scpv-card-title { font-size: 14px; font-weight: 600; color: #111827; }
+        .scpv-point-list { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+        .scpv-point-chip { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #374151; }
+        .scpv-point-chip i { font-size: 13px; color: #16a34a; }
+
+        /* Framework / dark section */
+        .scpv-dark-section { background: #0f2618; border-top: none; }
+        .scpv-steps-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+        .scpv-step-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 14px; }
+        .scpv-step-num  { width: 28px; height: 28px; background: #16a34a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .scpv-step-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+        .scpv-step-points { padding-left: 14px; margin: 0; }
+        .scpv-step-points li { font-size: 12px; color: rgba(255,255,255,.55); margin-bottom: 3px; }
+
+        /* Services grid */
+        .scpv-services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+        .scpv-service-card  { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; }
+        .scpv-service-img   { width: 100%; height: 100px; object-fit: cover; display: block; }
+        .scpv-service-img-ph { width: 100%; height: 100px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; color: #d1d5db; font-size: 24px; }
+        .scpv-service-body  { padding: 10px 12px; }
+
+        /* Benefits grid */
+        .scpv-benefits-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .scpv-benefit-chip  { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #374151; padding: 6px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; }
+        .scpv-benefit-chip i { color: #16a34a; font-size: 14px; }
+
+        /* Why choose points */
+        .scpv-why-point { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #374151; padding: 6px 0; border-bottom: 1px solid #f3f4f6; }
+        .scpv-why-point i { color: #16a34a; font-size: 15px; }
+
+        /* CTA section */
+        .scpv-cta-section { background: linear-gradient(135deg,#0f2618,#1a3c28); border-top: none; }
+        .scpv-cta-heading { font-size: 22px; font-weight: 700; color: #fff; margin: 0 0 8px; }
+        .scpv-cta-btn { display: inline-block; padding: 10px 28px; background: #16a34a; color: #fff; border-radius: 8px; font-size: 14px; font-weight: 600; margin-top: 14px; }
+
+        @media (max-width: 640px) {
+          .scpv-two-col, .scpv-cards-grid { grid-template-columns: 1fr; }
+          .scpv-steps-row { grid-template-columns: repeat(2,1fr); }
+          .scpv-services-grid { grid-template-columns: repeat(2,1fr); }
+        }
+
       `}</style>
 
       <CmsTabs
@@ -747,11 +1057,20 @@ export default function SolutionEditor({ mode = "create", solutionId = null }) {
         saving={saving}
         unsaved={unsaved}
         previewUrl={formData.slug ? `/solutions/${formData.slug}` : undefined}
-        backUrl="/admin/solutions"
+        backUrl="/pages/solution"
       >
         <div className="sc-content">
           {renderEditor()}
         </div>
+       
+       <div className="sc-preview-divider">
+            <span><i className="bi bi-eye" /> Page Preview</span>
+            <div className="sc-preview-divider-line" />
+            <span className="sc-preview-note">Updates as you edit any section above</span>
+          </div>
+
+          <SolutionPreview formData={formData} />
+
       </CmsTabs>
 
       {toast && (
