@@ -213,3 +213,45 @@ export const updateServiceCategoryServ = async (slug, categoryData) => {
 
 
 // service category sub-category
+
+
+// get
+
+export const getServiceSubCategoryServ = async (categorySlug) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}service-subcategory?categorySlug=${categorySlug}`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching subcategories:", error);
+    throw error;
+  }
+};
+
+
+export const getSingleSubCategoryServ = async (categorySlug, subSlug) => {
+  try {
+    const res = await axios.get(
+      `${BASE_URL}service-subcategory/${categorySlug}/${subSlug}`
+    );
+    return res;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const createServiceSubCategoryServ = async (payload) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}service-subcategory`,
+      payload
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Error creating subcategory:", error);
+    throw error;
+  }
+};

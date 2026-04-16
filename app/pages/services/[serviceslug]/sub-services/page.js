@@ -2,10 +2,11 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { getServiceSubCategoryServ } from "@/app/services/pages.service";
 
 export default function SubServicesListPage() {
   const params = useParams();
-  const serviceSlug = params.serviceSlug;
+  const serviceSlug = params.serviceslug;
 
   const [subServices, setSubServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,13 +16,15 @@ export default function SubServicesListPage() {
   useEffect(() => {
     (async () => {
       try {
-        // Replace: const res = await getSubServicesByServiceServ(serviceSlug);
-        // Mock data:
-        setSubServices([
-          { _id: "1", name: "React Development", slug: "react-development", type: "technology", status: "active", order: 1, isPublished: true },
-          { _id: "2", name: "Mumbai Office", slug: "mumbai", type: "city", status: "active", order: 2, isPublished: true },
-          { _id: "3", name: "General Solutions", slug: "general", type: "general", status: "inactive", order: 3, isPublished: false },
-        ]);
+        const res = await getServiceSubCategoryServ(serviceSlug);
+
+        setSubServices(res?.data?.data || []);
+        
+        // setSubServices([
+        //   { _id: "1", name: "React Development", slug: "react-development", type: "technology", status: "active", order: 1, isPublished: true },
+        //   { _id: "2", name: "Mumbai Office", slug: "mumbai", type: "city", status: "active", order: 2, isPublished: true },
+        //   { _id: "3", name: "General Solutions", slug: "general", type: "general", status: "inactive", order: 3, isPublished: false },
+        // ]);
       } catch (e) { console.error(e); }
       finally { setLoading(false); }
     })();
@@ -99,7 +102,7 @@ export default function SubServicesListPage() {
 
       {/* Breadcrumb */}
       <div className="ssl-breadcrumb">
-        <Link href="/admin/services">Services</Link>
+        <Link href="/pages/services">Services</Link>
         <i className="bi bi-chevron-right"/>
         <span style={{textTransform:"capitalize"}}>{serviceSlug}</span>
         <i className="bi bi-chevron-right"/>
@@ -112,10 +115,10 @@ export default function SubServicesListPage() {
           <p className="ssl-sub">/services/{serviceSlug}/...</p>
         </div>
         <div style={{display:"flex",gap:10,alignItems:"center"}}>
-          <Link href={`/admin/services/${serviceSlug}`} style={{display:"flex",alignItems:"center",gap:5,padding:"9px 16px",background:"#fff",border:"1px solid #e5e7eb",borderRadius:10,fontSize:13,fontWeight:600,color:"#374151",textDecoration:"none"}}>
+          <Link href={`/pages/services/${serviceSlug}`} style={{display:"flex",alignItems:"center",gap:5,padding:"9px 16px",background:"#fff",border:"1px solid #e5e7eb",borderRadius:10,fontSize:13,fontWeight:600,color:"#374151",textDecoration:"none"}}>
             <i className="bi bi-pencil"/> Edit Service
           </Link>
-          <Link href={`/admin/services/${serviceSlug}/sub-services/create`} className="ssl-create-btn">
+          <Link href={`/pages/services/${serviceSlug}/sub-services/create`} className="ssl-create-btn">
             <i className="bi bi-plus-lg"/> Create Sub-Service
           </Link>
         </div>
@@ -198,7 +201,7 @@ export default function SubServicesListPage() {
                   </span>
                 </div>
                 <div className="ssl-actions">
-                  <Link href={`/admin/services/${serviceSlug}/sub-services/${s.slug}`} className="ssl-edit-btn">
+                  <Link href={`/pages/services/${serviceSlug}/sub-services/${s.slug}`} className="ssl-edit-btn">
                     <i className="bi bi-pencil"/> Edit
                   </Link>
                 </div>

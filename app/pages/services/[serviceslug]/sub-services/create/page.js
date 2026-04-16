@@ -1,11 +1,7 @@
-import React from 'react'
+"use client";
 
-const page = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+import SubServiceEditor from "../SubServiceEditor";
+
+export default function CreateSolutionPage() {
+  return <SubServiceEditor/>
 }
-
-export default page

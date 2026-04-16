@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import ServiceSubCategory from "@/models/ServiceSubCategory";
+import ServiceCategory from "@/models/ServiceCategory";
 
-/* =======================
-   🔹 CORS
-======================= */
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET,OPTIONS",
@@ -15,39 +13,47 @@ export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders });
 }
 
-/* =======================
-   🔹 GET SUBCATEGORY BY SLUG
-======================= */
 export async function GET(req, { params }) {
   try {
     await connectDB();
 
-    const { slug } = await params;
+    const { categorySlug, subSlug } = params;
 
-    if (!slug) {
+    if (!categorySlug || !subSlug) {
       return NextResponse.json(
-        { status: 400, message: "Slug is required" },
+        { message: "categorySlug and subSlug are required" },
         { status: 400, headers: corsHeaders }
       );
     }
 
+    // 🔹 find category
+    const category = await ServiceCategory.findOne({ slug: categorySlug });
+
+    if (!category) {
+      return NextResponse.json(
+        { message: "Category not found" },
+        { status: 404, headers: corsHeaders }
+      );
+    }
+
+    // 🔹 find subcategory
     const subCategory = await ServiceSubCategory.findOne({
-      slug,
+      categoryId: category._id,
+      slug: subSlug,
       isPublished: true,
       status: "active",
     }).populate("categoryId", "name slug");
 
     if (!subCategory) {
       return NextResponse.json(
-        { status: 404, message: "Subcategory not found" },
+        { message: "Subcategory not found" },
         { status: 404, headers: corsHeaders }
       );
     }
 
     return NextResponse.json(
       {
-        status: 200,
-        message: "Subcategory fetched successfully",
+        success: true,
         data: subCategory,
       },
       { status: 200, headers: corsHeaders }
@@ -55,7 +61,7 @@ export async function GET(req, { params }) {
 
   } catch (error) {
     return NextResponse.json(
-      { status: 500, message: error.message },
+      { message: error.message },
       { status: 500, headers: corsHeaders }
     );
   }
