@@ -90,7 +90,10 @@ const corsHeaders = {
 
 
 export async function OPTIONS() {
-  return NextResponse.json({}, { status: 200, headers: corsHeaders });
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders,
+  });
 }
 
 // ✅ CREATE CATEGORY (NOW SUPPORTS FULL DATA)

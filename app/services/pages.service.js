@@ -157,3 +157,31 @@ export const getServiceCategoryServ = async () => {
     throw error;
   }
 };
+
+// post
+
+export const createServiceCategoryServ = async (formdata) => {
+  try {
+    const response = await axios.post(BASE_URL + "service-category", formdata, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+// get by slug
+
+export const getServiceCategoryBySlug= async (slug) => {
+  try {
+    const response = await axios.get(BASE_URL + `service-category/${slug}`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};

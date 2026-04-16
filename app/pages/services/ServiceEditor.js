@@ -8,6 +8,7 @@ import {
   BestServiceEditor, CustomServiceEditor, CapabilitiesEditor,
   LeftRightEditor, FaqEditor,
 } from "../../Components/Sharededitorcomponents";
+import { createServiceCategoryServ, getServiceCategoryServ } from "@/app/services/pages.service";
 
 // ─── Tab config ───────────────────────────────────────────────────────────────
 const TABS = [
@@ -260,9 +261,10 @@ const ServicePreview = ({ formData }) => {
 
       {/* Hero */}
       <div className="scpv-hero">
-        <div className="scpv-hero-bread">{hero.breadcrumb || "Home / Services"}</div>
+        
         <h1 className="scpv-hero-title">{hero.title || <span style={{opacity:.4}}>Page title not set</span>}</h1>
         {hero.description && <p className="scpv-hero-desc">{hero.description}</p>}
+        <div className="scpv-hero-bread">{hero.breadcrumb || "Home / Services"}</div>
       </div>
 
       {/* Best Service */}
@@ -425,8 +427,7 @@ export default function ServiceEditor({ mode = "create", slug = null }) {
     if (mode !== "edit" || !slug) return;
     (async () => {
       try {
-        // Replace with your actual service: const res = await getServiceBySlugServ(slug);
-        const res = { data: { success: true, data: {} } };
+         const res = await getServiceCategoryServ(slug);
         if (res?.data?.success && res.data.data) {
           setFormData(res.data.data);
           setIsPublished(res.data.data.isPublished !== false);
@@ -448,9 +449,7 @@ export default function ServiceEditor({ mode = "create", slug = null }) {
     setSaving(true);
     try {
       const payload = { ...formData, isPublished };
-      // Replace with your actual service calls:
-      // const res = mode === "create" ? await createServiceServ(payload) : await updateServiceServ(slug, payload);
-      const res = { data: { success: true } };
+       const res = await createServiceCategoryServ(payload);
       if (res?.data?.success) {
         showToast(mode === "create" ? "Service created!" : "Service updated!");
         setUnsaved(false);
