@@ -1,11 +1,6 @@
-import React from 'react'
+"use client";
+import ServiceEditor from "../ServiceEditor";
 
-const page = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+export default function CreateSolutionPage() {
+  return <ServiceEditor />
 }
-
-export default page

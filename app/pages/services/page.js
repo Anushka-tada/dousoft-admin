@@ -100,7 +100,7 @@ export default function ServicesListPage() {
           <h1 className="sl-title">Services</h1>
           <p className="sl-sub">Manage your service pages and their sub-services</p>
         </div>
-        <Link href="/admin/services/create" className="sl-create-btn">
+        <Link href="/pages/services/create" className="sl-create-btn">
           <i className="bi bi-plus-lg" /> Create Service
         </Link>
       </div>
