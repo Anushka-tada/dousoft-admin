@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { getServiceCategoryServ } from "@/app/services/serviceCategory.service";
+import { deleteServiceCategoryServ } from "@/app/services/pages.service";
 
 // Replace with your actual service call
 // import { getAllServicesServ } from "@/app/services/pages.service";
@@ -16,7 +17,10 @@ export default function ServicesListPage() {
     (async () => {
       try {
         const res = await getServiceCategoryServ();
-        if (res?.data?.success) setServices(res?.data?.data);
+         if (res?.data?.data) {
+        setServices(res.data.data);
+      }
+        console.log("data", res?.data?.data)
         // Mock data for illustration:
         // setServices([
         //   { _id: "1", name: "Cloud Computing", slug: "cloud-computing", status: "active", order: 1, isPublished: true, description: "Scalable cloud infrastructure solutions." },
@@ -33,6 +37,22 @@ export default function ServicesListPage() {
     const matchFilter = filter === "all" || s.status === filter;
     return matchSearch && matchFilter;
   });
+
+  const handleDelete = async (slug) => {
+  const confirmDelete = confirm("Are you sure you want to delete this service?");
+  if (!confirmDelete) return;
+
+  try {
+    await deleteServiceCategoryServ(slug);
+
+    // remove from UI instantly (no reload)
+    setServices((prev) => prev.filter((s) => s.slug !== slug));
+
+  } catch (err) {
+    console.error(err);
+    alert("Delete failed");
+  }
+};
 
   return (
     <div className="sl-root">
@@ -173,12 +193,18 @@ export default function ServicesListPage() {
                 </span>
               </div>
               <div className="sl-actions">
-                <Link href={`/admin/services/${s.slug}`} className="sl-action-btn edit">
+                <Link href={`/pages/services/${s.slug}`} className="sl-action-btn edit">
                   <i className="bi bi-pencil"/> Edit
                 </Link>
-                <Link href={`/admin/services/${s.slug}/sub-services`} className="sl-action-btn sub">
+                <Link href={`/pages/services/${s.slug}/sub-services`} className="sl-action-btn sub">
                   <i className="bi bi-diagram-2"/> Sub
                 </Link>
+                <button
+  onClick={() => handleDelete(s.slug)}
+  className="sl-action-btn delete"
+>
+  <i className="bi bi-trash" /> Delete
+</button>
               </div>
             </div>
           ))

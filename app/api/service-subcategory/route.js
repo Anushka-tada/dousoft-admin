@@ -254,31 +254,56 @@ export async function GET(req) {
 
     const { searchParams } = new URL(req.url);
 
-    const categoryId = searchParams.get("categoryId");
-    const type = searchParams.get("type");
-    const status = searchParams.get("status") || "active";
+    const categorySlug = searchParams.get("categorySlug");
+    const status = searchParams.get("status");
+    const isPublished = searchParams.get("isPublished");
 
-    const filter = { status };
+    // ❌ categorySlug required
+    if (!categorySlug) {
+      return NextResponse.json(
+        { success: false, message: "categorySlug is required" },
+        { status: 400, headers: corsHeaders }
+      );
+    }
 
-    if (categoryId) filter.categoryId = categoryId;
-    if (type) filter.type = type;
+    // 🔹 find category
+    const category = await ServiceCategory.findOne({ slug: categorySlug });
 
+    if (!category) {
+      return NextResponse.json(
+        { success: false, message: "Category not found" },
+        { status: 404, headers: corsHeaders }
+      );
+    }
+
+    // 🔹 filter
+    const filter = {
+      categoryId: category._id,
+    };
+
+    if (status) filter.status = status;
+    if (isPublished !== null) filter.isPublished = isPublished === "true";
+
+    // 🔹 get all subcategories
     const subCategories = await ServiceSubCategory.find(filter)
       .populate("categoryId", "name slug")
-      .select("name slug type categoryId order") // 🔥 optimized for navbar/frontend
       .sort({ order: 1 });
 
     return NextResponse.json(
       {
-        status: 200,
-        message: "Service subcategories fetched successfully",
+        success: true,
+        message: "Subcategories fetched successfully",
         data: subCategories,
       },
       { status: 200, headers: corsHeaders }
     );
+
   } catch (error) {
     return NextResponse.json(
-      { status: 500, message: error.message },
+      {
+        success: false,
+        message: error.message,
+      },
       { status: 500, headers: corsHeaders }
     );
   }

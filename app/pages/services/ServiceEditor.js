@@ -8,7 +8,7 @@ import {
   BestServiceEditor, CustomServiceEditor, CapabilitiesEditor,
   LeftRightEditor, FaqEditor,
 } from "../../Components/Sharededitorcomponents";
-import { createServiceCategoryServ, getServiceCategoryServ } from "@/app/services/pages.service";
+import { createServiceCategoryServ, getServiceCategoryBySlug, getServiceCategoryServ, updateServiceCategoryServ } from "@/app/services/pages.service";
 
 // ─── Tab config ───────────────────────────────────────────────────────────────
 const TABS = [
@@ -163,7 +163,7 @@ const ProcessEditor = ({ data = {}, onChange }) => {
         <Field label="Heading"><Input value={data.heading || ""} onChange={(e) => u("heading", e.target.value)} placeholder="Our Process" /></Field>
         <Field label="Description"><Textarea value={data.description || ""} rows={2} onChange={(e) => u("description", e.target.value)} placeholder="Overview..." /></Field>
       </div>
-      <div className="sc-section-block">
+      <div className="sc-section-block"> 
         <p className="sc-block-title"><i className="bi bi-list-ol" /> Process Steps ({steps.length})</p>
         {steps.map((s, i) => (
           <SortableItem key={i} index={i} title={s.name || `Step ${i + 1}`}
@@ -193,7 +193,7 @@ const ServicePreview = ({ formData }) => {
     hero = {}, bestServiceSection = {}, customServiceSection = {},
     capabilities = {}, whyTopCompany = {}, leftRightSections = [],
     industries = {}, process = {}, seo = {},
-  } = formData;
+  } = formData;  
 
   const activeCards = (capabilities.cards || []);
   const whyCards = (whyTopCompany.cards || []);
@@ -424,11 +424,12 @@ export default function ServiceEditor({ mode = "create", slug = null }) {
   const toastRef = useRef(null);
 
   useEffect(() => {
+     console.log("inside fucntion" , slug);
     if (mode !== "edit" || !slug) return;
     (async () => {
       try {
-         const res = await getServiceCategoryServ(slug);
-        if (res?.data?.success && res.data.data) {
+         const res = await getServiceCategoryBySlug(slug);
+        if (res?.data?.data && res.data.data) {
           setFormData(res.data.data);
           setIsPublished(res.data.data.isPublished !== false);
         }
@@ -448,12 +449,17 @@ export default function ServiceEditor({ mode = "create", slug = null }) {
     if (!formData.slug?.trim()) { showToast("Slug is required.", "error"); setActiveTab("meta"); return; }
     setSaving(true);
     try {
+      let res;
       const payload = { ...formData, isPublished };
-       const res = await createServiceCategoryServ(payload);
-      if (res?.data?.success) {
+      if (mode === "create") {
+     res = await createServiceCategoryServ(payload);
+      } else {
+       res = await updateServiceCategoryServ(slug , payload);
+      }
+      if (res?.data?.data) {
         showToast(mode === "create" ? "Service created!" : "Service updated!");
         setUnsaved(false);
-        if (mode === "create") setTimeout(() => router.push("/admin/services"), 1200);
+        if (mode === "create") setTimeout(() => router.push("/pages/services"), 1200);
       } else {
         showToast(res?.data?.message || "Failed to save.", "error");
       }

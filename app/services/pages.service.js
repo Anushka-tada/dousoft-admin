@@ -145,6 +145,8 @@ export const createSolutionServ = async (formdata) => {
   }
 };
 
+
+
 // service category
 // get
 
@@ -185,3 +187,29 @@ export const getServiceCategoryBySlug= async (slug) => {
     throw error;
   }
 };
+
+// delete service category by slug
+export const deleteServiceCategoryServ = async (slug) => {
+  try {
+    const response = await axios.delete(BASE_URL + `service-category/delete/${slug}`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+// update service category by slug
+export const updateServiceCategoryServ = async (slug, categoryData) => {
+  try {
+    const response = await axios.put(BASE_URL + `service-category/update/${slug}`, categoryData);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+
+
+// service category sub-category

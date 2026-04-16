@@ -1,11 +1,9 @@
-import React from 'react'
+import ServiceEditor from "../ServiceEditor";
 
-const page = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+export default async function EditServicePage({ params }) {
+const { serviceslug } = await params;
+
+  console.log("slug" , serviceslug)
+
+  return <ServiceEditor mode="edit" slug={serviceslug} />;
 }
-
-export default page

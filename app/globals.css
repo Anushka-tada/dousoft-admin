@@ -1422,3 +1422,12 @@ a {
     border-radius: 7px;
     font-size: 15px;
 }
+
+.sl-action-btn.delete {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+.sl-action-btn.delete:hover {
+  background: #fee2e2;
+}
