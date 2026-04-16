@@ -8,7 +8,8 @@ import {
   BestServiceEditor, CustomServiceEditor, CapabilitiesEditor,
   LeftRightEditor, FaqEditor,
 } from "../../../../Components/Sharededitorcomponents";
-import { getSingleServiceSubCategoryServ } from "@/app/services/pages.service";
+import { createServiceSubCategoryServ, getSingleSubCategoryServ } from "@/app/services/pages.service";
+// import { createServiceSubCategoryServ, getSingleServiceSubCategoryServ } from "../../../../services/pages.service";
 
 // ─── Tab config ───────────────────────────────────────────────────────────────
 const TABS = [
@@ -180,10 +181,11 @@ const SubServicePreview = ({ formData, categorySlug }) => {
 
       {/* Hero */}
       <div className="scpv-hero">
-        {formData.type && <div className="scpv-type-badge">{formData.type}</div>}
-        <div className="scpv-hero-bread">{hero.breadcrumb || `Home / Services / ${categorySlug||"service"}`}</div>
+        {/* {formData.type && <div className="scpv-type-badge">{formData.type}</div>} */}
+       
         <h1 className="scpv-hero-title">{hero.title || <span style={{opacity:.4}}>Page title not set</span>}</h1>
         {hero.description && <p className="scpv-hero-desc">{hero.description}</p>}
+         <div className="scpv-hero-bread">{hero.breadcrumb || `Home / Services / ${categorySlug||"service"}`}</div>
       </div>
 
       {/* Best Service */}
@@ -320,7 +322,7 @@ export default function SubServiceEditor({ mode = "create", serviceSlug = null, 
     if (mode !== "edit" || !subServiceSlug) return;
     (async () => {
       try {
-         const res = await getSingleServiceSubCategoryServ(serviceSlug, subServiceSlug);
+         const res = await getSingleSubCategoryServ(serviceSlug, subServiceSlug);
 
         if (res?.data?.success || res.data.data) {
           setFormData(res.data.data);
@@ -344,9 +346,10 @@ export default function SubServiceEditor({ mode = "create", serviceSlug = null, 
     try {
       const payload = { ...formData, isPublished, categorySlug: serviceSlug };
       // Replace with your actual calls:
-      // const res = mode === "create" ? await createSubServiceServ(payload) : await updateSubServiceServ(serviceSlug, subServiceSlug, payload);
-      const res = { data: { success: true } };
-      if (res?.data?.success) {
+      const res = mode === "create" ? await createServiceSubCategoryServ ( payload) 
+       : await updateSubServiceServ(serviceSlug, subServiceSlug, payload);
+     
+      if (res?.data?.data) {
         showToast(mode === "create" ? "Sub-service created!" : "Sub-service updated!");
         setUnsaved(false);
         if (mode === "create") setTimeout(() => router.push(`/pages/services/${serviceSlug}/sub-services`), 1200);
