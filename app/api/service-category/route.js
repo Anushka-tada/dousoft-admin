@@ -77,7 +77,6 @@
 //     );
 //   }
 // }
-
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import ServiceCategory from "@/models/ServiceCategory";
@@ -104,90 +103,67 @@ export async function POST(req) {
     const body = await req.json();
 
     const {
-      categorySlug, 
       name,
-      type,
+      slug,
       status,
       order,
-      isPublished,
+      description,
 
       hero,
       bestServiceSection,
       customServiceSection,
       capabilities,
+      whyTopCompany,
       leftRightSections,
-      getStartedSection,
-      faqSection,
+      industries,
+      process,
       seo,
     } = body;
 
-   
-    if (!categorySlug || !name || !type) {
+    if (!name || !slug) {
       return NextResponse.json(
-        { status: 400, message: "categorySlug, name and type are required" },
+        { message: "Name and slug are required" },
         { status: 400, headers: corsHeaders }
       );
     }
 
-   
-    const category = await ServiceCategory.findOne({ slug: categorySlug });
-
-    if (!category) {
+    // 🔥 check duplicate slug
+    const existing = await ServiceCategory.findOne({ slug });
+    if (existing) {
       return NextResponse.json(
-        { status: 404, message: "Category not found" },
-        { status: 404, headers: corsHeaders }
+        { message: "Slug already exists" },
+        { status: 400, headers: corsHeaders }
       );
     }
 
-   
-    let slug = name
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
-
-  
-    let counter = 1;
-    let existingSlug = await ServiceSubCategory.findOne({ slug });
-
-    while (existingSlug) {
-      slug = `${slug}-${counter}`;
-      existingSlug = await ServiceSubCategory.findOne({ slug });
-      counter++;
-    }
-
-   
-    const subCategory = await ServiceSubCategory.create({
-      categoryId: category._id, // ✅ slug → id conversion
+    const category = await ServiceCategory.create({
       name,
       slug,
-      type,
-      status: status || "active",
-      order: order || 1,
-      isPublished: isPublished ?? true,
+      status,
+      order,
+      description,
 
       hero,
       bestServiceSection,
       customServiceSection,
       capabilities,
+      whyTopCompany,
       leftRightSections,
-      getStartedSection,
-      faqSection,
+      industries,
+      process,
       seo,
     });
 
     return NextResponse.json(
       {
-        status: 201,
-        message: "Subcategory created successfully",
-        data: subCategory,
+        message: "Service category created successfully",
+        data: category,
       },
       { status: 201, headers: corsHeaders }
     );
-
   } catch (error) {
     return NextResponse.json(
-      { status: 500, message: error.message },
+      { message: error.message },
       { status: 500, headers: corsHeaders }
     );
   }

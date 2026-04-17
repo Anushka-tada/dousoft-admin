@@ -156,14 +156,13 @@ export async function POST(req) {
     const body = await req.json();
 
     const {
-      categoryId,
+      categorySlug, 
       name,
       type,
       status,
       order,
       isPublished,
 
-      // FULL PAGE DATA
       hero,
       bestServiceSection,
       customServiceSection,
@@ -174,31 +173,32 @@ export async function POST(req) {
       seo,
     } = body;
 
-    /* 🔴 VALIDATION */
-    if (!categoryId || !name || !type) {
+   
+    if (!categorySlug || !name || !type) {
       return NextResponse.json(
-        { status: 400, message: "categoryId, name and type are required" },
+        { status: 400, message: "categorySlug, name and type are required" },
         { status: 400, headers: corsHeaders }
       );
     }
 
-    /* 🔴 CHECK CATEGORY */
-    const categoryExists = await ServiceCategory.findById(categoryId);
-    if (!categoryExists) {
+   
+    const category = await ServiceCategory.findOne({ slug: categorySlug });
+
+    if (!category) {
       return NextResponse.json(
-        { status: 404, message: "Service category not found" },
+        { status: 404, message: "Category not found" },
         { status: 404, headers: corsHeaders }
       );
     }
 
-    /* 🔴 GENERATE SLUG */
+   
     let slug = name
       .toLowerCase()
       .trim()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
 
-    /* 🔴 HANDLE DUPLICATE SLUG */
+  
     let counter = 1;
     let existingSlug = await ServiceSubCategory.findOne({ slug });
 
@@ -208,9 +208,9 @@ export async function POST(req) {
       counter++;
     }
 
-    /* 🔴 CREATE */
+   
     const subCategory = await ServiceSubCategory.create({
-      categoryId,
+      categoryId: category._id, // ✅ slug → id conversion
       name,
       slug,
       type,
@@ -218,7 +218,6 @@ export async function POST(req) {
       order: order || 1,
       isPublished: isPublished ?? true,
 
-      // FULL PAGE DATA
       hero,
       bestServiceSection,
       customServiceSection,
@@ -232,11 +231,12 @@ export async function POST(req) {
     return NextResponse.json(
       {
         status: 201,
-        message: "Service subcategory created successfully",
+        message: "Subcategory created successfully",
         data: subCategory,
       },
       { status: 201, headers: corsHeaders }
     );
+
   } catch (error) {
     return NextResponse.json(
       { status: 500, message: error.message },
