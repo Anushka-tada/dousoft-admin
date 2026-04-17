@@ -104,7 +104,7 @@ export async function POST(req) {
     const body = await req.json();
 
     const {
-      categorySlug, // ✅ slug aa raha hai frontend se
+      categorySlug, 
       name,
       type,
       status,
@@ -121,7 +121,7 @@ export async function POST(req) {
       seo,
     } = body;
 
-    /* 🔴 VALIDATION */
+   
     if (!categorySlug || !name || !type) {
       return NextResponse.json(
         { status: 400, message: "categorySlug, name and type are required" },
@@ -129,7 +129,7 @@ export async function POST(req) {
       );
     }
 
-    /* 🔴 FIND CATEGORY BY SLUG */
+   
     const category = await ServiceCategory.findOne({ slug: categorySlug });
 
     if (!category) {
@@ -139,14 +139,14 @@ export async function POST(req) {
       );
     }
 
-    /* 🔴 GENERATE SLUG */
+   
     let slug = name
       .toLowerCase()
       .trim()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
 
-    /* 🔴 HANDLE DUPLICATE */
+  
     let counter = 1;
     let existingSlug = await ServiceSubCategory.findOne({ slug });
 
@@ -156,7 +156,7 @@ export async function POST(req) {
       counter++;
     }
 
-    /* 🔴 CREATE */
+   
     const subCategory = await ServiceSubCategory.create({
       categoryId: category._id, // ✅ slug → id conversion
       name,

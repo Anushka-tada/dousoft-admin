@@ -14,7 +14,7 @@ export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders });
 }
 
-// ✅ GET API (all policies)
+
 export async function GET() {
   try {
     await connectDB();
