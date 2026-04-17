@@ -8,7 +8,7 @@ import {
   BestServiceEditor, CustomServiceEditor, CapabilitiesEditor,
   LeftRightEditor, FaqEditor,
 } from "../../../../Components/Sharededitorcomponents";
-import { createServiceSubCategoryServ, getSingleSubCategoryServ } from "@/app/services/pages.service";
+import { createServiceSubCategoryServ, getSingleSubCategoryServ, updateServiceSubCategoryServ } from "@/app/services/pages.service";
 // import { createServiceSubCategoryServ, getSingleServiceSubCategoryServ } from "../../../../services/pages.service";
 
 // ─── Tab config ───────────────────────────────────────────────────────────────
@@ -319,6 +319,7 @@ export default function SubServiceEditor({ mode = "create", serviceSlug = null, 
   const toastRef = useRef(null);
 
   useEffect(() => {
+    console.log("inside the function" , serviceSlug , subServiceSlug)
     if (mode !== "edit" || !subServiceSlug) return;
     (async () => {
       try {
@@ -347,7 +348,7 @@ export default function SubServiceEditor({ mode = "create", serviceSlug = null, 
       const payload = { ...formData, isPublished, categorySlug: serviceSlug };
       // Replace with your actual calls:
       const res = mode === "create" ? await createServiceSubCategoryServ ( payload) 
-       : await updateSubServiceServ(serviceSlug, subServiceSlug, payload);
+       : await updateServiceSubCategoryServ(serviceSlug, subServiceSlug, payload);
      
       if (res?.data?.data) {
         showToast(mode === "create" ? "Sub-service created!" : "Sub-service updated!");

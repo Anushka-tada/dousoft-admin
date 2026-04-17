@@ -270,3 +270,51 @@ export const deleteServiceSubCategoryServ = async (categorySlug, subSlug) => {
     throw err;
   }
 };
+
+export const updateServiceSubCategoryServ = async (categorySlug, subSlug, subCategoryData) => {
+  try {
+    const res = await axios.put(
+      `${BASE_URL}service-subcategory/${categorySlug}/${subSlug}`,
+      subCategoryData
+    );
+    return res;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+
+
+
+
+
+
+
+// Pricing page services
+// get
+
+export const getPricingPageServ = async () => {
+  try {
+    const response = await axios.get(BASE_URL + "pricing");
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+// post
+
+export const createPricingPageServ = async (formdata) => {
+  try {
+    const response = await axios.post(BASE_URL + "pricing" , formdata , {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};

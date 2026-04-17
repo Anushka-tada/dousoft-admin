@@ -142,10 +142,13 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-export async function OPTIONS() {
-  return NextResponse.json({}, { status: 200, headers: corsHeaders });
-}
 
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders,
+  });
+}
 /* =======================
    🔹 CREATE SUBCATEGORY (FULL CMS)
 ======================= */

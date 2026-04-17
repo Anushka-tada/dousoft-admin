@@ -69,6 +69,11 @@ function Sidebar({ isCollapsed }) {
       icon: "bi bi-grid",
       path: "/pages/services",
     },
+     {
+      menu: "Pricing",
+      icon: "bi bi-tags",
+      path: "/pages/pricing",
+    },
   ],
 },
 // {

@@ -113,6 +113,8 @@ export default function SubServicesListPage() {
           .ssl-table-header, .ssl-row { grid-template-columns: 1fr auto; }
           .ssl-th:not(:first-child):not(:last-child), .ssl-row > *:not(:first-child):not(:last-child) { display: none; }
         }
+          .sl-action-btn.delete { display: flex; align-items: center; gap: 4px; padding: 6px 10px; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; border: 1px solid; transition: all .15s; white-space: nowrap; }
+         
       `}</style>
 
       {/* Breadcrumb */}
