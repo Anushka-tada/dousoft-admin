@@ -77,7 +77,7 @@ function Sidebar({ isCollapsed }) {
       {
       menu: "Term & Conditions",
       icon: "bi bi-tags",
-      path: "/pages/term-conditions",
+      path: "/pages/term-condition",
     },
   ],
 },

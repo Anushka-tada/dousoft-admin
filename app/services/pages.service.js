@@ -318,3 +318,31 @@ export const createPricingPageServ = async (formdata) => {
     throw error;
   }
 };
+
+// terms and condition page services
+// get
+
+export const getTermsConditionServ = async () => {
+  try {
+    const response = await axios.get(BASE_URL + "term-condition");
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+// post
+
+export const createTermsConditionServ = async (formdata) => {
+  try {
+    const response = await axios.post(BASE_URL + "term-condition" , formdata , {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
-import Terms from "@/models/Terms";  
+import TermsSchema from "@/models/TermsCondition"; 
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,7 +14,7 @@ export async function POST(req) {
     await connectDB();
     const body = await req.json();
 
-    const data = await Terms.findOneAndUpdate(
+    const data = await TermsSchema.findOneAndUpdate(
       {},   // single document
       body,
       {
@@ -49,7 +49,7 @@ export async function GET() {
   try {
     await connectDB();
 
-    const data = await Terms.findOne();
+    const data = await TermsSchema.findOne();
 
     return NextResponse.json(
       {
