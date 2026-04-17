@@ -74,6 +74,11 @@ function Sidebar({ isCollapsed }) {
       icon: "bi bi-tags",
       path: "/pages/pricing",
     },
+      {
+      menu: "Term & Conditions",
+      icon: "bi bi-tags",
+      path: "/pages/term-conditions",
+    },
   ],
 },
 // {
@@ -127,35 +132,35 @@ function Sidebar({ isCollapsed }) {
         },
       ],
     },
-    {
-      title: "Service Management",
-      list: [
-        {
-          menu: "Service Category",
-          icon: "bi bi-gear",
-          path: "/service-category",
-        },
+    // {
+    //   title: "Service Management",
+    //   list: [
+    //     {
+    //       menu: "Service Category",
+    //       icon: "bi bi-gear",
+    //       path: "/service-category",
+    //     },
 
-         {
-          menu: "Add Service Category",
-          icon: "bi bi-plus-circle",
-          path: "/service-category/create",
-        },
+    //      {
+    //       menu: "Add Service Category",
+    //       icon: "bi bi-plus-circle",
+    //       path: "/service-category/create",
+    //     },
 
-          {
-          menu: "Service SubCategory",
-          icon: "bi bi-gear",
-          path: "/service-subcategory",
-        },
+    //       {
+    //       menu: "Service SubCategory",
+    //       icon: "bi bi-gear",
+    //       path: "/service-subcategory",
+    //     },
 
-         {
-          menu: "Add Service SubCategory",
-         icon: "bi bi-plus-circle",
-          path: "/service-subcategory/create",
-        },
+    //      {
+    //       menu: "Add Service SubCategory",
+    //      icon: "bi bi-plus-circle",
+    //       path: "/service-subcategory/create",
+    //     },
        
-      ],
-    },
+    //   ],
+    // },
      {
       title: "Blog Management",
       list: [
