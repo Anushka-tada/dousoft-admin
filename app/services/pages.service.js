@@ -199,6 +199,8 @@ export const deleteServiceCategoryServ = async (slug) => {
   }
 };
 
+
+
 // update service category by slug
 export const updateServiceCategoryServ = async (slug, categoryData) => {
   try {
@@ -253,5 +255,18 @@ export const createServiceSubCategoryServ = async (payload) => {
   } catch (error) {
     console.error("Error creating subcategory:", error);
     throw error;
+  }
+};
+
+
+export const deleteServiceSubCategoryServ = async (categorySlug, subSlug) => {
+  try {
+    const res = await axios.delete(
+      `${BASE_URL}service-subcategory/${categorySlug}/${subSlug}`
+    );
+    return res;
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
 };

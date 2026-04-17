@@ -17,7 +17,7 @@ export async function GET(req, { params }) {
   try {
     await connectDB();
 
-    const { categorySlug, subSlug } = params;
+    const { categorySlug, subSlug } = await params;
 
     if (!categorySlug || !subSlug) {
       return NextResponse.json(
@@ -71,7 +71,7 @@ export async function PUT(req, { params }) {
   try {
     await connectDB();
 
-    const { categorySlug, subSlug } = params;
+    const { categorySlug, subSlug } = await params;
     const body = await req.json();
 
     if (!categorySlug || !subSlug) {
@@ -133,7 +133,7 @@ export async function DELETE(req, { params }) {
   try {
     await connectDB();
 
-    const { categorySlug, subSlug } = params;
+    const { categorySlug, subSlug } = await params;
 
     if (!categorySlug || !subSlug) {
       return NextResponse.json(

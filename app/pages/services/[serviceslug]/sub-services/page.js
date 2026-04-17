@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { getServiceSubCategoryServ } from "@/app/services/pages.service";
+import { deleteServiceSubCategoryServ, getServiceSubCategoryServ } from "@/app/services/pages.service";
 
 export default function SubServicesListPage() {
   const params = useParams();
@@ -36,6 +36,21 @@ export default function SubServicesListPage() {
     return matchSearch && matchType;
   });
 
+   const handleDelete = async (slug) => {
+    const confirmDelete = confirm("Are you sure you want to delete this service?");
+    if (!confirmDelete) return;
+  
+    try {
+      await deleteServiceSubCategoryServ(serviceSlug, slug);
+  
+      // remove from UI instantly (no reload)
+      setSubServices((prev) => prev.filter((s) => s.slug !== slug));
+  
+    } catch (err) {
+      console.error(err);
+      alert("Delete failed");
+    }
+  };
   const typeColors = {
     general: { bg: "#f0fdf4", color: "#16a34a", border: "#bbf7d0", icon: "bi-grid" },
     city: { bg: "#fff7ed", color: "#ea580c", border: "#fed7aa", icon: "bi-geo-alt" },
@@ -204,6 +219,12 @@ export default function SubServicesListPage() {
                   <Link href={`/pages/services/${serviceSlug}/sub-services/${s.slug}`} className="ssl-edit-btn">
                     <i className="bi bi-pencil"/> Edit
                   </Link>
+                   <button
+  onClick={() => handleDelete(s.slug)}
+  className="sl-action-btn delete"
+>
+  <i className="bi bi-trash" /> Delete
+</button>
                 </div>
               </div>
             );
