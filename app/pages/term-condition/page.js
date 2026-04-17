@@ -536,14 +536,14 @@ export default function TermsAdminPage() {
   const [unsaved,      setUnsaved]      = useState(false);
   const toastRef = useRef(null);
 
+
+
   useEffect(() => {
     (async () => {
       try {
         const res = await getTermsConditionServ();
-        if (res.ok) {
-          const json = await res.json();
-          if (json.data) { setFormData(json.data); setIsPublished(json.data.isPublished !== false); }
-        }
+       setFormData(res?.data?.data); setIsPublished(res.data.isPublished !== false); 
+        
       } catch (e) { console.error(e); }
       finally { setLoading(false); }
     })();
@@ -560,7 +560,7 @@ export default function TermsAdminPage() {
     try {
         const payload = { ...formData, isPublished };
       const res = await createTermsConditionServ(payload);
-      if (res.ok) { showToast("Terms page saved successfully!", "success"); setUnsaved(false); }
+      if (res.data.success) { showToast("Terms page saved successfully!", "success"); setUnsaved(false); }
       else showToast("Failed to save. Please try again.", "error");
     } catch { showToast("Network error.", "error"); }
     finally { setSaving(false); }

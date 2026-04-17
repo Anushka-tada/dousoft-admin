@@ -324,7 +324,7 @@ export const createPricingPageServ = async (formdata) => {
 
 export const getTermsConditionServ = async () => {
   try {
-    const response = await axios.get(BASE_URL + "term-condition");
+    const response = await axios.get(BASE_URL + "term-conditions");
     return response;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -335,7 +335,7 @@ export const getTermsConditionServ = async () => {
 
 export const createTermsConditionServ = async (formdata) => {
   try {
-    const response = await axios.post(BASE_URL + "term-condition" , formdata , {
+    const response = await axios.post(BASE_URL + "term-conditions" , formdata , {
       headers: {
         "Content-Type": "application/json",
       },
