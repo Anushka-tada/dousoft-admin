@@ -19,12 +19,15 @@ export async function POST(req) {
     const body = await req.json();
 
     const data = await HomeSchema.findOneAndUpdate(
-      {},               // single document
-      body,
-      {
-        new: true,
-        upsert: true,
-      }
+    {},
+  {
+    $set: body
+  },
+  {
+    new: true,
+    upsert: true,
+    runValidators: true
+  }
     );
 
     return NextResponse.json({
