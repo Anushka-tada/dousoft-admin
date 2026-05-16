@@ -99,10 +99,27 @@ const HeroEditor = ({ data, onChange }) => {
   return (
     <div className="cms-section-block">
       <p className="cms-block-title">Hero Content</p>
-      <div className="cms-grid-2-inner">
-        <Field label="Main Heading"><Input value={data?.heading || ""} onChange={(e) => u("heading", e.target.value)} placeholder="We Build Digital Products" /></Field>
-        
-      </div>
+     <div className="cms-grid-2-inner">
+  <Field label="Main Heading">
+    <Input
+      value={data?.heading || ""}
+      onChange={(e) => u("heading", e.target.value)}
+      placeholder="We Build Digital Products"
+    />
+  </Field>
+
+  <Field
+    label="Highlight Words"
+    hint='Comma separated. Example: Software Development, Scalable'
+  >
+   <Input
+  value={data?.highlightWords || ""}
+  onChange={(e) => u("highlightWords", e.target.value)}
+  placeholder="Software Development, Scalable"
+/>
+
+  </Field>
+</div>
       <Field label="Description"><Textarea value={data?.description || ""} onChange={(e) => u("description", e.target.value)} /></Field>
       <Field label="Trust Text" hint='e.g. "500+ companies trust us"'><Input value={data?.trustText || ""} onChange={(e) => u("trustText", e.target.value)} /></Field>
       <div className="cms-grid-2-inner">
@@ -793,7 +810,25 @@ export default function HomeAdminPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const payload = { ...formData, isPublished }; // ← same payload
+      // const payload = { ...formData, isPublished }; 
+      
+      const payload = {
+  ...formData,
+  isPublished,
+
+  hero: {
+    ...formData.hero,
+
+    highlightWords:
+      typeof formData?.hero?.highlightWords === "string"
+        ? formData.hero.highlightWords
+            .split(",")
+            .map((item) => item.trim())
+            .filter(Boolean)
+        : formData?.hero?.highlightWords || [],
+  },
+};
+
       const res = await createHomePageServ(payload);
       if (res.data?.success) { showToast("Home page saved successfully!", "success"); setUnsaved(false); }
       else showToast("Failed to save. Please try again.", "error");

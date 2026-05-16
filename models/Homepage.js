@@ -6,7 +6,10 @@ const HomeSchema = new mongoose.Schema({
   
   // HERO SECTION
   hero: {
+    
     heading: String,
+    highlightWords: [String],
+
     description: String,
     primaryBtnText: String,
     primaryBtnLink: String,
