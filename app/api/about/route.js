@@ -9,9 +9,12 @@ const corsHeaders = {
 };
 
 export async function POST(req) {
+
   try {
     await connectDB();
     const body = await req.json();
+
+    console.log("BODY =>", body);
 
     const data = await About.findOneAndUpdate(
       {},   
@@ -21,6 +24,8 @@ export async function POST(req) {
         upsert: true,
       }
     );
+
+    console.log("UPDATED =>", data);
 
     return NextResponse.json(
       {

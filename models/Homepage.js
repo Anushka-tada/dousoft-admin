@@ -6,7 +6,7 @@ const HomeSchema = new mongoose.Schema({
   
   // HERO SECTION
   hero: {
-    
+
     heading: String,
     highlightWords: [String],
 
@@ -24,8 +24,11 @@ const HomeSchema = new mongoose.Schema({
 
   // WHO WE ARE
   whoWeAre: {
+
+    
     badge: String,
     heading: String,
+     highlightWords: [String],
     description: String,
     features: [
       {
@@ -223,6 +226,7 @@ agileSection: {
   cta: {
     icon: String,           // e.g. "bi bi-rocket"
     heading: String,
+     highlightWords: [String],
     description: String,
     primaryBtnText: String,
     primaryBtnLink: String,

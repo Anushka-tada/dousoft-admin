@@ -152,6 +152,13 @@ const IntroEditor = ({ data, onChange }) => {
       <Field label="Heading">
         <Input value={data?.heading || ""} onChange={(e) => u("heading", e.target.value)} placeholder="Introduction heading..." />
       </Field>
+      <Field label="Highlight Text">
+  <Input
+    value={data?.highlightText || ""}
+    onChange={(e) => u("highlightText", e.target.value)}
+    placeholder="Highlighted text..."
+  />
+</Field>
 
       {/* Paragraphs */}
       <div className="sc-para-section">
@@ -210,6 +217,13 @@ const ApproachEditor = ({ data, onChange }) => {
         <Field label="Section Heading">
           <Input value={data?.heading || ""} onChange={(e) => u("heading", e.target.value)} placeholder="Our Approach" />
         </Field>
+        <Field label="Highlight Text">
+  <Input
+    value={data?.highlightText || ""}
+    onChange={(e) => u("highlightText", e.target.value)}
+    placeholder="Highlighted text..."
+  />
+</Field>
       </div>
       <div className="sc-section-block">
         <p className="sc-block-title"><i className="bi bi-card-list" /> Approach Cards ({cards.length})</p>
@@ -380,6 +394,13 @@ const BenefitsEditor = ({ data, onChange }) => {
       <div className="sc-section-block">
         <p className="sc-block-title"><i className="bi bi-star" /> Benefits Section</p>
         <Field label="Heading"><Input value={data?.heading || ""} onChange={(e) => u("heading", e.target.value)} placeholder="Key Benefits" /></Field>
+        <Field label="Highlight Text">
+  <Input
+    value={data?.highlightText || ""}
+    onChange={(e) => u("highlightText", e.target.value)}
+    placeholder="Highlighted text..."
+  />
+</Field>
       </div>
       <div className="sc-section-block">
         <p className="sc-block-title"><i className="bi bi-check2-all" /> Benefits ({benefits.length})</p>
@@ -425,6 +446,13 @@ const WhyChooseEditor = ({ data, onChange }) => {
       <div className="sc-section-block">
         <p className="sc-block-title"><i className="bi bi-trophy" /> Why Choose Us Section</p>
         <Field label="Heading"><Input value={data?.heading || ""} onChange={(e) => u("heading", e.target.value)} placeholder="Why Choose Us?" /></Field>
+        <Field label="Highlight Text">
+  <Input
+    value={data?.highlightText || ""}
+    onChange={(e) => u("highlightText", e.target.value)}
+    placeholder="Highlighted text..."
+  />
+</Field>
       </div>
       <div className="sc-section-block">
         <p className="sc-block-title"><i className="bi bi-list-check" /> Points ({points.length})</p>

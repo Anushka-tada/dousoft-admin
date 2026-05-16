@@ -27,6 +27,7 @@ const SolutionSchema = new mongoose.Schema({
   // INTRO SECTION (Top content)
   introSection: {
     heading: String,
+      highlightText: String,
     paragraphs: [String],
     image: String,
   },
@@ -34,6 +35,7 @@ const SolutionSchema = new mongoose.Schema({
   // APPROACH SECTION (Your 2 cards)
   approachSection: {
     heading: String,
+      highlightText: String,
 
     cards: [
       {
@@ -95,6 +97,7 @@ const SolutionSchema = new mongoose.Schema({
   // BENEFITS SECTION
   benefitsSection: {
     heading: String,
+      highlightText: String,
 
     benefits: [
       {
@@ -109,7 +112,8 @@ const SolutionSchema = new mongoose.Schema({
 
   // WHY CHOOSE US
   whyChooseSection: {
-    heading: String,
+    heading: String, 
+      highlightText: String,
 
     points: [
       {

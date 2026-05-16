@@ -140,9 +140,29 @@ const WhoWeAreEditor = ({ data, onChange }) => {
           <Field label="Badge Text" hint='e.g. "Who We Are"'>
             <Input value={data?.badge || ""} onChange={(e) => u("badge", e.target.value)} placeholder="Who We Are" />
           </Field>
-          <Field label="Section Heading">
+          {/* <Field label="Section Heading">
             <Input value={data?.heading || ""} onChange={(e) => u("heading", e.target.value)} placeholder="About Our Company" />
-          </Field>
+          </Field> */}
+          <div className="ab-grid-2">
+  <Field label="Page Title" hint='e.g. "About Us"'>
+    <Input
+      value={data?.heading || ""}
+      onChange={(e) => u("heading", e.target.value)}
+      placeholder="About Our Company"
+    />
+  </Field>
+
+  <Field
+    label="Highlight Text"
+    hint='Highlighted word shown beside title'
+  >
+    <Input
+      value={data?.highlightText || ""}
+      onChange={(e) => u("highlightText", e.target.value)}
+      placeholder="Company"
+    />
+  </Field>
+</div>
         </div>
 
         {/* Paragraphs as array */}

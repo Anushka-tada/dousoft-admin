@@ -7,6 +7,7 @@ const AboutSchema = new mongoose.Schema({
   // HERO SECTION
   hero: {
     title: String,
+   
     description: String,
     breadcrumb: String,
   },
@@ -14,6 +15,7 @@ const AboutSchema = new mongoose.Schema({
   // WHO WE ARE
   whoWeAre: {
     badge: String,
+      highlightText: String,
     heading: String,
     description: [String],
 
@@ -44,6 +46,7 @@ const AboutSchema = new mongoose.Schema({
 
     intro: {
       heading: String,
+        highlightText: String,
       highlightText: String,
       description: String,
       image: String
