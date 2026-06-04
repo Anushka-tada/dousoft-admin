@@ -255,7 +255,9 @@ export default function LayoutClient({ children }) {
 
   return (
     <div className="app-layout">
-      <Sidebar isCollapsed={isCollapsed} />
+      <Sidebar isCollapsed={isCollapsed}
+        onToggle={() => setIsCollapsed(!isCollapsed)}
+      />
 
       <div className={`main-content ${isCollapsed ? "collapsed" : ""}`}>
         <TopNav

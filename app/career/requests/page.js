@@ -1,344 +1,1083 @@
+
+// /* eslint-disable react-hooks/set-state-in-effect */
+// "use client";
+// import React, { useEffect, useState, useRef } from "react";
+// import ConfirmDeleteModal from "../../Components/ConfirmDeleteModal";
+// import { getCareerRequestsServ } from "../../services/career.service";
+
+// const statusConfig = {
+//   selected: { bg: "#dcfce7", color: "#166534" },
+//   rejected:  { bg: "#fee2e2", color: "#991b1b" },
+//   pending:   { bg: "#fef9c3", color: "#854d0e" },
+// };
+
+// const initials = (name = "") =>
+//   name.trim().split(" ").slice(0, 2).map((w) => w[0]?.toUpperCase()).join("");
+
+// const Page = () => {
+//   const [requests, setRequests]       = useState([]);
+//   const [allRequests, setAllRequests] = useState([]);
+//   const [showConfirm, setShowConfirm] = useState(false);
+//   const [deleteId, setDeleteId]       = useState(null);
+//   const [searchTerm, setSearchTerm]   = useState("");
+//   const [open, setOpen]               = useState(false);
+//   const [label, setLabel]             = useState("All Status");
+//   const [showView, setShowView]       = useState(false);
+//   const [selectedData, setSelectedData] = useState(null);
+//   const dropdownRef = useRef(null);
+
+//   const fetchRequests = async () => {
+//     try {
+//       const res = await getCareerRequestsServ();
+//       setRequests(res?.data?.data || []);
+//       setAllRequests(res?.data?.data || []);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   useEffect(() => { fetchRequests(); }, []);
+
+//   // Close dropdown on outside click
+//   useEffect(() => {
+//     const handler = (e) => {
+//       if (dropdownRef.current && !dropdownRef.current.contains(e.target))
+//         setOpen(false);
+//     };
+//     document.addEventListener("mousedown", handler);
+//     return () => document.removeEventListener("mousedown", handler);
+//   }, []);
+
+// const kpiData = [
+//   {
+//     title: "Total Applications",
+//     value: allRequests.length || "0",
+//     delta: "+12% this month",
+//     icon: "bi-file-earmark-person",
+//   },
+
+//   {
+//     title: "Pending Review",
+//     value:
+//       allRequests.filter(
+//         (r) => r.status === "pending"
+//       ).length || "0",
+
+//     delta: "Awaiting screening",
+//     icon: "bi-hourglass-split",
+//   },
+
+//   {
+//     title: "Selected Candidates",
+//     value:
+//       allRequests.filter(
+//         (r) => r.status === "selected"
+//       ).length || "0",
+
+//     delta: "+8 hired this month",
+//     icon: "bi-check2-circle",
+//   },
+
+//   {
+//     title: "Rejected Applications",
+//     value:
+//       allRequests.filter(
+//         (r) => r.status === "rejected"
+//       ).length || "0",
+
+//     delta: "Closed applications",
+//     icon: "bi-x-circle",
+//   },
+// ];
+
+//   const handleDeleteFunc = async () => {
+//     try {
+//       // await deleteJobRequestServ(deleteId);
+//       setShowConfirm(false);
+//       fetchRequests();
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   };
+
+//   const handleStatusFilter = (status) => {
+//     setLabel(status === "All" ? "All Status" : status);
+//     setOpen(false);
+//     setRequests(status === "All"
+//       ? allRequests
+//       : allRequests.filter((i) => i.status.toLowerCase() === status.toLowerCase())
+//     );
+//   };
+
+//   const filteredRequests = requests.filter((item) =>
+//     item.name.toLowerCase().includes(searchTerm.toLowerCase())
+//   );
+
+//   return (
+//     <div className="listing-page">
+
+//       {/* KPI Cards */}
+//       <div className="kpi-grid">
+//         {kpiData.map((item, i) => (
+//           <div className="kpi-card" key={i}>
+//             <div className="kpi-icon">
+//               <i className={`bi ${item.icon}`} />
+//             </div>
+//             <div>
+//               <div className="kpi-label">{item.title}</div>
+//               <div className="kpi-value">{item.value}</div>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* Section header */}
+//       <div className="listing-header">
+//         <h4 className="listing-title">Job Applications</h4>
+
+//         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+
+//           {/* Search */}
+//           <div className="listing-search">
+//             <span className="input-group-text">
+//               <i className="bi bi-search" />
+//             </span>
+//             <input
+//               type="search"
+//               className="form-control"
+//               placeholder="Search by candidate name…"
+//               value={searchTerm}
+//               onChange={(e) => setSearchTerm(e.target.value)}
+//             />
+//           </div>
+
+//           {/* Status dropdown */}
+//           <div style={{ position: "relative" }} ref={dropdownRef}>
+//             <button
+//               onClick={() => setOpen(!open)}
+//               style={{
+//                 display: "flex", alignItems: "center", gap: 6,
+//                 border: "0.5px solid #d1e8d4", borderRadius: 8,
+//                 background: "#fff", padding: "9px 14px",
+//                 fontSize: 14, color: "#374151", cursor: "pointer",
+//                 whiteSpace: "nowrap",
+//               }}
+//             >
+//               <i className="bi bi-funnel" style={{ fontSize: 14, color: "#0b6f1e" }} />
+//               {label}
+//               <i className="bi bi-chevron-down"
+//                 style={{ fontSize: 11, color: "#9ca3af",
+//                   transition: "transform 0.15s",
+//                   transform: open ? "rotate(180deg)" : "none",
+//                 }} />
+//             </button>
+
+//             {open && (
+//               <ul style={{
+//                 position: "absolute", top: "calc(100% + 4px)", right: 0,
+//                 background: "#fff", border: "0.5px solid #d1e8d4",
+//                 borderRadius: 10, boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
+//                 listStyle: "none", padding: "6px", minWidth: 150, zIndex: 100,
+//               }}>
+//                 {["All", "Pending", "Selected", "Rejected"].map((s) => {
+//                   const active = label === (s === "All" ? "All Status" : s);
+//                   return (
+//                     <li key={s}>
+//                       <button
+//                         onClick={() => handleStatusFilter(s)}
+//                         style={{
+//                           display: "flex", alignItems: "center", gap: 8,
+//                           width: "100%", textAlign: "left",
+//                           padding: "8px 12px", fontSize: 14, borderRadius: 7,
+//                           border: "none", background: active ? "#f3faf4" : "transparent",
+//                           color: active ? "#0b6f1e" : "#374151",
+//                           fontWeight: active ? 600 : 400, cursor: "pointer",
+//                         }}
+//                         onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "#f3faf4"; }}
+//                         onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}
+//                       >
+//                         {s !== "All" && (
+//                           <span style={{
+//                             width: 8, height: 8, borderRadius: "50%", flexShrink: 0,
+//                             background: s === "Selected" ? "#16a34a"
+//                               : s === "Rejected" ? "#dc2626" : "#ca8a04",
+//                           }} />
+//                         )}
+//                         {s}
+//                       </button>
+//                     </li>
+//                   );
+//                 })}
+//               </ul>
+//             )}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Table */}
+//       <div className="listing-table-card">
+//         <div className="table-responsive">
+//           <table className="table table-hover align-middle mb-0">
+//             <thead>
+//               <tr>
+//                 <th style={{ width: 52 }}>Sr.</th>
+//                 <th>Candidate</th>
+//                 <th>Email</th>
+//                 <th>Phone</th>
+//                 <th>Applied For</th>
+//                 <th>Status</th>
+//                 <th className="text-center" style={{ width: 80 }}>Resume</th>
+//                 <th className="text-center" style={{ width: 80 }}>Action</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {filteredRequests.length === 0 ? (
+//                 <tr>
+//                   <td colSpan="8">
+//                     <div className="listing-empty">
+//                       <i className="bi bi-people" />
+//                       No applications found
+//                     </div>
+//                   </td>
+//                 </tr>
+//               ) : (
+//                 filteredRequests.map((item, index) => {
+//                   const st = statusConfig[item.status] || statusConfig.pending;
+//                   return (
+//                     <tr key={item._id}>
+//                       <td style={{ fontSize: 13, color: "#9ca3af", fontWeight: 500 }}>
+//                         {index + 1}
+//                       </td>
+
+//                       <td>
+//                         <span className="row-avatar">{initials(item.name)}</span>
+//                         <span style={{ fontWeight: 500, color: "#111827" }}>{item.name}</span>
+//                       </td>
+
+//                       <td style={{ color: "#4b5563" }}>{item.email}</td>
+
+//                       <td style={{ fontFamily: "monospace", fontSize: 14, color: "#4b5563" }}>
+//                         {item.phone}
+//                       </td>
+
+//                       <td>
+//                         {item.jobId?.title ? (
+//                           <span style={{
+//                             display: "inline-flex", alignItems: "center", gap: 5,
+//                             background: "#f3faf4", border: "0.5px solid #d1e8d4",
+//                             borderRadius: 6, padding: "3px 9px",
+//                             fontSize: 13, color: "#0b6f1e", fontWeight: 500,
+//                           }}>
+//                             <i className="bi bi-briefcase" style={{ fontSize: 12 }} />
+//                             {item.jobId.title}
+//                           </span>
+//                         ) : (
+//                           <span style={{ color: "#9ca3af" }}>—</span>
+//                         )}
+//                       </td>
+
+//                       <td>
+//                         <span style={{
+//                           display: "inline-block", padding: "3px 10px",
+//                           borderRadius: 20, fontSize: 12, fontWeight: 600,
+//                           background: st.bg, color: st.color,
+//                         }}>
+//                           {item.status}
+//                         </span>
+//                       </td>
+
+//                       <td className="text-center">
+//                         {item.resume ? (
+//                           <button
+//                             onClick={() => { setSelectedData(item); setShowView(true); }}
+//                             style={{
+//                               border: "0.5px solid #d1e8d4", background: "#f3faf4",
+//                               color: "#0b6f1e", borderRadius: 7, padding: "6px 10px",
+//                               fontSize: 13, cursor: "pointer",
+//                               display: "inline-flex", alignItems: "center", gap: 5,
+//                             }}
+//                             onMouseEnter={(e) => e.currentTarget.style.background = "#dcfce7"}
+//                             onMouseLeave={(e) => e.currentTarget.style.background = "#f3faf4"}
+//                           >
+//                             <i className="bi bi-eye" />
+//                           </button>
+//                         ) : (
+//                           <span style={{ color: "#9ca3af" }}>—</span>
+//                         )}
+//                       </td>
+
+//                       <td className="text-center">
+//                         <button
+//                           className="btn-row-delete"
+//                           onClick={() => { setDeleteId(item._id); setShowConfirm(true); }}
+//                         >
+//                           <i className="bi bi-trash" />
+//                         </button>
+//                       </td>
+//                     </tr>
+//                   );
+//                 })
+//               )}
+//             </tbody>
+//           </table>
+//         </div>
+//       </div>
+
+//       <ConfirmDeleteModal
+//         show={showConfirm}
+//         handleClose={() => setShowConfirm(false)}
+//         handleConfirm={handleDeleteFunc}
+//         title="Delete Application"
+//         body="Do you really want to delete this application?"
+//       />
+
+//       <ViewModal
+//         show={showView}
+//         handleClose={() => setShowView(false)}
+//         data={selectedData}
+//       />
+//     </div>
+//   );
+// };
+
+// export default Page;
+
+// /* ── View Modal ── */
+// const ViewModal = ({ show, handleClose, data }) => {
+//   if (!show || !data) return null;
+
+//   const st = statusConfig[data.status] || statusConfig.pending;
+
+//   return (
+//     <>
+//       {/* Backdrop */}
+//       <div
+//         onClick={handleClose}
+//         style={{
+//           position: "fixed", inset: 0,
+//           background: "rgba(0,0,0,0.35)", zIndex: 1040,
+//         }}
+//       />
+
+//       {/* Modal */}
+//       <div style={{
+//         position: "fixed", top: "50%", left: "50%",
+//         transform: "translate(-50%, -50%)",
+//         width: "min(680px, 95vw)", maxHeight: "90vh",
+//         background: "#fff", borderRadius: 14,
+//         border: "0.5px solid #d1e8d4",
+//         boxShadow: "0 20px 60px rgba(0,0,0,0.12)",
+//         display: "flex", flexDirection: "column",
+//         zIndex: 1050, overflow: "hidden",
+//       }}>
+
+//         {/* Header */}
+//         <div style={{
+//           display: "flex", alignItems: "center", justifyContent: "space-between",
+//           padding: "18px 24px", borderBottom: "0.5px solid #e5e7eb",
+//         }}>
+//           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+//             <div style={{
+//               width: 40, height: 40, borderRadius: "50%",
+//               background: "#edf7ee", display: "flex",
+//               alignItems: "center", justifyContent: "center",
+//               fontSize: 15, fontWeight: 600, color: "#0b6f1e",
+//             }}>
+//               {data.name?.trim().split(" ").slice(0, 2).map((w) => w[0]?.toUpperCase()).join("")}
+//             </div>
+//             <div>
+//               <div style={{ fontSize: 16, fontWeight: 600, color: "#111827" }}>{data.name}</div>
+//               <div style={{ fontSize: 13, color: "#6b7280" }}>
+//                 {data.jobId?.title ? `Applied for: ${data.jobId.title}` : "Job Application"}
+//               </div>
+//             </div>
+//           </div>
+//           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+//             <span style={{
+//               padding: "4px 12px", borderRadius: 20, fontSize: 12,
+//               fontWeight: 600, background: st.bg, color: st.color,
+//             }}>
+//               {data.status}
+//             </span>
+//             <button
+//               onClick={handleClose}
+//               style={{
+//                 border: "0.5px solid #e5e7eb", borderRadius: 7,
+//                 background: "#f9fafb", color: "#6b7280",
+//                 padding: "6px 10px", cursor: "pointer", fontSize: 16,
+//                 display: "flex", alignItems: "center",
+//               }}
+//             >
+//               <i className="bi bi-x-lg" style={{ fontSize: 14 }} />
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Body */}
+//         <div style={{ padding: "20px 24px", overflowY: "auto", flex: 1 }}>
+
+//           {/* Info grid */}
+//           <div style={{
+//             display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 20px",
+//             marginBottom: 20,
+//           }}>
+//             {[
+//               { label: "Email",      value: data.email,      icon: "bi-envelope" },
+//               { label: "Phone",      value: data.phone,      icon: "bi-telephone" },
+//               { label: "Experience", value: data.experience, icon: "bi-briefcase" },
+//               { label: "LinkedIn",   value: data.linkedin,   icon: "bi-linkedin",  link: true },
+//               { label: "Portfolio",  value: data.portfolio,  icon: "bi-globe",     link: true },
+//             ].map(({ label, value, icon, link }) => (
+//               <div key={label} style={{
+//                 background: "#f9fafb", border: "0.5px solid #e5e7eb",
+//                 borderRadius: 10, padding: "12px 14px",
+//               }}>
+//                 <div style={{
+//                   fontSize: 11, fontWeight: 600, color: "#9ca3af",
+//                   textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 5,
+//                   display: "flex", alignItems: "center", gap: 5,
+//                 }}>
+//                   <i className={`bi ${icon}`} style={{ fontSize: 12 }} />
+//                   {label}
+//                 </div>
+//                 {link && value ? (
+//                   <a href={value} target="_blank" rel="noopener noreferrer"
+//                     style={{ fontSize: 14, color: "#0b6f1e", wordBreak: "break-all" }}>
+//                     {value}
+//                   </a>
+//                 ) : (
+//                   <div style={{ fontSize: 14, color: value ? "#111827" : "#9ca3af" }}>
+//                     {value || "—"}
+//                   </div>
+//                 )}
+//               </div>
+//             ))}
+//           </div>
+
+//           {/* Cover Letter */}
+//           {data.coverLetter && (
+//             <div style={{
+//               background: "#f9fafb", border: "0.5px solid #e5e7eb",
+//               borderRadius: 10, padding: "14px 16px", marginBottom: 16,
+//             }}>
+//               <div style={{
+//                 fontSize: 11, fontWeight: 600, color: "#9ca3af",
+//                 textTransform: "uppercase", letterSpacing: "0.05em",
+//                 marginBottom: 8, display: "flex", alignItems: "center", gap: 5,
+//               }}>
+//                 <i className="bi bi-chat-left-text" style={{ fontSize: 12 }} />
+//                 Cover Letter
+//               </div>
+//               <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.7, margin: 0 }}>
+//                 {data.coverLetter}
+//               </p>
+//             </div>
+//           )}
+
+//           {/* Resume */}
+//           {data.resume && (
+            
+//            <a   href={data.resume}
+//               target="_blank"
+//               rel="noopener noreferrer"
+//               style={{
+//                 display: "inline-flex", alignItems: "center", gap: 8,
+//                 background: "#0b6f1e", color: "#fff",
+//                 borderRadius: 8, padding: "10px 18px",
+//                 fontSize: 14, fontWeight: 500, textDecoration: "none",
+//               }}
+//             >
+//               <i className="bi bi-file-earmark-person" style={{ fontSize: 16 }} />
+//               View Resume
+//             </a>
+//           )}
+//         </div>
+
+//         {/* Footer */}
+//         <div style={{
+//           padding: "14px 24px", borderTop: "0.5px solid #e5e7eb",
+//           display: "flex", justifyContent: "flex-end",
+//         }}>
+//           <button
+//             onClick={handleClose}
+//             style={{
+//               border: "0.5px solid #d1e8d4", background: "#f3faf4",
+//               color: "#0b6f1e", borderRadius: 8,
+//               padding: "8px 20px", fontSize: 14,
+//               fontWeight: 500, cursor: "pointer",
+//             }}
+//           >
+//             Close
+//           </button>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ConfirmDeleteModal from "../../Components/ConfirmDeleteModal";
-import { useRouter } from "next/navigation";
+import { getCareerRequestsServ } from "../../services/career.service";
 import {
-  getCareerRequestsServ,
-} from "../../services/career.service";
+  IconFileDescription,
+  IconHourglass,
+  IconCircleCheck,
+  IconCircleX,
+  IconSearch,
+  IconFilter,
+  IconChevronDown,
+  IconChevronUp,
+  IconChevronLeft,
+  IconChevronRight,
+  IconTrash,
+  IconEye,
+  IconBriefcase,
+  IconMail,
+  IconPhone,
+  IconWorld,
+  IconBrandLinkedin,
+  IconX,
+  IconFileText,
+  IconMessage,
+} from "@tabler/icons-react";
+
+/* ── Status config ── */
+const statusConfig = {
+  selected: { bg: "#dcfce7", color: "#166534", dot: "#16a34a" },
+  rejected:  { bg: "#fee2e2", color: "#991b1b", dot: "#dc2626" },
+  pending:   { bg: "#fef9c3", color: "#854d0e", dot: "#ca8a04" },
+};
+
+/* helper: "Rahul Sharma" → "RS" */
+const initials = (name = "") =>
+  name.trim().split(" ").slice(0, 2).map((w) => w[0]?.toUpperCase()).join("");
+
+/* KPI config */
+const buildKpi = (allRequests) => [
+  {
+    label: "Total Applications",
+    value: allRequests.length,
+    delta: "+12% this month",
+    deltaClass: "",
+    icon: <IconFileDescription size={22} />,
+    iconClass: "",
+  },
+  {
+    label: "Pending Review",
+    value: allRequests.filter((r) => r.status === "pending").length,
+    delta: "Awaiting screening",
+    deltaClass: "warning",
+    icon: <IconHourglass size={22} />,
+    iconClass: "warning",
+  },
+  {
+    label: "Selected Candidates",
+    value: allRequests.filter((r) => r.status === "selected").length,
+    delta: "+8 hired this month",
+    deltaClass: "",
+    icon: <IconCircleCheck size={22} />,
+    iconClass: "",
+  },
+  {
+    label: "Rejected Applications",
+    value: allRequests.filter((r) => r.status === "rejected").length,
+    delta: "Closed applications",
+    deltaClass: "danger",
+    icon: <IconCircleX size={22} />,
+    iconClass: "danger",
+  },
+];
+
+const ROWS_PER_PAGE = 10;
 
 const Page = () => {
-  const router = useRouter();
+  const [allRequests, setAllRequests]   = useState([]);
+  const [showConfirm, setShowConfirm]   = useState(false);
+  const [deleteId, setDeleteId]         = useState(null);
+  const [searchTerm, setSearchTerm]     = useState("");
+  const [currentPage, setCurrentPage]   = useState(1);
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showView, setShowView]         = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+  const dropdownRef = useRef(null);
 
-  const [requests, setRequests] = useState([]);
-  const [allRequests, setAllRequests] = useState([]);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [open, setOpen] = useState(false);
-  const [label, setLabel] = useState("All Status");
-
-  const [showView, setShowView] = useState(false);
-const [selectedData, setSelectedData] = useState(null);
-
-  // 🔹 Fetch Requests
   const fetchRequests = async () => {
     try {
       const res = await getCareerRequestsServ();
-      setRequests(res?.data?.data || []);
-      setAllRequests(res?.data?.data || []);
-    } catch (error) {
-      console.error(error);
+      setAllRequests(res?.data?.data ?? []);
+    } catch (err) {
+      console.error(err);
     }
   };
 
+  useEffect(() => { fetchRequests(); }, []);
+
+  /* Close dropdown on outside click */
   useEffect(() => {
-    fetchRequests();
+    const handler = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target))
+        setDropdownOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // 🔹 KPI Data
-  const kpiData = [
-    {
-      title: "Total Applications",
-      value: requests.length,
-      icon: "bi-people",
-    },
-    {
-      title: "Pending",
-      value: requests.filter((r) => r.status === "pending").length,
-      icon: "bi-hourglass",
-    },
-    {
-      title: "Selected",
-      value: requests.filter((r) => r.status === "selected").length,
-      icon: "bi-check-circle",
-    },
-    {
-      title: "Rejected",
-      value: requests.filter((r) => r.status === "rejected").length,
-      icon: "bi-x-circle",
-    },
-  ];
-
-  // 🔥 Delete Request
   const handleDeleteFunc = async () => {
     try {
-    //   await deleteJobRequestServ(deleteId);
+      // await deleteJobRequestServ(deleteId);
       setShowConfirm(false);
       fetchRequests();
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
-  // 🔹 Status Filter
-  const handleStatusFilter = (status) => {
-    setLabel(status);
-    setOpen(false);
+  /* Filter */
+  // const filtered = allRequests.filter((item) => {
+  //   const matchSearch = item.name?.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const matchStatus =
+  //     statusFilter === "All" ||
+  //     item.status?.toLowerCase() === statusFilter.toLowerCase();
+  //   return matchSearch && matchStatus;
+  // });
 
-    if (status === "All") {
-      setRequests(allRequests);
-    } else {
-      setRequests(
-        allRequests.filter(
-          (item) => item.status.toLowerCase() === status.toLowerCase()
-        )
-      );
-    }
-  };
+  const filtered = allRequests
+  .filter((item) => {
+    const matchSearch = item.name?.toLowerCase().includes(
+      searchTerm.toLowerCase()
+    );
 
-  // 🔍 Search Filter
-  const filteredRequests = requests.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchStatus =
+      statusFilter === "All" ||
+      item.status?.toLowerCase() === statusFilter.toLowerCase();
+
+    return matchSearch && matchStatus;
+  })
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  /* Pagination */
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ROWS_PER_PAGE));
+  const paginated  = filtered.slice(
+    (currentPage - 1) * ROWS_PER_PAGE,
+    currentPage * ROWS_PER_PAGE
   );
 
+  const goTo = (p) => {
+    if (p >= 1 && p <= totalPages) setCurrentPage(p);
+  };
+
+  const kpiData = buildKpi(allRequests);
+  const statusLabel = statusFilter === "All" ? "All Status" : statusFilter;
+
   return (
-    <>
-      {/* KPI */}
-      <div className="container-fluid main-content-box py-3">
-        <div className="container maxw-1400">
-          <div className="row g-3">
-            {kpiData.map((item, index) => (
-              <div className="col-12 col-sm-6 col-lg-3" key={index}>
-                <div className="card-soft p-4 kpi">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <span className="icon">
-                      <i className={`bi ${item.icon}`} />
-                    </span>
-                    <div>
-                      <div className="small">{item.title}</div>
-                      <div className="value">{item.value}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+    <div className="listing-page">
+
+      {/* ── KPI Cards ── */}
+      <div className="kpi-grid">
+        {kpiData.map((item, i) => (
+          <div className="kpi-card" key={i}>
+            <div className={`kpi-icon ${item.iconClass}`}>
+              {item.icon}
+            </div>
+            <div>
+              <div className="kpi-label">{item.label}</div>
+              <div className="kpi-value">{item.value}</div>
+              {/* <div className={`kpi-delta ${item.deltaClass}`}>{item.delta}</div> */}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Section header ── */}
+      <div className="listing-header">
+        <div className="listing-header-left">
+          <h4 className="listing-title">Job Applications</h4>
+          {filtered.length > 0 && (
+            <span className="listing-count-pill">{filtered.length} total</span>
+          )}
+        </div>
+
+        <div className="listing-header-right">
+          {/* Search */}
+          <div className="listing-search">
+            <IconSearch size={15} aria-hidden="true" />
+            <input
+              type="search"
+              placeholder="Search by candidate name…"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+          </div>
+
+          {/* Status filter dropdown */}
+          <div style={{ position: "relative" }} ref={dropdownRef}>
+            <button
+              className="btn-listing-action"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              <IconFilter size={15} aria-hidden="true" />
+              {statusLabel}
+              {dropdownOpen
+                ? <IconChevronUp size={12} />
+                : <IconChevronDown size={12} />
+              }
+            </button>
+
+            {dropdownOpen && (
+              <ul className="listing-dropdown">
+                {["All", "Pending", "Selected", "Rejected"].map((s) => {
+                  const cfg = statusConfig[s.toLowerCase()];
+                  return (
+                    <li key={s}>
+                      <button
+                        className={`listing-dropdown-item ${
+                          statusFilter === s ? "active" : ""
+                        }`}
+                        onClick={() => {
+                          setStatusFilter(s);
+                          setDropdownOpen(false);
+                          setCurrentPage(1);
+                        }}
+                      >
+                        {s !== "All" && (
+                          <span style={{
+                            width: 8, height: 8, borderRadius: "50%",
+                            flexShrink: 0, background: cfg?.dot,
+                            display: "inline-block",
+                          }} />
+                        )}
+                        {s === "All" ? "All Status" : s}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
         </div>
       </div>
 
-      {/* TABLE */}
-      <div className="container-fluid user-table py-3">
-        <div className="d-flex justify-content-between align-items-center my-4">
-          <h4 className="mb-0">Job Applications</h4>
+      {/* ── Table card ── */}
+      <div className="listing-table-card">
+        <div className="listing-table-wrap">
+          <table className="listing-table">
+            <thead>
+              <tr>
+                <th style={{ width: 52, textAlign: "center" }}>Sr.</th>
+                <th><div className="th-inner">Candidate</div></th>
+                <th><div className="th-inner">Email</div></th>
+                <th><div className="th-inner">Phone</div></th>
+                <th><div className="th-inner">Applied For</div></th>
+                <th><div className="th-inner">Status</div></th>
+                <th style={{ width: 80, textAlign: "center" }}>
+                  <div className="th-inner" style={{ justifyContent: "center" }}>Resume</div>
+                </th>
+                <th style={{ width: 80, textAlign: "center" }}>
+                  <div className="th-inner" style={{ justifyContent: "center" }}>Action</div>
+                </th>
+              </tr>
+            </thead>
 
-          <div className="d-flex align-items-center">
-            {/* Search */}
-            <input
-              type="search"
-              className="form-control me-2"
-              placeholder="Search candidate name"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-
-            {/* Status Filter */}
-            <div className="dropdown me-2">
-              <button
-                className="btn btn-light border dropdown-toggle"
-                onClick={() => setOpen(!open)}
-              >
-                {label}
-              </button>
-              {open && (
-                <ul className="dropdown-menu show">
-                  {["All", "Pending", "Selected", "Rejected"].map((item) => (
-                    <li key={item}>
-                      <button
-                        className="dropdown-item"
-                        onClick={() => handleStatusFilter(item)}
-                      >
-                        {item}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Table */}
-        <div className="card shadow-sm border-0">
-          <div className="table-responsive">
-            <table className="table table-hover align-middle">
-              <thead>
+            <tbody>
+              {paginated.length === 0 ? (
                 <tr>
-                  <th>Sr</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Job</th>
-                  <th>Status</th>
-                  <th>Resume</th>
-                  <th>Action</th>
+                  <td colSpan={8}>
+                    <div className="listing-empty">
+                      <i className="ti ti-users" aria-hidden="true" />
+                      <strong>No applications found</strong>
+                      <p>
+                        {searchTerm
+                          ? `No results for "${searchTerm}"`
+                          : "No job applications have been received yet."}
+                      </p>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-
-              <tbody>
-                {filteredRequests.length === 0 ? (
-                  <tr>
-                    <td colSpan="8" className="text-center">
-                      No applications found
-                    </td>
-                  </tr>
-                ) : (
-                  filteredRequests.map((item, index) => (
+              ) : (
+                paginated.map((item, idx) => {
+                  const st = statusConfig[item.status] || statusConfig.pending;
+                  return (
                     <tr key={item._id}>
-                      <td>{index + 1}</td>
-                      <td>{item.name}</td>
-                      <td>{item.email}</td>
-                      <td>{item.phone}</td>
+                      {/* Sr */}
+                      <td className="cell-sr">
+                        {(currentPage - 1) * ROWS_PER_PAGE + idx + 1}
+                      </td>
 
-                      <td>{item.jobId?.title || "-"}</td>
+                      {/* Candidate */}
+                      <td>
+                        <div className="cell-name">
+                          <span className="row-avatar">{initials(item.name)}</span>
+                          <span className="cell-name-text">{item.name}</span>
+                        </div>
+                      </td>
 
+                      {/* Email */}
+                      <td className="cell-email">{item.email}</td>
+
+                      {/* Phone */}
+                      <td className="cell-phone">{item.phone}</td>
+
+                      {/* Applied For */}
+                      <td>
+                        {item.jobId?.title ? (
+                          <span className="job-tag">
+                            <IconBriefcase size={12} />
+                            {item.jobId.title}
+                          </span>
+                        ) : (
+                          <span className="cell-muted">—</span>
+                        )}
+                      </td>
+
+                      {/* Status */}
                       <td>
                         <span
-                          className={`badge ${
-                            item.status === "selected"
-                              ? "bg-success"
-                              : item.status === "rejected"
-                              ? "bg-danger"
-                              : "bg-warning"
-                          }`}
+                          className="status-badge"
+                          style={{ background: st.bg, color: st.color }}
                         >
                           {item.status}
                         </span>
                       </td>
 
+                      {/* Resume */}
                       <td>
-                        {item.resume ? (
-                          <button
-                            onClick={() => {
-    setSelectedData(item);
-    setShowView(true);
-  }}
-                        
-                            className="btn btn-sm btn-outline-info"
-                          >
-                            View
-                          </button>
-                        ) : (
-                          "-"
-                        )}
+                        <div className="action-cell">
+                          {item.resume ? (
+                            <button
+                              className="btn-row-edit"
+                              title="View resume"
+                              onClick={() => { setSelectedData(item); setShowView(true); }}
+                            >
+                              <IconEye size={16} />
+                            </button>
+                          ) : (
+                            <span className="cell-muted">—</span>
+                          )}
+                        </div>
                       </td>
 
+                      {/* Action */}
                       <td>
-                        <button
-                          className="btn btn-sm btn-outline-danger"
-                          onClick={() => {
-                            setDeleteId(item._id);
-                            setShowConfirm(true);
-                          }}
-                        >
-                          🗑
-                        </button>
+                        <div className="action-cell">
+                          <button
+                            className="btn-row-delete"
+                            title="Delete application"
+                            onClick={() => { setDeleteId(item._id); setShowConfirm(true); }}
+                          >
+                            <IconTrash size={16} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
         </div>
 
-        {/* Delete Modal */}
-        <ConfirmDeleteModal
-          show={showConfirm}
-          handleClose={() => setShowConfirm(false)}
-          handleConfirm={handleDeleteFunc}
-          title="Delete Application"
-          body="Do you really want to delete this application?"
-        />
+        {/* ── Pagination ── */}
+        {filtered.length > ROWS_PER_PAGE && (
+          <div className="listing-pagination">
+            <span>
+              Showing {Math.min((currentPage - 1) * ROWS_PER_PAGE + 1, filtered.length)}–
+              {Math.min(currentPage * ROWS_PER_PAGE, filtered.length)} of {filtered.length} results
+            </span>
+
+            <div className="pg-btns">
+              <button
+                className={`pg-btn ${currentPage === 1 ? "disabled" : ""}`}
+                onClick={() => goTo(currentPage - 1)}
+                aria-label="Previous page"
+              >
+                <IconChevronLeft size={13} />
+              </button>
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter(
+                  (p) =>
+                    p === 1 ||
+                    p === totalPages ||
+                    Math.abs(p - currentPage) <= 1
+                )
+                .reduce((acc, p, i, arr) => {
+                  if (i > 0 && p - arr[i - 1] > 1) acc.push("…");
+                  acc.push(p);
+                  return acc;
+                }, [])
+                .map((p, i) =>
+                  p === "…" ? (
+                    <span key={`ellipsis-${i}`} className="pg-btn disabled">…</span>
+                  ) : (
+                    <button
+                      key={p}
+                      className={`pg-btn ${currentPage === p ? "active" : ""}`}
+                      onClick={() => goTo(p)}
+                    >
+                      {p}
+                    </button>
+                  )
+                )}
+
+              <button
+                className={`pg-btn ${currentPage === totalPages ? "disabled" : ""}`}
+                onClick={() => goTo(currentPage + 1)}
+                aria-label="Next page"
+              >
+                <IconChevronRight size={13} />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
+      {/* ── Confirm delete modal ── */}
+      <ConfirmDeleteModal
+        show={showConfirm}
+        handleClose={() => setShowConfirm(false)}
+        handleConfirm={handleDeleteFunc}
+        title="Delete Application"
+        body="Do you really want to delete this application? This action cannot be undone."
+      />
+
+      {/* ── View Application Modal ── */}
       <ViewModal
-  show={showView}
-  handleClose={() => setShowView(false)}
-  data={selectedData}
-/>
-    </>
+        show={showView}
+        handleClose={() => setShowView(false)}
+        data={selectedData}
+      />
+    </div>
   );
 };
 
 export default Page;
 
+/* ────────────────────────────────────────────
+   View Modal — consistent with page styling
+──────────────────────────────────────────── */
 const ViewModal = ({ show, handleClose, data }) => {
   if (!show || !data) return null;
+  const st = statusConfig[data.status] || statusConfig.pending;
 
   return (
-    <div className="modal show fade d-block" tabIndex="-1">
-      <div className="modal-dialog modal-lg modal-dialog-scrollable">
-        <div className="modal-content">
+    <>
+      {/* Backdrop */}
+      <div
+        onClick={handleClose}
+        style={{
+          position: "fixed", inset: 0,
+          background: "rgba(0,0,0,0.35)", zIndex: 1040,
+        }}
+      />
 
-          <div className="modal-header">
-            <h5 className="modal-title">Job Application Details</h5>
-            <button className="btn-close" onClick={handleClose}></button>
-          </div>
+      {/* Modal */}
+      <div className="view-modal">
 
-          <div className="modal-body">
-
-            <div className="row">
-              <div className="col-md-6 mb-2">
-                <strong>Name:</strong> {data.name}
-              </div>
-              <div className="col-md-6 mb-2">
-                <strong>Email:</strong> {data.email}
-              </div>
-
-              <div className="col-md-6 mb-2">
-                <strong>Phone:</strong> {data.phone}
-              </div>
-              <div className="col-md-6 mb-2">
-                <strong>Experience:</strong> {data.experience}
-              </div>
-
-              <div className="col-md-6 mb-2">
-                <strong>LinkedIn:</strong>{" "}
-                <a href={data.linkedin} target="_blank">
-                  {data.linkedin}
-                </a>
-              </div>
-
-              <div className="col-md-6 mb-2">
-                <strong>Portfolio:</strong>{" "}
-                <a href={data.portfolio} target="_blank">
-                  {data.portfolio}
-                </a>
-              </div>
-
-              <div className="col-12 mb-3">
-                <strong>Cover Letter:</strong>
-                <p className="mt-1">{data.coverLetter}</p>
-              </div>
-
-              {/* Resume Button */}
-              <div className="col-12">
-                <strong>Resume:</strong><br />
-                <a
-                  href={data.resume}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-primary btn-sm mt-2"
-                >
-                  View Resume
-                </a>
+        {/* Header */}
+        <div className="view-modal-header">
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span className="row-avatar" style={{ width: 40, height: 40, fontSize: 15 }}>
+              {data.name?.trim().split(" ").slice(0, 2).map((w) => w[0]?.toUpperCase()).join("")}
+            </span>
+            <div>
+              <div style={{ fontSize: 16, fontWeight: 600, color: "#111827" }}>{data.name}</div>
+              <div style={{ fontSize: 13, color: "#6b7280" }}>
+                {data.jobId?.title ? `Applied for: ${data.jobId.title}` : "Job Application"}
               </div>
             </div>
-
           </div>
-
-          <div className="modal-footer">
-            <button className="btn btn-secondary" onClick={handleClose}>
-              Close
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span
+              className="status-badge"
+              style={{ background: st.bg, color: st.color }}
+            >
+              {data.status}
+            </span>
+            <button className="view-modal-close" onClick={handleClose}>
+              <IconX size={15} />
             </button>
           </div>
+        </div>
 
+        {/* Body */}
+        <div className="view-modal-body">
+
+          {/* Info grid */}
+          <div className="view-modal-grid">
+            {[
+              { label: "Email",      value: data.email,      icon: <IconMail size={13} /> },
+              { label: "Phone",      value: data.phone,      icon: <IconPhone size={13} /> },
+              { label: "Experience", value: data.experience, icon: <IconBriefcase size={13} /> },
+              { label: "LinkedIn",   value: data.linkedin,   icon: <IconBrandLinkedin size={13} />, link: true },
+              { label: "Portfolio",  value: data.portfolio,  icon: <IconWorld size={13} />,         link: true },
+            ].map(({ label, value, icon, link }) => (
+              <div key={label} className="view-modal-info-card">
+                <div className="view-modal-info-label">
+                  {icon}
+                  {label}
+                </div>
+                {link && value ? (
+                  <a
+                    href={value}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: 14, color: "#0b6f1e", wordBreak: "break-all" }}
+                  >
+                    {value}
+                  </a>
+                ) : (
+                  <div style={{ fontSize: 14, color: value ? "#111827" : "#9ca3af" }}>
+                    {value || "—"}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Cover Letter */}
+          {data.coverLetter && (
+            <div className="view-modal-info-card" style={{ marginBottom: 16 }}>
+              <div className="view-modal-info-label">
+                <IconMessage size={13} />
+                Cover Letter
+              </div>
+              <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.7, margin: 0 }}>
+                {data.coverLetter}
+              </p>
+            </div>
+          )}
+
+          {/* Resume link */}
+          {data.resume && (
+            <a
+              href={data.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-listing-primary"
+              style={{ textDecoration: "none", display: "inline-flex" }}
+            >
+              <IconFileText size={16} />
+              View Resume
+            </a>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="view-modal-footer">
+          <button
+            className="btn-listing-action"
+            onClick={handleClose}
+          >
+            Close
+          </button>
         </div>
       </div>
-
-      {/* backdrop */}
-      <div className="modal-backdrop fade show"></div>
-    </div>
+    </>
   );
 };
