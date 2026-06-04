@@ -186,7 +186,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { getpolicyByIdServ, updatepolicyServ } from "@/app/services/policy.service";
+import { getSinglePolicyServ, updatepolicyServ } from "@/app/services/policy.service";
 import BlogEditor from "@/app/Components/BlogEditor";
 import {
   IconArrowLeft,
@@ -225,7 +225,7 @@ const Page = () => {
   useEffect(() => {
     const fetchPolicy = async () => {
       try {
-        const res = await getpolicyByIdServ(id);
+        const res = await getSinglePolicyServ(id);
         const data = res?.data;
         setInitialValues({
           title:   data?.title   || "",
