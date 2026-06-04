@@ -186,7 +186,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { getSinglePolicyServ, updatepolicyServ } from "@/app/services/policy.service";
+import { getSinglePolicyServ, updatePolicyServ } from "@/app/services/policy.service";
 import BlogEditor from "@/app/Components/BlogEditor";
 import {
   IconArrowLeft,
@@ -283,7 +283,7 @@ const Page = () => {
               status:      values.status,
               order:       values.order || 0,
             };
-            await updatepolicyServ(id, payload);
+            await updatePolicyServ(id, payload);
             toast.success("Policy updated successfully");
             router.push("/privacy-policy");
           } catch (err) {
