@@ -212,7 +212,7 @@ const S = {
     zIndex: 1,
   },
   cardTop: {
-    background: "linear-gradient(135deg, #0b6f1e 0%, #16a34a 100%)",
+    background: "linear-gradient(135deg, #2db647 0%, rgb(159 223 183) 100%)",
     padding: "32px 36px 28px",
     display: "flex",
     flexDirection: "column",
@@ -452,8 +452,12 @@ function Login() {
 
           {/* ── Card top ── */}
           <div style={S.cardTop}>
-            <div style={S.logoWrap}>
-              <IconShieldCheck size={28} stroke={1.8} color="#fff" />
+            <div>
+                        <img
+             src="/assets/new-logo.webp"
+             alt="logo"
+             className="sb-brand-img"
+           />
             </div>
             <div style={{ textAlign: "center" }}>
               <h2 style={S.cardTitle}>Welcome Back</h2>

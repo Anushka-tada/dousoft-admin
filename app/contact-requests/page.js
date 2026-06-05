@@ -261,6 +261,109 @@ import {
   deleteContactRequestServ,
   getContactRequestServ,
 } from "../services/appointment.service";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+const AppointmentListSkeleton = () => {
+  return (
+    <SkeletonTheme
+      baseColor="#f3f4f6"
+      highlightColor="#ffffff"
+    >
+      <div className="listing-page">
+
+        {/* KPI Cards */}
+        <div className="kpi-grid">
+          {[1, 2, 3, 4].map((item) => (
+            <div className="kpi-card" key={item}>
+              <Skeleton circle width={52} height={52} />
+              <div style={{ flex: 1 }}>
+                <Skeleton width={120} height={14} />
+                <Skeleton width={80} height={28} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Header */}
+        <div className="listing-header">
+          <div>
+            <Skeleton width={180} height={28} />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+              alignItems: "center",
+            }}
+          >
+            <Skeleton width={250} height={42} />
+            <Skeleton width={120} height={42} />
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="listing-table-card">
+          <div className="listing-table-wrap">
+            <table className="listing-table">
+              <thead>
+                <tr>
+                  <th><Skeleton width={25} /></th>
+                  <th><Skeleton width={80} /></th>
+                  <th><Skeleton width={100} /></th>
+                  <th><Skeleton width={80} /></th>
+                  <th><Skeleton width={120} /></th>
+                  <th><Skeleton width={50} /></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <tr key={index}>
+                    <td>
+                      <Skeleton width={20} />
+                    </td>
+
+                    <td>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <Skeleton circle width={38} height={38} />
+                        <Skeleton width={120} />
+                      </div>
+                    </td>
+
+                    <td>
+                      <Skeleton width={180} />
+                    </td>
+
+                    <td>
+                      <Skeleton width={120} />
+                    </td>
+
+                    <td>
+                      <Skeleton width="90%" />
+                    </td>
+
+                    <td>
+                      <Skeleton circle width={32} height={32} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </SkeletonTheme>
+  );
+};
 
 
 const initials = (name = "") =>
@@ -315,13 +418,18 @@ const Page = () => {
   const [searchTerm, setSearchTerm]   = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortAsc, setSortAsc]         = useState(true);
+  const[loading, setLoading]           = useState(true);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const res = await getContactRequestServ();
       setContacts(res?.data?.data ?? []);
+      setLoading(false);
+
     } catch (err) {
       console.error(err);
+       setLoading(false);
     }
   };
 
@@ -367,6 +475,11 @@ const Page = () => {
   };
 
   const kpiData = buildKpi(contacts);
+
+
+  if (loading) {
+  return <AppointmentListSkeleton />;
+}
 
   return (
     <div className="listing-page">

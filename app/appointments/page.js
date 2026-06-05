@@ -1,198 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
 
-// "use client";
-// import React, { useEffect, useState } from "react";
-// import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
-// import { deleteMeetingRequestServ, getmeetingServ } from "../services/appointment.service";
-
-
-
-// // helper: "Rahul Sharma" → "RS"
-// const initials = (name = "") =>
-//   name.trim().split(" ").slice(0, 2).map((w) => w[0]?.toUpperCase()).join("");
-
-// const Page = () => {
-//   const [appointments, setAppointments] = useState([]);
-//   const [showConfirm, setShowConfirm]   = useState(false);
-//   const [deleteId, setDeleteId]         = useState(null);
-//   const [searchTerm, setSearchTerm]     = useState("");
-
-//   const getContactRequest = async () => {
-//     try {
-//       const res = await getmeetingServ();
-//       setAppointments(res?.data.data);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-//   useEffect(() => { getContactRequest(); }, []);
-
-//   const handleDeleteFunc = async () => {
-//     try {
-//       await deleteMeetingRequestServ(deleteId);
-//       setShowConfirm(false);
-//       getContactRequest();
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-//   const filtered = appointments.filter((a) =>
-//     a.name?.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
-
-//   const kpiData = [
-//   {
-//     title: "Total Appointments",
-//     value: appointments.length || "0",
-//     delta: "+12% this month",
-//     icon: "bi-calendar-check",
-//   },
-
-//   {
-//     title: "Today's Requests",
-//     value:
-//       appointments.filter((item) => {
-//         const today = new Date().toDateString();
-
-//         return (
-//           new Date(item.createdAt).toDateString() ===
-//           today
-//         );
-//       }).length || "0",
-
-//     delta: "+5 today",
-//     icon: "bi-calendar-day",
-//   },
-
-//   {
-//     title: "Unique Clients",
-//     value:
-//       [
-//         ...new Set(
-//           appointments.map((item) => item.email)
-//         ),
-//       ].length || "0",
-
-//     delta: "+8% this month",
-//     icon: "bi-people",
-//   },
-
-//   {
-//     title: "Pending Requests",
-//     value: appointments.length || "0",
-//     delta: "Awaiting response",
-//     icon: "bi-hourglass-split",
-//   },
-// ];
-
-//   return (
-//     <div className="listing-page">
-
-//       {/* KPI Cards */}
-//       <div className="kpi-grid">
-//         {kpiData.map((item, i) => (
-//           <div className="kpi-card" key={i}>
-//             <div className="kpi-icon">
-//               <i className={`bi ${item.icon}`} />
-//             </div>
-//             <div>
-//               <div className="kpi-label">{item.title}</div>
-//               <div className="kpi-value">{item.value}</div>
-//               <div className="kpi-delta">↑ {item.delta}</div>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-
-//       {/* Section header */}
-//       <div className="listing-header">
-//         <h4 className="listing-title">All Appointments</h4>
-//         <div className="listing-search">
-//           <span className="input-group-text">
-//             <i className="bi bi-search" />
-//           </span>
-//           <input
-//             type="search"
-//             className="form-control"
-//             placeholder="Search by name…"
-//             value={searchTerm}
-//             onChange={(e) => setSearchTerm(e.target.value)}
-//           />
-//         </div>
-//       </div>
-
-//       {/* Table */}
-//       <div className="listing-table-card">
-//         <div className="table-responsive">
-//           <table className="table table-hover align-middle mb-0">
-//             <thead>
-//               <tr>
-//                 <th className="text-center" style={{ width: 60 }}>Sr.</th>
-//                 <th>Name</th>
-//                 <th>Email</th>
-//                 <th>Phone</th>
-//                 <th>Message</th>
-//                 <th className="text-center" style={{ width: 80 }}>Action</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {filtered.length === 0 ? (
-//                 <tr>
-//                   <td colSpan="6">
-//                     <div className="listing-empty">
-//                       <i className="bi bi-calendar-x" />
-//                       No appointments found
-//                     </div>
-//                   </td>
-//                 </tr>
-//               ) : (
-//                 filtered.map((item, index) => (
-//                   <tr key={item._id}>
-//                     <td className="text-center text-secondary"
-//                         style={{ fontSize: 13 }}>{index + 1}</td>
-//                     <td>
-//                       <span className="row-avatar">{initials(item.name)}</span>
-//                       <span style={{ fontWeight: 500, color: "#111827" }}>{item.name}</span>
-//                     </td>
-//                     <td style={{ color: "#4b5563" }}>{item.email}</td>
-//                     <td style={{ fontFamily: "monospace", fontSize: 14 }}>{item.phone}</td>
-//                     <td style={{
-//                       color: "#6b7280", fontSize: 14,
-//                       maxWidth: 220, whiteSpace: "nowrap",
-//                       overflow: "hidden", textOverflow: "ellipsis"
-//                     }}>{item.message}</td>
-//                     <td className="text-center">
-//                       <button
-//                         className="btn-row-delete"
-//                         onClick={() => { setDeleteId(item._id); setShowConfirm(true); }}
-//                       >
-//                         <i className="bi bi-trash" />
-//                       </button>
-//                     </td>
-//                   </tr>
-//                 ))
-//               )}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-
-//       {/* Confirm delete modal */}
-//       <ConfirmDeleteModal
-//         show={showConfirm}
-//         handleClose={() => setShowConfirm(false)}
-//         handleConfirm={handleDeleteFunc}
-//         title="Delete Appointment"
-//         body="Do you really want to delete this appointment?"
-//       />
-//     </div>
-//   );
-// };
-
-// export default Page;
 
 "use client";
 import React, { useEffect, useState } from "react";
@@ -208,6 +16,110 @@ import {
   IconClock,
   IconTrash
 } from "@tabler/icons-react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+const AppointmentListSkeleton = () => {
+  return (
+    <SkeletonTheme
+      baseColor="#f3f4f6"
+      highlightColor="#ffffff"
+    >
+      <div className="listing-page">
+
+        {/* KPI Cards */}
+        <div className="kpi-grid">
+          {[1, 2, 3, 4].map((item) => (
+            <div className="kpi-card" key={item}>
+              <Skeleton circle width={52} height={52} />
+              <div style={{ flex: 1 }}>
+                <Skeleton width={120} height={14} />
+                <Skeleton width={80} height={28} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Header */}
+        <div className="listing-header">
+          <div>
+            <Skeleton width={180} height={28} />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+              alignItems: "center",
+            }}
+          >
+            <Skeleton width={250} height={42} />
+            <Skeleton width={120} height={42} />
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="listing-table-card">
+          <div className="listing-table-wrap">
+            <table className="listing-table">
+              <thead>
+                <tr>
+                  <th><Skeleton width={25} /></th>
+                  <th><Skeleton width={80} /></th>
+                  <th><Skeleton width={100} /></th>
+                  <th><Skeleton width={80} /></th>
+                  <th><Skeleton width={120} /></th>
+                  <th><Skeleton width={50} /></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <tr key={index}>
+                    <td>
+                      <Skeleton width={20} />
+                    </td>
+
+                    <td>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <Skeleton circle width={38} height={38} />
+                        <Skeleton width={120} />
+                      </div>
+                    </td>
+
+                    <td>
+                      <Skeleton width={180} />
+                    </td>
+
+                    <td>
+                      <Skeleton width={120} />
+                    </td>
+
+                    <td>
+                      <Skeleton width="90%" />
+                    </td>
+
+                    <td>
+                      <Skeleton circle width={32} height={32} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </SkeletonTheme>
+  );
+};
+
 
 /* helper: "Rahul Sharma" → "RS" */
 const initials = (name = "") =>
@@ -262,6 +174,7 @@ const buildKpi = (appointments) => [
 const ROWS_PER_PAGE = 10;
 
 const Page = () => {
+  const [loading, setLoading] = useState(true);
   const [appointments, setAppointments] = useState([]);
   const [showConfirm, setShowConfirm]   = useState(false);
   const [deleteId, setDeleteId]         = useState(null);
@@ -270,11 +183,14 @@ const Page = () => {
   const [sortAsc, setSortAsc]           = useState(true);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const res = await getmeetingServ();
       setAppointments(res?.data?.data ?? []);
+      setLoading(false);
     } catch (err) {
       console.error(err);
+      setLoading(false);
     }
   };
 
@@ -289,17 +205,6 @@ const Page = () => {
       console.error(err);
     }
   };
-
-  /* Filter + sort */
-  // const filtered = appointments
-  //   .filter((a) =>
-  //     a.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  //   )
-  //   .sort((a, b) =>
-  //     sortAsc
-  //       ? a.name?.localeCompare(b.name)
-  //       : b.name?.localeCompare(a.name)
-  //   );
 
   const filtered = appointments
   .filter((a) =>
@@ -319,6 +224,10 @@ const Page = () => {
   };
 
   const kpiData = buildKpi(appointments);
+
+  if (loading) {
+  return <AppointmentListSkeleton />;
+}
 
   return (
     <div className="listing-page">

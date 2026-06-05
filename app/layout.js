@@ -79,6 +79,10 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
         />
+       
+          <link rel="icon" type="image/png" href="/assets/favicon.webp" />
+        <link rel="apple-touch-icon" href="/assets/favicon.webp" />
+
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <LayoutClient>{children}</LayoutClient>

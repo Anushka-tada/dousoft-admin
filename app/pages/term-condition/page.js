@@ -2,6 +2,52 @@
 import React, { useState, useEffect, useRef } from "react";
 import CmsTabs from "../../Components/CmsTabs";
 import { createTermsConditionServ, getTermsConditionServ } from "@/app/services/pages.service";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+const HomePageSkeleton = () => {
+  return (
+    <div className="cms-content p-4">
+      {/* Left Editor Panel */}
+      <div className="editor-panel">
+        <Skeleton height={40} width={250} />
+
+        <div style={{ marginTop: 20 }}>
+          <Skeleton height={20} width={120} />
+          <Skeleton height={45} style={{ marginTop: 8 }} />
+        </div>
+
+        <div style={{ marginTop: 20 }}>
+          <Skeleton height={20} width={150} />
+          <Skeleton height={100} style={{ marginTop: 8 }} />
+        </div>
+
+        <div style={{ marginTop: 20 }}>
+          <Skeleton height={20} width={120} />
+          <Skeleton height={45} style={{ marginTop: 8 }} />
+        </div>
+
+        <div style={{ marginTop: 20 }}>
+          <Skeleton height={45} width={140} />
+        </div>
+      </div>
+
+      {/* Right Preview Panel */}
+      <div className="preview-panel">
+        <Skeleton height={250} borderRadius={12} />
+
+        <div style={{ marginTop: 20 }}>
+          <Skeleton height={30} width="60%" />
+          <Skeleton count={3} />
+        </div>
+
+        <div style={{ marginTop: 20 }}>
+          <Skeleton height={180} borderRadius={12} />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // ─── Tabs ─────────────────────────────────────────────────────────────────────
 const TABS = [
@@ -583,7 +629,7 @@ export default function TermsAdminPage() {
   };
 
   if (loading) return (
-    <div className="tc-loading"><div className="tc-spinner" /><p>Loading Terms & Conditions...</p></div>
+   <HomePageSkeleton/>
   );
 
   return (

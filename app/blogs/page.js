@@ -1,413 +1,5 @@
 
 
-// /* eslint-disable react-hooks/set-state-in-effect */
-// "use client";
-
-// import React, { useEffect, useState } from "react";
-// import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
-// import { useRouter } from "next/navigation";
-// import {
-//   deleteBlogServ,
-//   getBlogsServ,
-// } from "../services/blog.service";
-
-
-
-// // helper → Blog Writer = BW
-// const initials = (name = "") =>
-//   name
-//     .trim()
-//     .split(" ")
-//     .slice(0, 2)
-//     .map((w) => w[0]?.toUpperCase())
-//     .join("");
-
-// const Page = () => {
-//   const router = useRouter();
-
-//   const [blogs, setBlogs] = useState([]);
-//   const [allBlogs, setAllBlogs] = useState([]);
-//   const [showConfirm, setShowConfirm] = useState(false);
-//   const [deleteId, setDeleteId] = useState(null);
-//   const [searchTerm, setSearchTerm] = useState("");
-//   const [open, setOpen] = useState(false);
-//   const [label, setLabel] = useState("All Status");
-
-//   // fetch blogs
-//   const fetchBlogs = async () => {
-//     try {
-//       const res = await getBlogsServ();
-
-//       setBlogs(res?.data?.data || []);
-//       setAllBlogs(res?.data?.data || []);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchBlogs();
-//   }, []);
-
-//   // delete
-//   const handleDeleteFunc = async () => {
-//     try {
-//       await deleteBlogServ(deleteId);
-
-//       setShowConfirm(false);
-//       fetchBlogs();
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
-
-//   // filter by status
-//   const handleStatusFilter = (status) => {
-//     setLabel(status);
-//     setOpen(false);
-
-//     if (status === "All") {
-//       setBlogs(allBlogs);
-//     } else {
-//       setBlogs(
-//         allBlogs.filter(
-//           (item) =>
-//             item.status?.toLowerCase() ===
-//             status.toLowerCase()
-//         )
-//       );
-//     }
-//   };
-
-//   // search
-//   const filteredBlogs = blogs.filter((item) =>
-//     item.title
-//       ?.toLowerCase()
-//       .includes(searchTerm.toLowerCase())
-//   );
-
-//   const kpiData = [
-//   {
-//     title: "Total Blogs",
-//     value: allBlogs.length || "0",
-//     delta: "+6% this month",
-//     icon: "bi-journal-text",
-//   },
-
-//   {
-//     title: "Published Blogs",
-//     value:
-//       allBlogs.filter(
-//         (b) => b.status === "published"
-//       ).length || "0",
-
-//     delta: "Live on website",
-//     icon: "bi-check2-circle",
-//   },
-
-//   {
-//     title: "Draft Blogs",
-//     value:
-//       allBlogs.filter(
-//         (b) => b.status === "draft"
-//       ).length || "0",
-
-//     delta: "Pending publishing",
-//     icon: "bi-file-earmark",
-//   },
-
-//   {
-//     title: "Unique Authors",
-//     value:
-//       [
-//         ...new Set(
-//           allBlogs.map(
-//             (b) => b.author || "Admin"
-//           )
-//         ),
-//       ].length || "0",
-
-//     delta: "Content contributors",
-//     icon: "bi-people",
-//   },
-// ];
-
-//   return (
-//     <div className="listing-page">
-//       {/* KPI Cards */}
-//       <div className="kpi-grid">
-//         {kpiData.map((item, i) => (
-//           <div className="kpi-card" key={i}>
-//             <div className="kpi-icon">
-//               <i className={`bi ${item.icon}`} />
-//             </div>
-
-//             <div>
-//               <div className="kpi-label">
-//                 {item.title}
-//               </div>
-
-//               <div className="kpi-value">
-//                 {item.value}
-//               </div>
-
-//               <div className="kpi-delta">
-//                 ↑ {item.delta}
-//               </div>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-
-//       {/* Header */}
-//       <div className="listing-header">
-//         <h4 className="listing-title">
-//           All Blogs
-//         </h4>
-
-//         <div
-//           className="d-flex align-items-center gap-2 flex-wrap"
-//         >
-//           {/* Search */}
-//           <div className="listing-search">
-//             <span className="input-group-text">
-//               <i className="bi bi-search" />
-//             </span>
-
-//             <input
-//               type="search"
-//               className="form-control"
-//               placeholder="Search blog title..."
-//               value={searchTerm}
-//               onChange={(e) =>
-//                 setSearchTerm(e.target.value)
-//               }
-//             />
-//           </div>
-
-//           {/* Status Filter */}
-//           <div
-//             className="position-relative"
-//             style={{ minWidth: 170 }}
-//           >
-//             <button
-//               className="form-control d-flex align-items-center justify-content-between"
-//               onClick={() => setOpen(!open)}
-//               style={{
-//                 height: 44,
-//                 fontSize: 14,
-//                 cursor: "pointer",
-//               }}
-//             >
-//               <span>{label}</span>
-
-//               <i className="bi bi-chevron-down" />
-//             </button>
-
-//             {open && (
-//               <div
-//                 className="listing-table-card position-absolute w-100 mt-2 p-2"
-//                 style={{
-//                   zIndex: 100,
-//                   minWidth: 170,
-//                 }}
-//               >
-//                 {["All", "Published", "Draft"].map(
-//                   (item) => (
-//                     <button
-//                       key={item}
-//                       className="dropdown-item rounded-3 py-2"
-//                       onClick={() =>
-//                         handleStatusFilter(item)
-//                       }
-//                     >
-//                       {item}
-//                     </button>
-//                   )
-//                 )}
-//               </div>
-//             )}
-//           </div>
-
-//           {/* Add Button */}
-//           <button
-//             className="btn-theme-primary"
-//             onClick={() =>
-//               router.push("/blogs/create")
-//             }
-//             style={{ whiteSpace: "nowrap" }}
-//           >
-//             + Add Blog
-//           </button>
-//         </div>
-//       </div>
-
-//       {/* Table */}
-//       <div className="listing-table-card">
-//         <div className="table-responsive">
-//           <table className="table table-hover align-middle mb-0">
-//             <thead>
-//               <tr>
-//                 <th
-//                   className="text-center"
-//                   style={{ width: 60 }}
-//                 >
-//                   Sr.
-//                 </th>
-
-//                 <th>Blog</th>
-//                 <th>Author</th>
-//                 <th>Date</th>
-
-//                 <th
-//                   className="text-center"
-//                   style={{ width: 120 }}
-//                 >
-//                   Status
-//                 </th>
-
-//                 <th
-//                   className="text-center"
-//                   style={{ width: 120 }}
-//                 >
-//                   Action
-//                 </th>
-//               </tr>
-//             </thead>
-
-//             <tbody>
-//               {filteredBlogs.length === 0 ? (
-//                 <tr>
-//                   <td colSpan="6">
-//                     <div className="listing-empty">
-//                       <i className="bi bi-journal-x" />
-//                       No blogs found
-//                     </div>
-//                   </td>
-//                 </tr>
-//               ) : (
-//                 filteredBlogs.map((item, index) => (
-//                   <tr key={item._id}>
-//                     <td
-//                       className="text-center text-secondary"
-//                       style={{ fontSize: 13 }}
-//                     >
-//                       {index + 1}
-//                     </td>
-
-//                     {/* Blog */}
-//                     <td>
-//                       <div className="d-flex align-items-center gap-2">
-//                         <span className="row-avatar">
-//                           {initials(item.title)}
-//                         </span>
-
-//                         <span
-//                           style={{
-//                             fontWeight: 500,
-//                             color: "#111827",
-//                           }}
-//                         >
-//                           {item.title}
-//                         </span>
-//                       </div>
-//                     </td>
-
-//                     {/* Author */}
-//                     <td style={{ color: "#4b5563" }}>
-//                       {item.author || "Admin"}
-//                     </td>
-
-//                     {/* Date */}
-//                     <td
-//                       style={{
-//                         color: "#6b7280",
-//                         fontSize: 14,
-//                       }}
-//                     >
-//                       {new Date(
-//                         item.createdAt
-//                       ).toLocaleDateString("en-IN", {
-//                         day: "2-digit",
-//                         month: "short",
-//                         year: "numeric",
-//                       })}
-//                     </td>
-
-//                     {/* Status */}
-//                     <td className="text-center">
-//                       <span
-//                         style={{
-//                           padding:
-//                             "6px 12px",
-//                           borderRadius: 999,
-//                           fontSize: 12,
-//                           fontWeight: 600,
-//                           textTransform:
-//                             "capitalize",
-//                           background:
-//                             item.status ===
-//                             "published"
-//                               ? "#dcfce7"
-//                               : "#f3f4f6",
-//                           color:
-//                             item.status ===
-//                             "published"
-//                               ? "#166534"
-//                               : "#4b5563",
-//                         }}
-//                       >
-//                         {item.status}
-//                       </span>
-//                     </td>
-
-//                     {/* Actions */}
-//                     <td className="text-center">
-//                       <div className="d-flex justify-content-center gap-2">
-//                         <button
-//                           className="btn-row-edit"
-//                           onClick={() =>
-//                             router.push(
-//                               `/blogs/update/${item._id}`
-//                             )
-//                           }
-//                         >
-//                           <i className="bi bi-pencil" />
-//                         </button>
-
-//                         <button
-//                           className="btn-row-delete"
-//                           onClick={() => {
-//                             setDeleteId(item._id);
-//                             setShowConfirm(true);
-//                           }}
-//                         >
-//                           <i className="bi bi-trash" />
-//                         </button>
-//                       </div>
-//                     </td>
-//                   </tr>
-//                 ))
-//               )}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-
-//       {/* Delete Modal */}
-//       <ConfirmDeleteModal
-//         show={showConfirm}
-//         handleClose={() => setShowConfirm(false)}
-//         handleConfirm={handleDeleteFunc}
-//         title="Delete Blog"
-//         body="Do you really want to delete this blog?"
-//       />
-//     </div>
-//   );
-// };
-
-// export default Page;
-
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import React, { useEffect, useState, useRef } from "react";
@@ -429,6 +21,109 @@ import {
   IconPencil,
   IconTrash,
 } from "@tabler/icons-react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+const AppointmentListSkeleton = () => {
+  return (
+    <SkeletonTheme
+      baseColor="#f3f4f6"
+      highlightColor="#ffffff"
+    >
+      <div className="listing-page">
+
+        {/* KPI Cards */}
+        <div className="kpi-grid">
+          {[1, 2, 3, 4].map((item) => (
+            <div className="kpi-card" key={item}>
+              <Skeleton circle width={52} height={52} />
+              <div style={{ flex: 1 }}>
+                <Skeleton width={120} height={14} />
+                <Skeleton width={80} height={28} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Header */}
+        <div className="listing-header">
+          <div>
+            <Skeleton width={180} height={28} />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+              alignItems: "center",
+            }}
+          >
+            <Skeleton width={250} height={42} />
+            <Skeleton width={120} height={42} />
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="listing-table-card">
+          <div className="listing-table-wrap">
+            <table className="listing-table">
+              <thead>
+                <tr>
+                  <th><Skeleton width={25} /></th>
+                  <th><Skeleton width={80} /></th>
+                  <th><Skeleton width={100} /></th>
+                  <th><Skeleton width={80} /></th>
+                  <th><Skeleton width={120} /></th>
+                  <th><Skeleton width={50} /></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <tr key={index}>
+                    <td>
+                      <Skeleton width={20} />
+                    </td>
+
+                    <td>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <Skeleton circle width={38} height={38} />
+                        <Skeleton width={120} />
+                      </div>
+                    </td>
+
+                    <td>
+                      <Skeleton width={180} />
+                    </td>
+
+                    <td>
+                      <Skeleton width={120} />
+                    </td>
+
+                    <td>
+                      <Skeleton width="90%" />
+                    </td>
+
+                    <td>
+                      <Skeleton circle width={32} height={32} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </SkeletonTheme>
+  );
+};
 
 /* helper: "Blog Title" → "BT" */
 const initials = (name = "") =>
@@ -484,15 +179,20 @@ const Page = () => {
   const [sortAsc, setSortAsc]           = useState(true);
   const [statusFilter, setStatusFilter] = useState("All");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [loading, setLoading]           = useState(true);
 
   const fetchBlogs = async () => {
     try {
+      setLoading(true);
       const res = await getBlogsServ();
       setAllBlogs(res?.data?.data ?? []);
+      setLoading(false);
     } catch (err) {
       console.error(err);
+ setLoading(false);
     }
   };
+
 
   useEffect(() => { fetchBlogs(); }, []);
 
@@ -558,6 +258,10 @@ const Page = () => {
 
   const kpiData = buildKpi(allBlogs);
   const statusLabel = statusFilter === "All" ? "All Status" : statusFilter;
+
+    if (loading) {
+  return <AppointmentListSkeleton />;
+}
 
   return (
     <div className="listing-page">
