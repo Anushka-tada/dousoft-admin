@@ -100,6 +100,8 @@ export async function PUT(req, { params }) {
       tags,
       status,
       author,
+    metaTitle,
+  metaDescription
     } = body;
 
     if (!title || !description || !content || !image || !slug || !category || !author) {
@@ -121,6 +123,8 @@ export async function PUT(req, { params }) {
         tags,
         status,
         author,
+      metaTitle,
+  metaDescription
       },
       { new: true }
     );
