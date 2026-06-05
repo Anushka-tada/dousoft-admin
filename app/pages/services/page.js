@@ -58,7 +58,7 @@ export default function ServicesListPage() {
     <div className="sl-root">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        .sl-root { font-family: 'Inter', sans-serif; background: #f9fafb; min-height: 100vh; padding: 28px; }
+        .sl-root { font-family: 'Geist', sans-serif; background: #f9fafb; min-height: 100vh; padding: 28px; }
         .sl-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; gap: 16px; flex-wrap: wrap; }
         .sl-title { font-size: 22px; font-weight: 700; color: #111827; margin: 0 0 4px; }
         .sl-sub { font-size: 14px; color: #9ca3af; margin: 0; }

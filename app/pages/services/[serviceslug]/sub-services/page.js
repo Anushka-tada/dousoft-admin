@@ -61,7 +61,7 @@ export default function SubServicesListPage() {
     <div className="ssl-root">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        .ssl-root { font-family: 'Inter', sans-serif; background: #f9fafb; min-height: 100vh; padding: 28px; }
+        .ssl-root {font-family: 'Geist', sans-serif; background: #f9fafb; min-height: 100vh; padding: 28px; }
         .ssl-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
         .ssl-breadcrumb a { color: #6b7280; text-decoration: none; font-weight: 600; }
         .ssl-breadcrumb a:hover { color: #111827; }

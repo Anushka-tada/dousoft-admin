@@ -331,7 +331,7 @@ const styles = `
     flex-direction: column;
     overflow: hidden;
     transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Plus Jakarta Sans', sans-serif;
+   font-family: 'Geist', sans-serif;
   }
   .sb-root.collapsed { width: 68px; }
 
