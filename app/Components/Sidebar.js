@@ -458,7 +458,7 @@ const styles = `
   .sb-section-header:hover { background: #f0fdf4; }
 
   .sb-section-label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.09em;
     text-transform: uppercase;
@@ -544,7 +544,7 @@ const styles = `
 }
 
   .sb-label {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     transition: opacity 0.2s;
     flex: 1;

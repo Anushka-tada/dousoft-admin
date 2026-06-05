@@ -23,5 +23,5 @@ function walk(dir) {
   });
 }
 
-walk("./src"); // apna folder adjust karo
+walk("./app"); // apna folder adjust karo
 console.log("Done updating font sizes!");
