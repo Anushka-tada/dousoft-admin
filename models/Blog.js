@@ -54,6 +54,16 @@ const BlogSchema = new mongoose.Schema(
       default: "Admin",
     },
 
+      metaTitle: {
+      type: String,
+      trim: true,
+    },
+
+    metaDescription: {
+      type: String,
+      trim: true,
+    },
+
     publishedAt: {
       type: Date,
     },

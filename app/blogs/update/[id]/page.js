@@ -334,6 +334,8 @@ const validationSchema = Yup.object({
   title:       Yup.string().required("Title is required"),
   slug:        Yup.string().required("Slug is required"),
   description: Yup.string().required("Description is required"),
+  metaTitle:   Yup.string().required("Meta title is required"),
+  metaDescription: Yup.string().required("Meta description is required"),
   content:     Yup.string().required("Content is required"),
   image:       Yup.string().required("Image URL is required"),
   category:    Yup.string().required("Category is required"),
@@ -365,6 +367,8 @@ const Page = () => {
         setInitialValues({
           ...data,
           tags: data.tags?.join(", ") || "",
+          metaTitle: data.metaTitle || "",
+          metaDescription: data.metaDescription || "",
         });
       } catch (err) {
         toast.error("Failed to load blog");
@@ -548,6 +552,39 @@ const Page = () => {
               </div>
               <div className="form-card-body">
                 <div className="form-row">
+
+                  <div className="form-group col-md-12">
+  <label className="form-label">
+    Meta Title <span className="form-required">*</span>
+  </label>
+  <Field
+    name="metaTitle"
+    type="text"
+    className="form-control"
+    placeholder="SEO Meta Title"
+  />
+  <div className="form-hint">
+    {values.metaTitle?.length || 0}/60 characters
+  </div>
+  <FieldError name="metaTitle" />
+</div>
+
+<div className="form-group col-md-12">
+  <label className="form-label">
+    Meta Description <span className="form-required">*</span>
+  </label>
+  <Field
+    as="textarea"
+    name="metaDescription"
+    className="form-control"
+    rows="3"
+    placeholder="SEO Meta Description"
+  />
+  <div className="form-hint">
+    {values.metaDescription?.length || 0}/160 characters
+  </div>
+  <FieldError name="metaDescription" />
+</div>
 
                   {/* Category */}
                   <div className="form-group col-md-4">

@@ -73,7 +73,9 @@ export async function POST(req) {
       category,
       tags,
       status,
-      author
+      author,
+       metaTitle,
+  metaDescription
     } = await req.json();
 
     if (!title || !description || !content || !image || !slug || !category || !author) {
@@ -92,7 +94,9 @@ export async function POST(req) {
       category,
       tags,
       status,
-      author
+      author,
+       metaTitle,
+  metaDescription
     });
 
     return NextResponse.json(

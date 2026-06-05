@@ -286,6 +286,8 @@ const validationSchema = Yup.object({
   title:       Yup.string().required("Title is required"),
   slug:        Yup.string().required("Slug is required"),
   description: Yup.string().required("Description is required"),
+  metaTitle:   Yup.string().required("Meta title is required"),
+  metaDescription: Yup.string().required("Meta description is required"),
   content:     Yup.string().required("Content is required"),
   image:       Yup.string().required("Image URL is required"),
   category:    Yup.string().required("Category is required"),
@@ -333,6 +335,7 @@ const Page = () => {
         initialValues={{
           title: "", slug: "", description: "", content: "",
           image: "", category: "", tags: "", status: "", author: "", publishedAt: "",
+          metaTitle: "", metaDescription: ""
         }}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
@@ -431,6 +434,7 @@ const Page = () => {
                     <FieldError name="description" />
                   </div>
 
+
                   {/* Image URL + preview */}
                   <div className="form-group col-md-12">
                     <label className="form-label">
@@ -472,6 +476,38 @@ const Page = () => {
               </div>
               <div className="form-card-body">
                 <div className="form-row">
+                   
+                   {/* Meta Title */}
+<div className="form-group col-md-12">
+  <label className="form-label">
+    Meta Title <span className="form-required">*</span>
+  </label>
+  <Field
+    name="metaTitle"
+    type="text"
+    className="form-control"
+    placeholder="SEO Meta Title"
+  />
+  <FieldError name="metaTitle" />
+</div>
+
+{/* Meta Description */}
+<div className="form-group col-md-12">
+  <label className="form-label">
+    Meta Description <span className="form-required">*</span>
+  </label>
+  <Field
+    as="textarea"
+    name="metaDescription"
+    className="form-control"
+    rows="3"
+    placeholder="SEO Meta Description"
+  />
+  <div className="form-hint">
+    Recommended: 150-160 characters
+  </div>
+  <FieldError name="metaDescription" />
+</div>
 
                   {/* Category */}
                   <div className="form-group col-md-4">
