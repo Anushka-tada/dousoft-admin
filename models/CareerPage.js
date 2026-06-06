@@ -89,4 +89,4 @@ const CareerPageSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-export default mongoose.models.Career || mongoose.model("CareerPage", CareerSchemaPage);
+export default mongoose.models.Career || mongoose.model("CareerPage", CareerPageSchema);
