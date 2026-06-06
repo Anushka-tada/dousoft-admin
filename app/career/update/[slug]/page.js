@@ -298,6 +298,7 @@ const Page = () => {
           jobType:    data.jobType    || "",
           experience: data.experience || "",
           status:     data.status     || "active",
+          description: data.description || "",
         });
       } catch (err) {
         toast.error("Failed to load job");
@@ -400,6 +401,27 @@ const Page = () => {
                     </Field>
                     <ErrorMessage name="jobType" component="div" className="form-error" />
                   </div>
+
+                  {/* Description */}
+<div className="form-group col-md-12">
+  <label className="form-label">
+    Description <span className="form-required">*</span>
+  </label>
+
+  <Field
+    as="textarea"
+    name="description"
+    className="form-control"
+    rows={6}
+    placeholder="Enter job description, responsibilities, requirements, etc."
+  />
+
+  <ErrorMessage
+    name="description"
+    component="div"
+    className="form-error"
+  />
+</div>
 
                   {/* Experience */}
                   <div className="form-group col-md-4">

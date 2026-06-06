@@ -240,7 +240,8 @@ const Page = () => {
           jobType: "",
           experience: "",
           status: "",
-        }}
+          description: "",
+                }}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           try {
@@ -327,6 +328,29 @@ const Page = () => {
                     <ErrorMessage name="jobType" component="div" className="form-error" />
                   </div>
 
+                 
+
+                  {/* Description */}
+<div className="form-group col-md-12">
+  <label className="form-label">
+    Description <span className="form-required">*</span>
+  </label>
+
+  <Field
+    as="textarea"
+    name="description"
+    className="form-control"
+    rows={6}
+    placeholder="Enter job description, responsibilities, requirements, etc."
+  />
+
+  <ErrorMessage
+    name="description"
+    component="div"
+    className="form-error"
+  />
+</div>
+
                   {/* Experience */}
                   <div className="form-group col-md-4">
                     <label className="form-label">
@@ -353,7 +377,7 @@ const Page = () => {
                     </Field>
                     <ErrorMessage name="status" component="div" className="form-error" />
                   </div>
-
+    
                 </div>
               </div>
             </div>

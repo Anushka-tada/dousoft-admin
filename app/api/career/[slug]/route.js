@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
-import Career from "@/models/Career";
+import Career from "../../../../models/Career"
 import mongoose from "mongoose";
 
 // ✅ CORS Headers

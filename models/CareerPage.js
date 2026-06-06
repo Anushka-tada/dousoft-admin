@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const CareerSchema = new mongoose.Schema({
+const CareerPageSchema = new mongoose.Schema({
 
   isPublished: { type: Boolean, default: true },
 
@@ -89,4 +89,4 @@ const CareerSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-export default mongoose.models.Career || mongoose.model("Career", CareerSchema);
+export default mongoose.models.Career || mongoose.model("CareerPage", CareerSchemaPage);
