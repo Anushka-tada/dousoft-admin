@@ -338,144 +338,126 @@ import {
   IconChevronLeft,
   IconChevronRight,
   IconMapPin,
+  IconEye,
+  IconX,
+  IconCalendarEvent,
+  IconTag,
+  IconAlignLeft,
+  IconClockHour4,
+  IconWorld,
 } from "@tabler/icons-react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const AppointmentListSkeleton = () => {
-  return (
-    <SkeletonTheme
-      baseColor="#f3f4f6"
-      highlightColor="#ffffff"
-    >
-      <div className="listing-page">
-
-        {/* KPI Cards */}
-        <div className="kpi-grid">
-          {[1, 2, 3, 4].map((item) => (
-            <div className="kpi-card" key={item}>
-              <Skeleton circle width={52} height={52} />
-              <div style={{ flex: 1 }}>
-                <Skeleton width={120} height={14} />
-                <Skeleton width={80} height={28} />
-              </div>
+/* ─────────────────────────────────────────
+   Skeleton
+───────────────────────────────────────── */
+const AppointmentListSkeleton = () => (
+  <SkeletonTheme baseColor="#f3f4f6" highlightColor="#ffffff">
+    <div className="listing-page">
+      <div className="kpi-grid">
+        {[1, 2, 3, 4].map((item) => (
+          <div className="kpi-card" key={item}>
+            <Skeleton circle width={52} height={52} />
+            <div style={{ flex: 1 }}>
+              <Skeleton width={120} height={14} />
+              <Skeleton width={80} height={28} />
             </div>
-          ))}
-        </div>
-
-        {/* Header */}
-        <div className="listing-header">
-          <div>
-            <Skeleton width={180} height={28} />
           </div>
-
-          <div
-            style={{
-              display: "flex",
-              gap: "12px",
-              alignItems: "center",
-            }}
-          >
-            <Skeleton width={250} height={42} />
-            <Skeleton width={120} height={42} />
-          </div>
-        </div>
-
-        {/* Table */}
-        <div className="listing-table-card">
-          <div className="listing-table-wrap">
-            <table className="listing-table">
-              <thead>
-                <tr>
-                  <th><Skeleton width={25} /></th>
-                  <th><Skeleton width={80} /></th>
-                  <th><Skeleton width={100} /></th>
-                  <th><Skeleton width={80} /></th>
-                  <th><Skeleton width={120} /></th>
-                  <th><Skeleton width={50} /></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {Array.from({ length: 8 }).map((_, index) => (
-                  <tr key={index}>
-                    <td>
-                      <Skeleton width={20} />
-                    </td>
-
-                    <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                        }}
-                      >
-                        <Skeleton circle width={38} height={38} />
-                        <Skeleton width={120} />
-                      </div>
-                    </td>
-
-                    <td>
-                      <Skeleton width={180} />
-                    </td>
-
-                    <td>
-                      <Skeleton width={120} />
-                    </td>
-
-                    <td>
-                      <Skeleton width="90%" />
-                    </td>
-
-                    <td>
-                      <Skeleton circle width={32} height={32} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
+        ))}
       </div>
-    </SkeletonTheme>
-  );
+
+      <div className="listing-header">
+        <div><Skeleton width={180} height={28} /></div>
+        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+          <Skeleton width={250} height={42} />
+          <Skeleton width={120} height={42} />
+        </div>
+      </div>
+
+      <div className="listing-table-card">
+        <div className="listing-table-wrap">
+          <table className="listing-table">
+            <thead>
+              <tr>
+                {[25, 80, 100, 80, 90, 100, 80, 50].map((w, i) => (
+                  <th key={i}><Skeleton width={w} /></th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {Array.from({ length: 8 }).map((_, index) => (
+                <tr key={index}>
+                  <td><Skeleton width={20} /></td>
+                  <td>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <Skeleton circle width={38} height={38} />
+                      <Skeleton width={120} />
+                    </div>
+                  </td>
+                  <td><Skeleton width={100} /></td>
+                  <td><Skeleton width={80} /></td>
+                  <td><Skeleton width={80} /></td>
+                  <td><Skeleton width={130} /></td>
+                  <td><Skeleton width={70} /></td>
+                  <td>
+                    <div style={{ display: "flex", gap: 6, justifyContent: "center" }}>
+                      <Skeleton width={32} height={32} />
+                      <Skeleton width={32} height={32} />
+                      <Skeleton circle width={32} height={32} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </SkeletonTheme>
+);
+
+/* ─────────────────────────────────────────
+   Helpers
+───────────────────────────────────────── */
+const initials = (title = "") =>
+  title.trim().split(" ").slice(0, 2).map((w) => w[0]?.toUpperCase()).join("");
+
+const formatDate = (dateStr, opts = {}) => {
+  if (!dateStr) return "—";
+  return new Date(dateStr).toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+    ...opts,
+  });
 };
 
+const stripHtml = (html = "") =>
+  html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
-/* helper: "Software Engineer" → "SE" */
-const initials = (title = "") =>
-  title
-    .trim()
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase())
-    .join("");
-
-/* KPI config */
+/* ─────────────────────────────────────────
+   KPI config
+───────────────────────────────────────── */
 const buildKpi = (allJobs) => [
   {
     label: "Total Job Posts",
     value: allJobs.length,
-    delta: "+6% this month",
-    deltaClass: "",
     icon: <IconBriefcase size={22} />,
     iconClass: "",
   },
   {
     label: "Active Openings",
     value: allJobs.filter((j) => j.status === "active").length,
-    delta: "Currently hiring",
-    deltaClass: "warning",
     icon: <IconCircleCheck size={22} />,
     iconClass: "warning",
   },
   {
     label: "Closed Positions",
     value: allJobs.filter((j) => j.status === "inactive").length,
-    delta: "Hiring paused",
-    deltaClass: "danger",
     icon: <IconCircleX size={22} />,
     iconClass: "danger",
   },
@@ -484,15 +466,186 @@ const buildKpi = (allJobs) => [
     value: allJobs.filter((j) =>
       j.location?.toLowerCase().includes("remote")
     ).length,
-    delta: "Work from home",
-    deltaClass: "info",
     icon: <IconDeviceLaptop size={22} />,
     iconClass: "info",
   },
 ];
 
+/* ─────────────────────────────────────────
+   Job Detail Modal
+───────────────────────────────────────── */
+const JobDetailModal = ({ item, onClose, onEdit }) => {
+  if (!item) return null;
+
+  const descPreview = stripHtml(item.description || item.content || "");
+
+  return (
+    <div className="appt-modal-overlay" onClick={onClose}>
+      <div
+        className="appt-modal-card"
+        style={{ width: 540 }}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="job-modal-title"
+      >
+        {/* Header */}
+        <div className="appt-modal-header">
+          <span id="job-modal-title" className="appt-modal-title">
+            Job Details
+          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <button
+              className="btn-row-edit"
+              title="Edit job"
+              style={{ width: 32, height: 32 }}
+              onClick={() => onEdit(item.slug)}
+            >
+              <IconPencil size={15} />
+            </button>
+            <button
+              className="appt-modal-close"
+              onClick={onClose}
+              aria-label="Close modal"
+            >
+              <IconX size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Body */}
+        <div className="appt-modal-body">
+          {/* Avatar + title row */}
+          <div className="appt-modal-avatar-row">
+            <span className="appt-modal-avatar">{initials(item.title)}</span>
+            <div>
+              <p className="appt-modal-name">{item.title}</p>
+              <p className="appt-modal-date-sub">
+                Posted on {formatDate(item.createdAt)}
+              </p>
+            </div>
+          </div>
+
+          {/* Detail rows */}
+          <div className="appt-modal-detail-grid">
+            {/* Status */}
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconTag size={16} />
+              </div>
+              <div>
+                <p className="appt-modal-detail-label">Status</p>
+                <span
+                  className={`status-badge ${
+                    item.status === "active" ? "status-active" : "status-inactive"
+                  }`}
+                  style={{ marginTop: 2, display: "inline-block" }}
+                >
+                  {item.status}
+                </span>
+              </div>
+            </div>
+
+            {/* Location */}
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconMapPin size={16} />
+              </div>
+              <div>
+                <p className="appt-modal-detail-label">Location</p>
+                <p className="appt-modal-detail-val">{item.location || "—"}</p>
+              </div>
+            </div>
+
+            {/* Job Type */}
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconWorld size={16} />
+              </div>
+              <div>
+                <p className="appt-modal-detail-label">Job Type</p>
+                <p className="appt-modal-detail-val">{item.jobType || "—"}</p>
+              </div>
+            </div>
+
+            {/* Experience */}
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconClockHour4 size={16} />
+              </div>
+              <div>
+                <p className="appt-modal-detail-label">Experience</p>
+                <p className="appt-modal-detail-val">{item.experience || "—"}</p>
+              </div>
+            </div>
+
+            {/* Posted date */}
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconCalendarEvent size={16} />
+              </div>
+              <div>
+                <p className="appt-modal-detail-label">Posted Date</p>
+                <p className="appt-modal-detail-val">
+                  {formatDate(item.createdAt, { month: "long" })}
+                </p>
+              </div>
+            </div>
+
+            {/* Last updated */}
+            {item.updatedAt && item.updatedAt !== item.createdAt && (
+              <div className="appt-modal-detail-row">
+                <div className="appt-modal-detail-icon">
+                  <IconCalendarEvent size={16} />
+                </div>
+                <div>
+                  <p className="appt-modal-detail-label">Last Updated</p>
+                  <p className="appt-modal-detail-val">
+                    {formatDate(item.updatedAt, { month: "long" })}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Description */}
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconAlignLeft size={16} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <p className="appt-modal-detail-label">Description</p>
+                <div
+                  className="appt-modal-msg-box"
+                  style={{ maxHeight: 150, overflowY: "auto" }}
+                >
+                  {descPreview
+                    ? descPreview.length > 450
+                      ? descPreview.slice(0, 450) + "…"
+                      : descPreview
+                    : (
+                      <span style={{ color: "#aaa", fontStyle: "italic" }}>
+                        No description available
+                      </span>
+                    )
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ─────────────────────────────────────────
+   Constants
+───────────────────────────────────────── */
 const ROWS_PER_PAGE = 10;
 
+/* ─────────────────────────────────────────
+   Main Page
+───────────────────────────────────────── */
 const Page = () => {
   const router = useRouter();
   const dropdownRef = useRef(null);
@@ -505,15 +658,17 @@ const Page = () => {
   const [sortAsc, setSortAsc]           = useState(true);
   const [statusFilter, setStatusFilter] = useState("All");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [loading , setLoading]         = useState(true);
+  const [loading, setLoading]           = useState(true);
+  const [viewItem, setViewItem]         = useState(null); // for detail modal
+
   const fetchJobs = async () => {
     try {
       setLoading(true);
       const res = await getCareerServ();
       setAllJobs(res?.data?.data ?? []);
-      setLoading(false);
     } catch (err) {
       console.error(err);
+    } finally {
       setLoading(false);
     }
   };
@@ -566,14 +721,10 @@ const Page = () => {
     if (p >= 1 && p <= totalPages) setCurrentPage(p);
   };
 
-  const kpiData = buildKpi(allJobs);
-
+  const kpiData    = buildKpi(allJobs);
   const statusLabel = statusFilter === "All" ? "All Status" : statusFilter;
 
-    if (loading) {
-  return <AppointmentListSkeleton />;
-}
-
+  if (loading) return <AppointmentListSkeleton />;
 
   return (
     <div className="listing-page">
@@ -582,13 +733,10 @@ const Page = () => {
       <div className="kpi-grid">
         {kpiData.map((item, i) => (
           <div className="kpi-card" key={i}>
-            <div className={`kpi-icon ${item.iconClass}`}>
-              {item.icon}
-            </div>
+            <div className={`kpi-icon ${item.iconClass}`}>{item.icon}</div>
             <div>
               <div className="kpi-label">{item.label}</div>
               <div className="kpi-value">{item.value}</div>
-              {/* <div className={`kpi-delta ${item.deltaClass}`}>{item.delta}</div> */}
             </div>
           </div>
         ))}
@@ -689,10 +837,15 @@ const Page = () => {
                 <th><div className="th-inner">Location</div></th>
                 <th><div className="th-inner">Type</div></th>
                 <th><div className="th-inner">Experience</div></th>
+
+                {/* ── Description column ── */}
+                <th><div className="th-inner">Description</div></th>
+
                 <th><div className="th-inner">Status</div></th>
-                <th style={{ width: 100, textAlign: "center" }}>
+
+                <th style={{ width: 120, textAlign: "center" }}>
                   <div className="th-inner" style={{ justifyContent: "center" }}>
-                    Action
+                    Actions
                   </div>
                 </th>
               </tr>
@@ -701,7 +854,7 @@ const Page = () => {
             <tbody>
               {paginated.length === 0 ? (
                 <tr>
-                  <td colSpan={7}>
+                  <td colSpan={8}>
                     <div className="listing-empty">
                       <i className="ti ti-briefcase" aria-hidden="true" />
                       <strong>No jobs found</strong>
@@ -743,6 +896,27 @@ const Page = () => {
                     {/* Experience */}
                     <td className="cell-muted">{item.experience}</td>
 
+                    {/* ── Description cell — truncated ── */}
+                    <td
+                      className="cell-muted"
+                      style={{
+                        maxWidth: 220,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                      title={stripHtml(item.description || "")}
+                    >
+                      {(() => {
+                        const plain = stripHtml(item.description || "");
+                        return plain
+                          ? plain.length > 80
+                            ? plain.slice(0, 80) + "…"
+                            : plain
+                          : <span style={{ color: "#ccc", fontStyle: "italic" }}>—</span>;
+                      })()}
+                    </td>
+
                     {/* Status */}
                     <td>
                       <span
@@ -754,9 +928,19 @@ const Page = () => {
                       </span>
                     </td>
 
-                    {/* Action */}
+                    {/* Actions */}
                     <td>
-                      <div className="action-cell">
+                      <div className="action-cell" style={{ gap: 6 }}>
+                        {/* View */}
+                        <button
+                          className="btn-row-view"
+                          title="View job details"
+                          onClick={() => setViewItem(item)}
+                        >
+                          <IconEye size={16} />
+                        </button>
+
+                        {/* Edit */}
                         <button
                           className="btn-row-edit"
                           title="Edit job"
@@ -764,6 +948,8 @@ const Page = () => {
                         >
                           <IconPencil size={16} />
                         </button>
+
+                        {/* Delete */}
                         <button
                           className="btn-row-delete"
                           title="Delete job"
@@ -792,7 +978,6 @@ const Page = () => {
             </span>
 
             <div className="pg-btns">
-              {/* Prev */}
               <button
                 className={`pg-btn ${currentPage === 1 ? "disabled" : ""}`}
                 onClick={() => goTo(currentPage - 1)}
@@ -801,7 +986,6 @@ const Page = () => {
                 <IconChevronLeft size={13} aria-hidden="true" />
               </button>
 
-              {/* Page numbers */}
               {Array.from({ length: totalPages }, (_, i) => i + 1)
                 .filter(
                   (p) =>
@@ -828,7 +1012,6 @@ const Page = () => {
                   )
                 )}
 
-              {/* Next */}
               <button
                 className={`pg-btn ${currentPage === totalPages ? "disabled" : ""}`}
                 onClick={() => goTo(currentPage + 1)}
@@ -848,6 +1031,16 @@ const Page = () => {
         handleConfirm={handleDeleteFunc}
         title="Delete Job"
         body="Do you really want to delete this job post? This action cannot be undone."
+      />
+
+      {/* ── Job Detail Modal ── */}
+      <JobDetailModal
+        item={viewItem}
+        onClose={() => setViewItem(null)}
+        onEdit={(slug) => {
+          setViewItem(null);
+          router.push(`/career/update/${slug}`);
+        }}
       />
     </div>
   );
