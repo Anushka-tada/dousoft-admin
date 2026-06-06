@@ -196,6 +196,102 @@ import {
   IconX,
   IconAlertCircle,
 } from "@tabler/icons-react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+const PolicyEditSkeleton = () => {
+  return (
+    <SkeletonTheme
+      baseColor="#f3f4f6"
+      highlightColor="#ffffff"
+    >
+      <div className="form-page p-4">
+
+        {/* Header */}
+        <div className="form-page-header">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+            }}
+          >
+            <Skeleton circle width={36} height={36} />
+            <div>
+              <Skeleton width={220} height={24} />
+              <Skeleton width={280} height={14} />
+            </div>
+          </div>
+        </div>
+
+        {/* Policy Content Card */}
+        <div className="form-card">
+          <div className="form-card-header">
+            <Skeleton circle width={22} height={22} />
+            <Skeleton width={140} height={18} />
+          </div>
+
+          <div className="form-card-body">
+            <Skeleton width={100} height={14} />
+
+            {/* Editor Area */}
+            <div style={{ marginTop: 10 }}>
+              <Skeleton height={320} borderRadius={10} />
+            </div>
+          </div>
+        </div>
+
+        {/* Policy Details Card */}
+        <div className="form-card">
+          <div className="form-card-header">
+            <Skeleton circle width={22} height={22} />
+            <Skeleton width={120} height={18} />
+          </div>
+
+          <div className="form-card-body">
+            <div className="form-row">
+
+              <div className="form-group col-md-6">
+                <Skeleton width={80} height={14} />
+                <Skeleton
+                  height={44}
+                  style={{ marginTop: 8 }}
+                />
+              </div>
+
+              <div className="form-group col-md-3">
+                <Skeleton width={60} height={14} />
+                <Skeleton
+                  height={44}
+                  style={{ marginTop: 8 }}
+                />
+              </div>
+
+              <div className="form-group col-md-3">
+                <Skeleton width={70} height={14} />
+                <Skeleton
+                  height={44}
+                  style={{ marginTop: 8 }}
+                />
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div
+          className="form-actions"
+          style={{ marginTop: 20 }}
+        >
+          <Skeleton width={110} height={42} />
+          <Skeleton width={150} height={42} />
+        </div>
+
+      </div>
+    </SkeletonTheme>
+  );
+};
 
 const validationSchema = Yup.object({
   title:   Yup.string().required("Title is required"),
@@ -226,7 +322,7 @@ const Page = () => {
     const fetchPolicy = async () => {
       try {
         const res = await getSinglePolicyServ(id);
-        const data = res?.data;
+        const data = res?.data?.data;
         setInitialValues({
           title:   data?.title   || "",
           content: data?.description || "",
@@ -245,9 +341,7 @@ const Page = () => {
 
   if (loading) {
     return (
-      <div className="form-page">
-        <div className="form-loading">Loading…</div>
-      </div>
+    <PolicyEditSkeleton/>
     );
   }
 

@@ -239,7 +239,6 @@
 // };
 
 // export default Page;
-
 "use client";
 import React, { useEffect, useState } from "react";
 import {
@@ -255,6 +254,12 @@ import {
   IconArrowDown,
   IconChevronLeft,
   IconChevronRight,
+  IconEye,
+  IconX,
+  IconMail,
+  IconPhone,
+  IconCalendarEvent,
+  IconMessage,
 } from "@tabler/icons-react";
 import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
 import {
@@ -264,108 +269,81 @@ import {
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const AppointmentListSkeleton = () => {
-  return (
-    <SkeletonTheme
-      baseColor="#f3f4f6"
-      highlightColor="#ffffff"
-    >
-      <div className="listing-page">
-
-        {/* KPI Cards */}
-        <div className="kpi-grid">
-          {[1, 2, 3, 4].map((item) => (
-            <div className="kpi-card" key={item}>
-              <Skeleton circle width={52} height={52} />
-              <div style={{ flex: 1 }}>
-                <Skeleton width={120} height={14} />
-                <Skeleton width={80} height={28} />
-              </div>
+/* ─────────────────────────────────────────
+   Skeleton
+───────────────────────────────────────── */
+const AppointmentListSkeleton = () => (
+  <SkeletonTheme baseColor="#f3f4f6" highlightColor="#ffffff">
+    <div className="listing-page">
+      <div className="kpi-grid">
+        {[1, 2, 3, 4].map((item) => (
+          <div className="kpi-card" key={item}>
+            <Skeleton circle width={52} height={52} />
+            <div style={{ flex: 1 }}>
+              <Skeleton width={120} height={14} />
+              <Skeleton width={80} height={28} />
             </div>
-          ))}
-        </div>
-
-        {/* Header */}
-        <div className="listing-header">
-          <div>
-            <Skeleton width={180} height={28} />
           </div>
-
-          <div
-            style={{
-              display: "flex",
-              gap: "12px",
-              alignItems: "center",
-            }}
-          >
-            <Skeleton width={250} height={42} />
-            <Skeleton width={120} height={42} />
-          </div>
-        </div>
-
-        {/* Table */}
-        <div className="listing-table-card">
-          <div className="listing-table-wrap">
-            <table className="listing-table">
-              <thead>
-                <tr>
-                  <th><Skeleton width={25} /></th>
-                  <th><Skeleton width={80} /></th>
-                  <th><Skeleton width={100} /></th>
-                  <th><Skeleton width={80} /></th>
-                  <th><Skeleton width={120} /></th>
-                  <th><Skeleton width={50} /></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {Array.from({ length: 8 }).map((_, index) => (
-                  <tr key={index}>
-                    <td>
-                      <Skeleton width={20} />
-                    </td>
-
-                    <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                        }}
-                      >
-                        <Skeleton circle width={38} height={38} />
-                        <Skeleton width={120} />
-                      </div>
-                    </td>
-
-                    <td>
-                      <Skeleton width={180} />
-                    </td>
-
-                    <td>
-                      <Skeleton width={120} />
-                    </td>
-
-                    <td>
-                      <Skeleton width="90%" />
-                    </td>
-
-                    <td>
-                      <Skeleton circle width={32} height={32} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
+        ))}
       </div>
-    </SkeletonTheme>
-  );
-};
 
+      <div className="listing-header">
+        <div>
+          <Skeleton width={180} height={28} />
+        </div>
+        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+          <Skeleton width={250} height={42} />
+          <Skeleton width={120} height={42} />
+        </div>
+      </div>
 
+      <div className="listing-table-card">
+        <div className="listing-table-wrap">
+          <table className="listing-table">
+            <thead>
+              <tr>
+                <th><Skeleton width={25} /></th>
+                <th><Skeleton width={80} /></th>
+                <th><Skeleton width={100} /></th>
+                <th><Skeleton width={80} /></th>
+                <th><Skeleton width={110} /></th>
+                <th><Skeleton width={120} /></th>
+                <th><Skeleton width={60} /></th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.from({ length: 8 }).map((_, index) => (
+                <tr key={index}>
+                  <td><Skeleton width={20} /></td>
+                  <td>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <Skeleton circle width={38} height={38} />
+                      <Skeleton width={120} />
+                    </div>
+                  </td>
+                  <td><Skeleton width={180} /></td>
+                  <td><Skeleton width={120} /></td>
+                  <td><Skeleton width={130} /></td>
+                  <td><Skeleton width="90%" /></td>
+                  <td>
+                    <div style={{ display: "flex", gap: "6px", justifyContent: "center" }}>
+                      <Skeleton width={32} height={32} />
+                      <Skeleton circle width={32} height={32} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </SkeletonTheme>
+);
+
+/* ─────────────────────────────────────────
+   Helpers
+───────────────────────────────────────── */
 const initials = (name = "") =>
   name
     .trim()
@@ -374,43 +352,151 @@ const initials = (name = "") =>
     .map((w) => w[0]?.toUpperCase())
     .join("");
 
+const formatDate = (dateStr, opts = {}) => {
+  if (!dateStr) return "—";
+  return new Date(dateStr).toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+    ...opts,
+  });
+};
+
+/* ─────────────────────────────────────────
+   KPI config
+───────────────────────────────────────── */
 const buildKpi = (data) => [
   {
     label: "Total Contacts",
     value: data.length || 0,
-    delta: "↑ 5.2% this month",
-    deltaClass: "",
     icon: <IconAddressBook size={20} stroke={1.8} />,
     iconClass: "",
   },
   {
     label: "Active Requests",
     value: data.filter((d) => d.status === "active").length || data.length || 0,
-    delta: "↑ 3.8% this month",
-    deltaClass: "info",
     icon: <IconCircleCheck size={20} stroke={1.8} />,
     iconClass: "info",
   },
   {
     label: "Pending",
     value: data.filter((d) => d.status === "pending").length || 0,
-    delta: "Awaiting response",
-    deltaClass: "warning",
     icon: <IconCircleDashed size={20} stroke={1.8} />,
     iconClass: "warning",
   },
   {
     label: "Total Users",
     value: [...new Set(data.map((d) => d.email))].length || 0,
-    delta: "↑ 4.5% this month",
-    deltaClass: "info",
     icon: <IconUsers size={20} stroke={1.8} />,
     iconClass: "info",
   },
 ];
 
+/* ─────────────────────────────────────────
+   Contact Detail Modal
+───────────────────────────────────────── */
+const ContactDetailModal = ({ item, onClose }) => {
+  if (!item) return null;
+
+  return (
+    <div className="appt-modal-overlay" onClick={onClose}>
+      <div
+        className="appt-modal-card"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-modal-title"
+      >
+        {/* Header */}
+        <div className="appt-modal-header">
+          <span id="contact-modal-title" className="appt-modal-title">
+            Contact Request Details
+          </span>
+          <button
+            className="appt-modal-close"
+            onClick={onClose}
+            aria-label="Close modal"
+          >
+            <IconX size={18} />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="appt-modal-body">
+          {/* Avatar + name */}
+          <div className="appt-modal-avatar-row">
+            <span className="appt-modal-avatar">{initials(item.name)}</span>
+            <div>
+              <p className="appt-modal-name">{item.name}</p>
+              <p className="appt-modal-date-sub">
+                Request received on {formatDate(item.createdAt)}
+              </p>
+            </div>
+          </div>
+
+          {/* Detail rows */}
+          <div className="appt-modal-detail-grid">
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconMail size={16} />
+              </div>
+              <div>
+                <p className="appt-modal-detail-label">Email</p>
+                <p className="appt-modal-detail-val">{item.email || "—"}</p>
+              </div>
+            </div>
+
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconPhone size={16} />
+              </div>
+              <div>
+                <p className="appt-modal-detail-label">Phone</p>
+                <p className="appt-modal-detail-val">{item.phone || "—"}</p>
+              </div>
+            </div>
+
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconCalendarEvent size={16} />
+              </div>
+              <div>
+                <p className="appt-modal-detail-label">Request Date</p>
+                <p className="appt-modal-detail-val">
+                  {formatDate(item.createdAt, { month: "long" })}
+                </p>
+              </div>
+            </div>
+
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconMessage size={16} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <p className="appt-modal-detail-label">Message</p>
+                <div className="appt-modal-msg-box">
+                  {item.message?.trim() ? item.message : <span style={{ color: "#aaa", fontStyle: "italic" }}>No message provided</span>}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ─────────────────────────────────────────
+   Constants
+───────────────────────────────────────── */
 const ROWS_PER_PAGE = 10;
 
+/* ─────────────────────────────────────────
+   Main Page
+───────────────────────────────────────── */
 const Page = () => {
   const [contacts, setContacts]       = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -418,18 +504,18 @@ const Page = () => {
   const [searchTerm, setSearchTerm]   = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortAsc, setSortAsc]         = useState(true);
-  const[loading, setLoading]           = useState(true);
+  const [loading, setLoading]         = useState(true);
+  const [viewItem, setViewItem]       = useState(null); // for detail modal
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const res = await getContactRequestServ();
       setContacts(res?.data?.data ?? []);
-      setLoading(false);
-
     } catch (err) {
       console.error(err);
-       setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -446,22 +532,15 @@ const Page = () => {
     }
   };
 
-  /* Filter + sort */
-  // const filtered = contacts
-  //   .filter((a) =>
-  //     a.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  //   )
-  //   .sort((a, b) =>
-  //     sortAsc
-  //       ? a.name?.localeCompare(b.name)
-  //       : b.name?.localeCompare(a.name)
-  //   );
-
   const filtered = contacts
-  .filter((a) =>
-    a.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    .filter((a) =>
+      a.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) =>
+      sortAsc
+        ? a.name?.localeCompare(b.name)
+        : b.name?.localeCompare(a.name)
+    );
 
   /* Pagination */
   const totalPages = Math.max(1, Math.ceil(filtered.length / ROWS_PER_PAGE));
@@ -476,10 +555,7 @@ const Page = () => {
 
   const kpiData = buildKpi(contacts);
 
-
-  if (loading) {
-  return <AppointmentListSkeleton />;
-}
+  if (loading) return <AppointmentListSkeleton />;
 
   return (
     <div className="listing-page">
@@ -488,13 +564,10 @@ const Page = () => {
       <div className="kpi-grid">
         {kpiData.map((item, i) => (
           <div className="kpi-card" key={i}>
-            <div className={`kpi-icon ${item.iconClass}`}>
-              {item.icon}
-            </div>
+            <div className={`kpi-icon ${item.iconClass}`}>{item.icon}</div>
             <div>
               <div className="kpi-label">{item.label}</div>
               <div className="kpi-value">{item.value}</div>
-              {/* <div className={`kpi-delta ${item.deltaClass}`}>{item.delta}</div> */}
             </div>
           </div>
         ))}
@@ -553,11 +626,15 @@ const Page = () => {
 
                 <th><div className="th-inner">Email</div></th>
                 <th><div className="th-inner">Phone</div></th>
+
+                {/* ── Date column ── */}
+                <th><div className="th-inner">Date</div></th>
+
                 <th><div className="th-inner">Message</div></th>
 
-                <th style={{ width: 80, textAlign: "center" }}>
+                <th style={{ width: 100, textAlign: "center" }}>
                   <div className="th-inner" style={{ justifyContent: "center" }}>
-                    Action
+                    Actions
                   </div>
                 </th>
               </tr>
@@ -566,7 +643,7 @@ const Page = () => {
             <tbody>
               {paginated.length === 0 ? (
                 <tr>
-                  <td colSpan={6}>
+                  <td colSpan={7}>
                     <div className="listing-empty">
                       <IconInbox size={36} stroke={1.5} color="#d1e8d4" style={{ display: "block", margin: "0 auto 10px" }} />
                       <strong>No contact requests found</strong>
@@ -600,12 +677,30 @@ const Page = () => {
                     {/* Phone */}
                     <td className="cell-phone">{item.phone}</td>
 
+                    {/* ── Date cell ── */}
+                    <td className="cell-date" style={{ whiteSpace: "nowrap" }}>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+                        <IconCalendarEvent size={13} stroke={1.8} style={{ opacity: 0.45, flexShrink: 0 }} />
+                        {formatDate(item.createdAt)}
+                      </span>
+                    </td>
+
                     {/* Message */}
                     <td className="cell-muted">{item.message}</td>
 
-                    {/* Action */}
+                    {/* Actions */}
                     <td>
-                      <div className="action-cell">
+                      <div className="action-cell" style={{ gap: 6 }}>
+                        {/* View */}
+                        <button
+                          className="btn-row-view"
+                          title="View details"
+                          onClick={() => setViewItem(item)}
+                        >
+                          <IconEye size={17} stroke={1.8} />
+                        </button>
+
+                        {/* Delete */}
                         <button
                           className="btn-row-delete"
                           title="Delete contact request"
@@ -614,7 +709,7 @@ const Page = () => {
                             setShowConfirm(true);
                           }}
                         >
-                          <IconTrash size={14} stroke={1.8} />
+                          <IconTrash size={17} stroke={1.8} />
                         </button>
                       </div>
                     </td>
@@ -682,13 +777,19 @@ const Page = () => {
         )}
       </div>
 
-      {/* ── Confirm delete modal ── */}
+      {/* ── Confirm Delete Modal ── */}
       <ConfirmDeleteModal
         show={showConfirm}
         handleClose={() => setShowConfirm(false)}
         handleConfirm={handleDelete}
         title="Delete Contact Request"
         body="Do you really want to delete this contact request? This action cannot be undone."
+      />
+
+      {/* ── Contact Detail Modal ── */}
+      <ContactDetailModal
+        item={viewItem}
+        onClose={() => setViewItem(null)}
       />
     </div>
   );

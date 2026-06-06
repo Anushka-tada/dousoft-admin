@@ -260,139 +260,120 @@ import {
   IconPlus,
   IconPencil,
   IconTrash,
+  IconEye,
+  IconX,
+  IconCalendarEvent,
+  IconTag,
+  IconAlignLeft,
 } from "@tabler/icons-react";
-
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const AppointmentListSkeleton = () => {
-  return (
-    <SkeletonTheme
-      baseColor="#f3f4f6"
-      highlightColor="#ffffff"
-    >
-      <div className="listing-page">
-
-        {/* KPI Cards */}
-        <div className="kpi-grid">
-          {[1, 2, 3, 4].map((item) => (
-            <div className="kpi-card" key={item}>
-              <Skeleton circle width={52} height={52} />
-              <div style={{ flex: 1 }}>
-                <Skeleton width={120} height={14} />
-                <Skeleton width={80} height={28} />
-              </div>
+/* ─────────────────────────────────────────
+   Skeleton
+───────────────────────────────────────── */
+const AppointmentListSkeleton = () => (
+  <SkeletonTheme baseColor="#f3f4f6" highlightColor="#ffffff">
+    <div className="listing-page">
+      <div className="kpi-grid">
+        {[1, 2, 3, 4].map((item) => (
+          <div className="kpi-card" key={item}>
+            <Skeleton circle width={52} height={52} />
+            <div style={{ flex: 1 }}>
+              <Skeleton width={120} height={14} />
+              <Skeleton width={80} height={28} />
             </div>
-          ))}
-        </div>
-
-        {/* Header */}
-        <div className="listing-header">
-          <div>
-            <Skeleton width={180} height={28} />
           </div>
-
-          <div
-            style={{
-              display: "flex",
-              gap: "12px",
-              alignItems: "center",
-            }}
-          >
-            <Skeleton width={250} height={42} />
-            <Skeleton width={120} height={42} />
-          </div>
-        </div>
-
-        {/* Table */}
-        <div className="listing-table-card">
-          <div className="listing-table-wrap">
-            <table className="listing-table">
-              <thead>
-                <tr>
-                  <th><Skeleton width={25} /></th>
-                  <th><Skeleton width={80} /></th>
-                  <th><Skeleton width={100} /></th>
-                  <th><Skeleton width={80} /></th>
-                  <th><Skeleton width={120} /></th>
-                  <th><Skeleton width={50} /></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {Array.from({ length: 8 }).map((_, index) => (
-                  <tr key={index}>
-                    <td>
-                      <Skeleton width={20} />
-                    </td>
-
-                    <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                        }}
-                      >
-                        <Skeleton circle width={38} height={38} />
-                        <Skeleton width={120} />
-                      </div>
-                    </td>
-
-                    <td>
-                      <Skeleton width={180} />
-                    </td>
-
-                    <td>
-                      <Skeleton width={120} />
-                    </td>
-
-                    <td>
-                      <Skeleton width="90%" />
-                    </td>
-
-                    <td>
-                      <Skeleton circle width={32} height={32} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
+        ))}
       </div>
-    </SkeletonTheme>
-  );
-};
 
-/* helper: "Privacy Policy" → "PP" */
+      <div className="listing-header">
+        <div><Skeleton width={180} height={28} /></div>
+        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+          <Skeleton width={250} height={42} />
+          <Skeleton width={120} height={42} />
+        </div>
+      </div>
+
+      <div className="listing-table-card">
+        <div className="listing-table-wrap">
+          <table className="listing-table">
+            <thead>
+              <tr>
+                <th><Skeleton width={25} /></th>
+                <th><Skeleton width={80} /></th>
+                <th><Skeleton width={100} /></th>
+                <th><Skeleton width={80} /></th>
+                <th><Skeleton width={120} /></th>
+                <th><Skeleton width={50} /></th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.from({ length: 8 }).map((_, index) => (
+                <tr key={index}>
+                  <td><Skeleton width={20} /></td>
+                  <td>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <Skeleton circle width={38} height={38} />
+                      <Skeleton width={120} />
+                    </div>
+                  </td>
+                  <td><Skeleton width={180} /></td>
+                  <td><Skeleton width={120} /></td>
+                  <td><Skeleton width="90%" /></td>
+                  <td><Skeleton circle width={32} height={32} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </SkeletonTheme>
+);
+
+/* ─────────────────────────────────────────
+   Helpers
+───────────────────────────────────────── */
 const initials = (name = "") =>
   name.trim().split(" ").slice(0, 2).map((w) => w[0]?.toUpperCase()).join("");
 
-/* KPI config */
+const formatDate = (dateStr, opts = {}) => {
+  if (!dateStr) return "—";
+  return new Date(dateStr).toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+    ...opts,
+  });
+};
+
+/* Strip HTML tags for plain text preview */
+const stripHtml = (html = "") =>
+  html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+
+/* ─────────────────────────────────────────
+   KPI config
+───────────────────────────────────────── */
 const buildKpi = (allPolicies) => [
   {
     label: "Total Policies",
     value: allPolicies.length,
-    delta: "+4% updated",
-    deltaClass: "",
     icon: <IconFileDescription size={22} />,
     iconClass: "",
   },
   {
     label: "Active Policies",
     value: allPolicies.filter((p) => p.status === "active").length,
-    delta: "Visible on website",
-    deltaClass: "",
     icon: <IconCircleCheck size={22} />,
     iconClass: "",
   },
   {
     label: "Inactive Policies",
     value: allPolicies.filter((p) => p.status === "inactive").length,
-    delta: "Hidden from users",
-    deltaClass: "danger",
     icon: <IconCircleX size={22} />,
     iconClass: "danger",
   },
@@ -402,15 +383,151 @@ const buildKpi = (allPolicies) => [
       const diff = new Date() - new Date(p.updatedAt || p.createdAt);
       return diff / (1000 * 60 * 60 * 24) <= 30;
     }).length,
-    delta: "Last 30 days",
-    deltaClass: "info",
     icon: <IconRefresh size={22} />,
     iconClass: "info",
   },
 ];
 
+/* ─────────────────────────────────────────
+   Policy Detail Modal
+───────────────────────────────────────── */
+const PolicyDetailModal = ({ item, onClose, onEdit }) => {
+  if (!item) return null;
+
+  const contentPreview = stripHtml(item.content || item.description || "");
+
+  return (
+    <div className="appt-modal-overlay" onClick={onClose}>
+      <div
+        className="appt-modal-card"
+        style={{ width: 570 }}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="policy-modal-title"
+      >
+        {/* Header */}
+        <div className="appt-modal-header">
+          <span id="policy-modal-title" className="appt-modal-title">
+            Policy Details
+          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <button
+              className="btn-row-edit"
+              title="Edit policy"
+              style={{ width: 32, height: 32 }}
+              onClick={() => onEdit(item._id)}
+            >
+              <IconPencil size={15} />
+            </button>
+            <button
+              className="appt-modal-close"
+              onClick={onClose}
+              aria-label="Close modal"
+            >
+              <IconX size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Body */}
+        <div className="appt-modal-body">
+          {/* Icon + title row */}
+          <div className="appt-modal-avatar-row">
+            <span className="appt-modal-avatar">{initials(item.title)}</span>
+            <div>
+              <p className="appt-modal-name">{item.title}</p>
+              <p className="appt-modal-date-sub">
+                Created on {formatDate(item.createdAt)}
+              </p>
+            </div>
+          </div>
+
+          {/* Detail rows */}
+          <div className="appt-modal-detail-grid">
+            {/* Status */}
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconTag size={16} />
+              </div>
+              <div>
+                <p className="appt-modal-detail-label">Status</p>
+                <span
+                  className={`status-badge ${
+                    item.status === "active" ? "status-active" : "status-inactive"
+                  }`}
+                  style={{ marginTop: 2, display: "inline-block" }}
+                >
+                  {item.status}
+                </span>
+              </div>
+            </div>
+
+            {/* Created date */}
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconCalendarEvent size={16} />
+              </div>
+              <div>
+                <p className="appt-modal-detail-label">Created Date</p>
+                <p className="appt-modal-detail-val">
+                  {formatDate(item.createdAt, { month: "long" })}
+                </p>
+              </div>
+            </div>
+
+            {/* Last updated */}
+            {item.updatedAt && item.updatedAt !== item.createdAt && (
+              <div className="appt-modal-detail-row">
+                <div className="appt-modal-detail-icon">
+                  <IconRefresh size={16} />
+                </div>
+                <div>
+                  <p className="appt-modal-detail-label">Last Updated</p>
+                  <p className="appt-modal-detail-val">
+                    {formatDate(item.updatedAt, { month: "long" })}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Content preview */}
+            <div className="appt-modal-detail-row">
+              <div className="appt-modal-detail-icon">
+                <IconAlignLeft size={16} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <p className="appt-modal-detail-label">Content Preview</p>
+              <div
+  className="appt-modal-msg-box"
+   style={{
+    maxHeight: 300,
+    overflowY: "auto",
+    whiteSpace: "normal",
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
+  }}
+  dangerouslySetInnerHTML={{
+    __html: item.content || item.description || "<p>No content available</p>",
+  }}
+/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ─────────────────────────────────────────
+   Constants
+───────────────────────────────────────── */
 const ROWS_PER_PAGE = 10;
 
+/* ─────────────────────────────────────────
+   Main Page
+───────────────────────────────────────── */
 const Page = () => {
   const router = useRouter();
   const dropdownRef = useRef(null);
@@ -424,16 +541,17 @@ const Page = () => {
   const [statusFilter, setStatusFilter] = useState("All");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [loading, setLoading]           = useState(true);
+  const [viewItem, setViewItem]         = useState(null); // for detail modal
 
   const fetchPolicies = async () => {
     try {
-      setLoading
+      setLoading(true);
       const res = await getPolicyServ();
       setAllPolicies(res?.data?.data ?? []);
-      setLoading(false);
     } catch (err) {
       console.error(err);
-       setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -488,10 +606,7 @@ const Page = () => {
   const kpiData = buildKpi(allPolicies);
   const statusLabel = statusFilter === "All" ? "All Status" : statusFilter;
 
-  if (loading) {
-  return <AppointmentListSkeleton />;
-}
-
+  if (loading) return <AppointmentListSkeleton />;
 
   return (
     <div className="listing-page">
@@ -500,13 +615,10 @@ const Page = () => {
       <div className="kpi-grid">
         {kpiData.map((item, i) => (
           <div className="kpi-card" key={i}>
-            <div className={`kpi-icon ${item.iconClass}`}>
-              {item.icon}
-            </div>
+            <div className={`kpi-icon ${item.iconClass}`}>{item.icon}</div>
             <div>
               <div className="kpi-label">{item.label}</div>
               <div className="kpi-value">{item.value}</div>
-              {/* <div className={`kpi-delta ${item.deltaClass}`}>{item.delta}</div> */}
             </div>
           </div>
         ))}
@@ -604,9 +716,10 @@ const Page = () => {
 
                 <th><div className="th-inner">Date</div></th>
                 <th><div className="th-inner">Status</div></th>
-                <th style={{ width: 100, textAlign: "center" }}>
+
+                <th style={{ width: 120, textAlign: "center" }}>
                   <div className="th-inner" style={{ justifyContent: "center" }}>
-                    Action
+                    Actions
                   </div>
                 </th>
               </tr>
@@ -644,30 +757,41 @@ const Page = () => {
                     </td>
 
                     {/* Date */}
-                    <td className="cell-muted">
-                      {new Date(item.createdAt).toLocaleDateString("en-IN", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
+                    <td className="cell-date" style={{ whiteSpace: "nowrap" }}>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+                        <IconCalendarEvent size={13} stroke={1.8} style={{ opacity: 0.45, flexShrink: 0 }} />
+                        {new Date(item.createdAt).toLocaleDateString("en-IN", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
                     </td>
 
                     {/* Status */}
                     <td>
                       <span
                         className={`status-badge ${
-                          item.status === "active"
-                            ? "status-active"
-                            : "status-inactive"
+                          item.status === "active" ? "status-active" : "status-inactive"
                         }`}
                       >
                         {item.status}
                       </span>
                     </td>
 
-                    {/* Action */}
+                    {/* Actions */}
                     <td>
-                      <div className="action-cell">
+                      <div className="action-cell" style={{ gap: 6 }}>
+                        {/* View */}
+                        <button
+                          className="btn-row-view"
+                          title="View policy details"
+                          onClick={() => setViewItem(item)}
+                        >
+                          <IconEye size={16} />
+                        </button>
+
+                        {/* Edit */}
                         <button
                           className="btn-row-edit"
                           title="Edit policy"
@@ -675,6 +799,8 @@ const Page = () => {
                         >
                           <IconPencil size={16} />
                         </button>
+
+                        {/* Delete */}
                         <button
                           className="btn-row-delete"
                           title="Delete policy"
@@ -756,6 +882,16 @@ const Page = () => {
         handleConfirm={handleDeleteFunc}
         title="Delete Policy"
         body="Do you really want to delete this policy? This action cannot be undone."
+      />
+
+      {/* ── Policy Detail Modal ── */}
+      <PolicyDetailModal
+        item={viewItem}
+        onClose={() => setViewItem(null)}
+        onEdit={(id) => {
+          setViewItem(null);
+          router.push(`/privacy-policy/update/${id}`);
+        }}
       />
     </div>
   );

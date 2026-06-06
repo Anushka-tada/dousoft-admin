@@ -183,6 +183,104 @@ import {
   IconDeviceFloppy,
   IconX,
 } from "@tabler/icons-react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+const CareerEditSkeleton = () => {
+  return (
+    <SkeletonTheme
+      baseColor="#f3f4f6"
+      highlightColor="#ffffff"
+    >
+      <div className="form-page">
+
+        {/* Header */}
+        <div className="form-page-header">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+            }}
+          >
+            <Skeleton circle width={36} height={36} />
+
+            <div>
+              <Skeleton width={170} height={24} />
+              <Skeleton width={260} height={14} />
+            </div>
+          </div>
+        </div>
+
+        {/* Job Details Card */}
+        <div className="form-card">
+          <div className="form-card-header">
+            <Skeleton circle width={22} height={22} />
+            <Skeleton width={110} height={18} />
+          </div>
+
+          <div className="form-card-body">
+            <div className="form-row">
+
+              {/* Job Title */}
+              <div className="form-group col-md-6">
+                <Skeleton width={80} height={14} />
+                <Skeleton
+                  height={44}
+                  style={{ marginTop: 8 }}
+                />
+              </div>
+
+              {/* Location */}
+              <div className="form-group col-md-6">
+                <Skeleton width={75} height={14} />
+                <Skeleton
+                  height={44}
+                  style={{ marginTop: 8 }}
+                />
+              </div>
+
+              {/* Job Type */}
+              <div className="form-group col-md-4">
+                <Skeleton width={70} height={14} />
+                <Skeleton
+                  height={44}
+                  style={{ marginTop: 8 }}
+                />
+              </div>
+
+              {/* Experience */}
+              <div className="form-group col-md-4">
+                <Skeleton width={85} height={14} />
+                <Skeleton
+                  height={44}
+                  style={{ marginTop: 8 }}
+                />
+              </div>
+
+              {/* Status */}
+              <div className="form-group col-md-4">
+                <Skeleton width={55} height={14} />
+                <Skeleton
+                  height={44}
+                  style={{ marginTop: 8 }}
+                />
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="form-actions">
+          <Skeleton width={110} height={42} />
+          <Skeleton width={150} height={42} />
+        </div>
+
+      </div>
+    </SkeletonTheme>
+  );
+};
 
 const Page = () => {
   const router = useRouter();
@@ -210,12 +308,7 @@ const Page = () => {
 
   if (!initialValues) {
     return (
-      <div className="form-page">
-        <div className="form-loading">
-          <span className="form-loading-spinner" />
-          Loading job details…
-        </div>
-      </div>
+    <CareerEditSkeleton/>
     );
   }
 

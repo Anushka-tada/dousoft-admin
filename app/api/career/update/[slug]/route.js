@@ -29,6 +29,7 @@ export async function PUT(req, { params }) {
       jobType,
       experience,
       status,
+      description
     } = body;
 
     // Check if job exists
@@ -47,6 +48,7 @@ export async function PUT(req, { params }) {
     existingJob.jobType = jobType || existingJob.jobType;
     existingJob.experience = experience || existingJob.experience;
     existingJob.status = status || existingJob.status;
+    existingJob.description = description || existingJob.description;
 
     await existingJob.save();
 

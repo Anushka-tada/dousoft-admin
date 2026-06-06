@@ -26,6 +26,7 @@ export async function POST(req) {
       jobType,
       experience,
       status,
+      description
     } = body;
 
     if (!title || !slug || !location || !jobType || !experience) {
@@ -41,6 +42,7 @@ export async function POST(req) {
       location,
       jobType,
       experience,
+      description,
       status: status || "active",
     });
 

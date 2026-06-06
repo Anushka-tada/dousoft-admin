@@ -2721,3 +2721,176 @@ font-family: 'Geist', sans-serif;
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* ─────────────────────────────────────────
+   Appointment page — new additions
+   Add these to your existing global CSS
+───────────────────────────────────────── */
+
+/* View button (action cell) */
+.btn-row-view {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: #e6f1fb;
+  color: #185fa5;
+  border: 0.5px solid #85b7eb;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+.btn-row-view:hover {
+  opacity: 0.8;
+}
+
+/* ── Detail Modal ── */
+.appt-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.appt-modal-card {
+  background: #ffffff;
+  width: 460px;
+  max-width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  animation: apptModalIn 0.18s ease;
+}
+
+@keyframes apptModalIn {
+  from { opacity: 0; transform: scale(0.97) translateY(6px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.appt-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.appt-modal-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111;
+}
+
+.appt-modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.appt-modal-close:hover {
+  background: #f3f4f6;
+  color: #333;
+}
+
+.appt-modal-body {
+  padding: 20px 20px 24px;
+}
+
+/* Avatar + name row */
+.appt-modal-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.appt-modal-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+ color: #0b6f1e;
+    background: #eafaec;
+  font-weight: 500;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+.appt-modal-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111;
+  margin: 0 0 3px;
+}
+
+.appt-modal-date-sub {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
+/* Detail rows */
+.appt-modal-detail-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.appt-modal-detail-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.appt-modal-detail-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 7px;
+  background: #f5f6fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.appt-modal-detail-label {
+  font-size: 11px;
+  color: #888;
+  margin: 0 0 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.appt-modal-detail-val {
+  font-size: 13.5px;
+  color: #111;
+  margin: 0;
+  word-break: break-all;
+}
+
+.appt-modal-msg-box {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 10px 13px;
+  font-size: 13px;
+  color: #333;
+  line-height: 1.65;
+  margin-top: 4px;
+  border: 0.5px solid rgba(0, 0, 0, 0.06);
+}
