@@ -228,7 +228,7 @@ export default function AnalyticsDashboard() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`http://localhost:3001/api/visitors?range=${r}`);
+      const res = await fetch(`https://dousoft-admin-rosy.vercel.app/api/visitors?range=${r}`);
       const json = await res.json();
       if (!json.success) throw new Error(json.error || "Unknown error");
       setData(json);
