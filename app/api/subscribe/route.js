@@ -19,27 +19,29 @@ export async function OPTIONS() {
 export async function POST(req) {
   try {
     await connectDB();
-    const { email } = await req.json();
+    const { email, source, blogId } = await req.json();
 
     if (!email) {
-      return NextResponse.json(
-        { error: "Email is required" },
-        { status: 400 },
-        { status: 400, headers: corsHeaders }
-      );
+    return NextResponse.json(
+  { error: "Email is required" },
+  { status: 400, headers: corsHeaders }
+);
     }
 
     // Check if already subscribed
     const existingEmail = await Subscribe.findOne({ email });
 
     if (existingEmail) {
-      return NextResponse.json(
-        { message: "You are already subscribed." },
-        { status: 201, headers: corsHeaders }
-      );
+    return NextResponse.json(
+  {
+    message: "Thank you for subscribing to our newsletter!",
+    data: subscriber,
+  },
+  { status: 201, headers: corsHeaders }
+);
     }
 
-    const subscriber = await Subscribe.create({ email });
+    const subscriber = await Subscribe.create({ email , source , blogId });
 
     return NextResponse.json(
       {
@@ -81,41 +83,3 @@ export async function GET() {
 }
 
 
-// delete
-
-
-export async function DELETE(req) {
-  try {
-    await connectDB();
-
-    const { id } = await req.json();
-
-    if (!id) {
-      return NextResponse.json(
-        { error: "Subscriber ID is required" },
-        { status: 400, headers: corsHeaders }
-      );
-    }
-
-    const deletedSubscriber = await Subscribe.findByIdAndDelete(id);
-
-    if (!deletedSubscriber) {
-      return NextResponse.json(
-        { error: "Subscriber not found" },
-        { status: 404, headers: corsHeaders }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        message: "Subscriber deleted successfully",
-      },
-      { status: 200, headers: corsHeaders }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { error: error.message },
-      { status: 500, headers: corsHeaders }
-    );
-  }
-}

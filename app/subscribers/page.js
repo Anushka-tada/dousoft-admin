@@ -141,12 +141,12 @@ const buildKpi = (data) => {
       icon: <IconCircleCheck size={20} stroke={1.8} />,
       iconClass: "warning",
     },
-    {
-      label: "Unique Emails",
-      value: [...new Set(data.map((d) => d.email?.toLowerCase()))].length,
-      icon: <IconUsersGroup size={20} stroke={1.8} />,
-      iconClass: "info",
-    },
+    // {
+    //   label: "Unique Emails",
+    //   value: [...new Set(data.map((d) => d.email?.toLowerCase()))].length,
+    //   icon: <IconUsersGroup size={20} stroke={1.8} />,
+    //   iconClass: "info",
+    // },
   ];
 };
 

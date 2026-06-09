@@ -64,7 +64,7 @@ export const getSubscribeServ = async () => {
 
 export const deleteSubscribeServ = async (deleteId) => {
   try {
-    const response = await axios.delete(BASE_URL + `subscriber/${deleteId}`);
+    const response = await axios.delete(BASE_URL + `subscribe/${deleteId}`);
     return response;
   } catch (error) {
     console.error("Error fetching data:", error);

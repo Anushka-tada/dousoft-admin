@@ -8,7 +8,18 @@ const SubscribeSchema  = mongoose.Schema(
              trim: true,
              lowercase: true,
              unique: true,
-        }
+        },
+          source: {
+      type: String,
+      enum: ["footer", "blog"],
+      default: "footer",
+    },
+
+    blogId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Blog",
+      default: null,
+    },
     },
      {
     timestamps: true,
