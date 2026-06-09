@@ -79,3 +79,43 @@ export async function GET() {
     );
   }
 }
+
+
+// delete
+
+
+export async function DELETE(req) {
+  try {
+    await connectDB();
+
+    const { id } = await req.json();
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Subscriber ID is required" },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
+    const deletedSubscriber = await Subscribe.findByIdAndDelete(id);
+
+    if (!deletedSubscriber) {
+      return NextResponse.json(
+        { error: "Subscriber not found" },
+        { status: 404, headers: corsHeaders }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        message: "Subscriber deleted successfully",
+      },
+      { status: 200, headers: corsHeaders }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: error.message },
+      { status: 500, headers: corsHeaders }
+    );
+  }
+}

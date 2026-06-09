@@ -720,10 +720,11 @@ const navItems = [
     ],
   },
   {
-    title: "Appointments",
+    title: "Support",
     list: [
       { menu: "Appointments", icon: Icon.calendar, path: "/appointments",  },
       { menu: "Contact Requests", icon: Icon.mail, path: "/contact-requests",  },
+      {menu : "Subscribers" , icon: Icon.mail , path : "/subscribers"}
     ],
   },
   {

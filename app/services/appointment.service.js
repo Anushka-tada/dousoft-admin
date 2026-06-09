@@ -48,3 +48,26 @@ export const deleteMeetingRequestServ = async (id) => {
     throw error;
   }
 };
+
+
+
+export const getSubscribeServ = async () => {
+  try {
+    const response = await axios.get(BASE_URL + "subscribe");
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+
+export const deleteSubscribeServ = async (deleteId) => {
+  try {
+    const response = await axios.delete(BASE_URL + `subscriber/${deleteId}`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
