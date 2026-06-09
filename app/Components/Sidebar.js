@@ -704,6 +704,7 @@ const navItems = [
     title: "Dashboard",
     list: [
       { menu: "Dashboard", icon: Icon.dashboard, path: "/dashboard" },
+       { menu: "Visitors", icon: Icon.dashboard, path: "/visitors" },
     ],
   },
   {

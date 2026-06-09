@@ -1788,6 +1788,13 @@ a {
   margin-bottom: 24px;
 }
  
+.kpi-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+ 
 
 .kpi-card {
   background: #ffffff;
