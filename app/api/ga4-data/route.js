@@ -243,7 +243,7 @@ client.runReport({
     { name: "sessionMedium" },
     { name: "browser" },
     { name: "operatingSystem" },
-    { name: "language" },
+
   ],
   metrics: [
     { name: "sessions" },
