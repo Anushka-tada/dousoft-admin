@@ -56,7 +56,7 @@ function SectionTitle({ title, subtitle }) {
   );
 }
 
-function BarList({ rows, labelKey, valueKey, color = "#0b6f1e", loading, limit = 10, allLabel = "items" }) {
+function BarList({ rows, labelKey, valueKey, color = "#0b6f1e", loading, limit = 5, allLabel = "items" }) {
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -357,6 +357,10 @@ function CardSoft({ children, style }) {
   );
 }
 
+const getTimezone = () => {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+};
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function AnalyticsDashboard() {
@@ -365,11 +369,13 @@ export default function AnalyticsDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState(null);
 
+  const timezone = getTimezone();
+
   const load = useCallback(async (r) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`https://dousoft-admin-rosy.vercel.app/api/ga4-data?range=${r}`);
+      const res = await fetch(`https://dousoft-admin-rosy.vercel.app/api/ga4-data?range=${r}&tz=${timezone}`);
       const json = await res.json();
       if (!json.success) throw new Error(json.error || "Unknown error");
       setData(json);
@@ -395,6 +401,17 @@ export default function AnalyticsDashboard() {
   const CHANNEL_COLORS = ["#0b6f1e", "#0e7490", "#1d4ed8", "#7c3aed", "#a16207", "#be185d", "#dc2626"];
   const OS_COLORS      = ["#0b6f1e", "#0e7490", "#1d4ed8", "#7c3aed", "#a16207"];
   const BROWSER_COLORS = ["#0b6f1e", "#0e7490", "#1d4ed8", "#7c3aed", "#a16207", "#be185d"];
+
+
+  useEffect(() => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", "user_timezone", {
+      timezone: timezone,
+    });
+  }
+}, []);
 
   return (
     <div className="container-fluid main-content-box py-4">

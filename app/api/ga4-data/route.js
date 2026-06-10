@@ -33,6 +33,8 @@ export async function GET(request) {
 
     const dateRange = { startDate: range, endDate: "today" };
 
+    const timezone = searchParams.get("tz");
+
     // ── Run all reports in parallel ──────────────────────────────────────────
     const [
       overviewRes,
@@ -285,6 +287,7 @@ export async function GET(request) {
       devices: { devices, browsers, operatingSystems, screenSizes },
       traffic: { channels, sources },
       languages,
+      timezone
     });
 
   } catch (error) {
