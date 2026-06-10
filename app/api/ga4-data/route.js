@@ -82,7 +82,10 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const range = searchParams.get("range") || "30daysAgo"; // 7daysAgo | 30daysAgo | 90daysAgo
 
-    const dateRange = { startDate: range, endDate: "today" };
+   const dateRange =
+  range === "today"
+    ? { startDate: "today", endDate: "today" }
+    : { startDate: range, endDate: "today" };
 
     // ── Run all reports in parallel ──────────────────────────────────────────
     const [
@@ -98,6 +101,7 @@ export async function GET(request) {
       sourceRes,
       langRes,
       timezoneRes,
+      visitorProfilesRes
     ] = await Promise.all([
 
       // 1. Overview metrics
@@ -224,6 +228,34 @@ export async function GET(request) {
         orderBys: [{ metric: { metricName: "totalUsers" }, desc: true }],
         limit: 8,
       }),
+
+      // 13. Session-level grouped visitor profiles
+client.runReport({
+  property: PROPERTY,
+  dateRanges: [dateRange],
+  dimensions: [
+    { name: "date" },
+    { name: "country" },
+    { name: "region" },
+    { name: "city" },
+    { name: "deviceCategory" },
+    { name: "sessionSource" },
+    { name: "sessionMedium" },
+    { name: "browser" },
+    { name: "operatingSystem" },
+    { name: "language" },
+  ],
+  metrics: [
+    { name: "sessions" },
+    { name: "screenPageViews" },
+    { name: "averageSessionDuration" },
+    { name: "bounceRate" },
+    { name: "engagedSessions" },
+  ],
+  orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
+  limit: 500, // GA4 max practical limit
+}),
+
     ]);
 
     // ── Parse overview (single row) ──────────────────────────────────────────
@@ -327,6 +359,32 @@ export async function GET(request) {
       timezoneRes[0].metricHeaders
     );
 
+    // ── Visitor Profiles ─────────────────────────────────────────────────────
+const visitorProfiles = parseRows(
+  visitorProfilesRes[0].rows,
+  visitorProfilesRes[0].dimensionHeaders,
+  visitorProfilesRes[0].metricHeaders
+).map((r, i) => ({
+  id: i + 1,
+  date: r.date,
+  country: r.country,
+  region: r.region,
+  city: r.city,
+  device: r.deviceCategory,
+  source: r.sessionSource,
+  medium: r.sessionMedium,
+  browser: r.browser,
+  os: r.operatingSystem,
+  language: r.language,
+  sessions: r.sessions,
+  pageViews: r.screenPageViews,
+  avgDuration: +r.averageSessionDuration.toFixed(0),
+  bounceRate: +(r.bounceRate * 100).toFixed(1),
+  engagedSessions: r.engagedSessions,
+  timezone: COUNTRY_TZ[r.country] ?? `Other (${r.country})`,
+}));
+
+
     // ── Timezones (country-based mapping) ───────────────────────────────────────
 const timezones = countries
   .map(c => ({
@@ -351,7 +409,8 @@ const timezones = countries
       devices: { devices, browsers, operatingSystems, screenSizes },
       traffic: { channels, sources },
       languages,
-      timezones
+      timezones,
+      visitorProfiles
     });
 
   } catch (error) {

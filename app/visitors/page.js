@@ -16,9 +16,11 @@ const fmtDuration = (s) => {
 };
 
 const RANGES = [
+    { label: "Today",   value: "today" },
   { label: "7 Days",  value: "7daysAgo"  },
   { label: "30 Days", value: "30daysAgo" },
   { label: "90 Days", value: "90daysAgo" },
+  
 ];
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
@@ -357,6 +359,202 @@ function CardSoft({ children, style }) {
   );
 }
 
+function VisitorTable({ rows, loading }) {
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [sortKey, setSortKey] = useState("pageViews");
+  const [sortDesc, setSortDesc] = useState(true);
+  const PER_PAGE = 20;
+
+  if (loading) return (
+    <div className="placeholder-glow d-flex flex-column gap-2">
+      {[...Array(6)].map((_, i) => (
+        <span key={i} className="placeholder col-12" style={{ height: 36, borderRadius: 8 }} />
+      ))}
+    </div>
+  );
+  if (!rows || rows.length === 0) return <Empty />;
+
+  const filtered = rows.filter(r =>
+    [r.country, r.city, r.source, r.medium, r.device, r.browser, r.os, r.language, r.timezone]
+      .join(" ").toLowerCase().includes(search.toLowerCase())
+  );
+
+  const sorted = [...filtered].sort((a, b) =>
+    sortDesc ? b[sortKey] - a[sortKey] : a[sortKey] - b[sortKey]
+  );
+
+  const totalPages = Math.ceil(sorted.length / PER_PAGE);
+  const paginated = sorted.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+  const handleSort = (key) => {
+    if (sortKey === key) setSortDesc(!sortDesc);
+    else { setSortKey(key); setSortDesc(true); }
+    setPage(1);
+  };
+
+  const SortIcon = ({ k }) => sortKey === k
+    ? <i className={`bi bi-caret-${sortDesc ? "down" : "up"}-fill`} style={{ fontSize: 10, marginLeft: 3 }} />
+    : <i className="bi bi-chevron-expand" style={{ fontSize: 10, marginLeft: 3, opacity: 0.3 }} />;
+
+  const COLS = [
+    { key: "date",      label: "Date",       sortable: false },
+    { key: "country",   label: "Location",   sortable: false },
+    { key: "source",    label: "Source",     sortable: false },
+    { key: "device",    label: "Device",     sortable: false },
+    { key: "browser",   label: "Browser",    sortable: false },
+    { key: "timezone",  label: "Timezone",   sortable: false },
+    { key: "pageViews", label: "Page Views", sortable: true  },
+    { key: "sessions",  label: "Sessions",   sortable: true  },
+    { key: "avgDuration", label: "Avg Time", sortable: true  },
+    { key: "bounceRate",  label: "Bounce %", sortable: true  },
+  ];
+
+  const deviceIcon = (d) => ({
+    mobile: "bi-phone", desktop: "bi-laptop", tablet: "bi-tablet"
+  })[d?.toLowerCase()] || "bi-display";
+
+  const sourceColor = (s) => {
+    const m = { google: "#4285f4", direct: "#0b6f1e", facebook: "#1877f2",
+      instagram: "#e1306c", twitter: "#1da1f2", bing: "#008373" };
+    return m[s?.toLowerCase()] || "#6b7280";
+  };
+
+  return (
+    <div>
+      {/* Search + Count */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 8 }}>
+        <div style={{ fontSize: 12, color: "#9ca3af" }}>
+          Showing <strong style={{ color: "#374151" }}>{filtered.length}</strong> of {rows.length} session groups
+        </div>
+        <div style={{ position: "relative" }}>
+          <i className="bi bi-search" style={{ position: "absolute", left: 9, top: "50%", transform: "translateY(-50%)", color: "#9ca3af", fontSize: 12 }} />
+          <input
+            type="text"
+            placeholder="Search country, source, device..."
+            value={search}
+            onChange={e => { setSearch(e.target.value); setPage(1); }}
+            style={{
+              padding: "7px 10px 7px 28px", border: "1px solid #e5e7eb",
+              borderRadius: 8, fontSize: 12, color: "#374151", outline: "none",
+              width: 240, background: "#f9fafb",
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Table */}
+      <div style={{ overflowX: "auto", borderRadius: 10, border: "1px solid #f3f4f6" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+          <thead>
+            <tr style={{ background: "#f9fafb", borderBottom: "1px solid #f3f4f6" }}>
+              {COLS.map(col => (
+                <th
+                  key={col.key}
+                  onClick={() => col.sortable && handleSort(col.key)}
+                  style={{
+                    padding: "10px 12px", textAlign: "left", fontWeight: 600,
+                    color: "#6b7280", whiteSpace: "nowrap", fontSize: 11,
+                    cursor: col.sortable ? "pointer" : "default",
+                    userSelect: "none",
+                  }}
+                >
+                  {col.label}
+                  {col.sortable && <SortIcon k={col.key} />}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {paginated.map((r, i) => (
+              <tr key={i} style={{ borderBottom: "1px solid #f9fafb", transition: "background 0.15s" }}
+                onMouseEnter={e => e.currentTarget.style.background = "#f9fafb"}
+                onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+              >
+                {/* Date */}
+                <td style={{ padding: "10px 12px", color: "#9ca3af", whiteSpace: "nowrap" }}>
+                  {r.date ? `${r.date.slice(6,8)}/${r.date.slice(4,6)}/${r.date.slice(0,4)}` : "—"}
+                </td>
+                {/* Location */}
+                <td style={{ padding: "10px 12px", whiteSpace: "nowrap" }}>
+                  <div style={{ fontWeight: 500, color: "#111827" }}>{r.city || "—"}</div>
+                  <div style={{ fontSize: 11, color: "#9ca3af" }}>{r.region}, {r.country}</div>
+                </td>
+                {/* Source */}
+                <td style={{ padding: "10px 12px", whiteSpace: "nowrap" }}>
+                  <span style={{
+                    display: "inline-block", padding: "2px 8px", borderRadius: 20,
+                    background: sourceColor(r.source) + "18",
+                    color: sourceColor(r.source), fontSize: 11, fontWeight: 600,
+                  }}>
+                    {r.source || "direct"}
+                  </span>
+                  <div style={{ fontSize: 10, color: "#9ca3af", marginTop: 1 }}>{r.medium}</div>
+                </td>
+                {/* Device */}
+                <td style={{ padding: "10px 12px" }}>
+                  <i className={`bi ${deviceIcon(r.device)}`} style={{ color: "#6b7280", marginRight: 4 }} />
+                  <span style={{ color: "#374151", textTransform: "capitalize" }}>{r.device}</span>
+                </td>
+                {/* Browser */}
+                <td style={{ padding: "10px 12px", color: "#374151" }}>{r.browser || "—"}</td>
+                {/* Timezone */}
+                <td style={{ padding: "10px 12px", color: "#6b7280", fontSize: 11, whiteSpace: "nowrap" }}>{r.timezone}</td>
+                {/* Page Views */}
+                <td style={{ padding: "10px 12px", textAlign: "center" }}>
+                  <span style={{ fontWeight: 700, color: "#0b6f1e" }}>{fmt(r.pageViews)}</span>
+                </td>
+                {/* Sessions */}
+                <td style={{ padding: "10px 12px", textAlign: "center", color: "#374151", fontWeight: 600 }}>
+                  {fmt(r.sessions)}
+                </td>
+                {/* Avg Duration */}
+                <td style={{ padding: "10px 12px", textAlign: "center", color: "#374151" }}>
+                  {fmtDuration(r.avgDuration)}
+                </td>
+                {/* Bounce Rate */}
+                <td style={{ padding: "10px 12px", textAlign: "center" }}>
+                  <span style={{ color: r.bounceRate > 70 ? "#dc2626" : r.bounceRate > 40 ? "#a16207" : "#0b6f1e", fontWeight: 600 }}>
+                    {r.bounceRate}%
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 6, marginTop: 14 }}>
+          <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
+            style={{ padding: "5px 12px", borderRadius: 7, border: "1px solid #e5e7eb", background: "transparent",
+              cursor: page === 1 ? "not-allowed" : "pointer", color: "#6b7280", fontSize: 12 }}>
+            <i className="bi bi-chevron-left" />
+          </button>
+          {[...Array(Math.min(totalPages, 5))].map((_, i) => {
+            const p = i + 1;
+            return (
+              <button key={p} onClick={() => setPage(p)}
+                style={{ padding: "5px 10px", borderRadius: 7, border: "1px solid #e5e7eb", fontSize: 12,
+                  background: page === p ? "#0b6f1e" : "transparent",
+                  color: page === p ? "#fff" : "#6b7280", cursor: "pointer" }}>
+                {p}
+              </button>
+            );
+          })}
+          {totalPages > 5 && <span style={{ color: "#9ca3af", fontSize: 12 }}>... {totalPages}</span>}
+          <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
+            style={{ padding: "5px 12px", borderRadius: 7, border: "1px solid #e5e7eb", background: "transparent",
+              cursor: page === totalPages ? "not-allowed" : "pointer", color: "#6b7280", fontSize: 12 }}>
+            <i className="bi bi-chevron-right" />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function AnalyticsDashboard() {
@@ -397,6 +595,8 @@ export default function AnalyticsDashboard() {
   const BROWSER_COLORS = ["#0b6f1e", "#0e7490", "#1d4ed8", "#7c3aed", "#a16207", "#be185d"];
 
   const timezones = data?.timezones || [];
+
+  const visitorProfiles = data?.visitorProfiles || [];
 
   return (
     <div className="container-fluid main-content-box py-4">
@@ -610,6 +810,17 @@ export default function AnalyticsDashboard() {
       />
     </CardSoft>
   </div>
+</div>
+
+{/* ── Visitor Profiles Table ───────────────────────────────────────────── */}
+<div className="mb-4">
+  <CardSoft>
+    <SectionTitle
+      title="Session Groups"
+      subtitle="GA4 aggregated — not individual users"
+    />
+    <VisitorTable rows={visitorProfiles} loading={loading} />
+  </CardSoft>
 </div>
 
       </div>
