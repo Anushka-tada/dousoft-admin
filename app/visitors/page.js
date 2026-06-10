@@ -394,8 +394,8 @@ function VisitorTable({ rows, loading }) {
   };
 
   const SortIcon = ({ k }) => sortKey === k
-    ? <i className={`bi bi-caret-${sortDesc ? "down" : "up"}-fill`} style={{ fontSize: 10, marginLeft: 3 }} />
-    : <i className="bi bi-chevron-expand" style={{ fontSize: 10, marginLeft: 3, opacity: 0.3 }} />;
+    ? <i className={`bi bi-caret-${sortDesc ? "down" : "up"}-fill`} style={{ fontSize: 12, marginLeft: 3 }} />
+    : <i className="bi bi-chevron-expand" style={{ fontSize: 12, marginLeft: 3, opacity: 0.3 }} />;
 
   const COLS = [
     { key: "date",      label: "Date",       sortable: false },
@@ -424,11 +424,11 @@ function VisitorTable({ rows, loading }) {
     <div>
       {/* Search + Count */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 8 }}>
-        <div style={{ fontSize: 12, color: "#9ca3af" }}>
+        <div style={{ fontSize: 14, color: "#9ca3af" }}>
           Showing <strong style={{ color: "#374151" }}>{filtered.length}</strong> of {rows.length} session groups
         </div>
         <div style={{ position: "relative" }}>
-          <i className="bi bi-search" style={{ position: "absolute", left: 9, top: "50%", transform: "translateY(-50%)", color: "#9ca3af", fontSize: 12 }} />
+          <i className="bi bi-search" style={{ position: "absolute", left: 9, top: "50%", transform: "translateY(-50%)", color: "#9ca3af", fontSize: 14 }} />
           <input
             type="text"
             placeholder="Search country, source, device..."
@@ -436,7 +436,7 @@ function VisitorTable({ rows, loading }) {
             onChange={e => { setSearch(e.target.value); setPage(1); }}
             style={{
               padding: "7px 10px 7px 28px", border: "1px solid #e5e7eb",
-              borderRadius: 8, fontSize: 12, color: "#374151", outline: "none",
+              borderRadius: 8, fontSize: 14, color: "#374151", outline: "none",
               width: 240, background: "#f9fafb",
             }}
           />
@@ -445,7 +445,7 @@ function VisitorTable({ rows, loading }) {
 
       {/* Table */}
       <div style={{ overflowX: "auto", borderRadius: 10, border: "1px solid #f3f4f6" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
           <thead>
             <tr style={{ background: "#f9fafb", borderBottom: "1px solid #f3f4f6" }}>
               {COLS.map(col => (
@@ -454,7 +454,7 @@ function VisitorTable({ rows, loading }) {
                   onClick={() => col.sortable && handleSort(col.key)}
                   style={{
                     padding: "10px 12px", textAlign: "left", fontWeight: 600,
-                    color: "#6b7280", whiteSpace: "nowrap", fontSize: 11,
+                    color: "#6b7280", whiteSpace: "nowrap", fontSize: 13,
                     cursor: col.sortable ? "pointer" : "default",
                     userSelect: "none",
                   }}
@@ -478,18 +478,18 @@ function VisitorTable({ rows, loading }) {
                 {/* Location */}
                 <td style={{ padding: "10px 12px", whiteSpace: "nowrap" }}>
                   <div style={{ fontWeight: 500, color: "#111827" }}>{r.city || "—"}</div>
-                  <div style={{ fontSize: 11, color: "#9ca3af" }}>{r.region}, {r.country}</div>
+                  <div style={{ fontSize: 13, color: "#9ca3af" }}>{r.region}, {r.country}</div>
                 </td>
                 {/* Source */}
                 <td style={{ padding: "10px 12px", whiteSpace: "nowrap" }}>
                   <span style={{
                     display: "inline-block", padding: "2px 8px", borderRadius: 20,
                     background: sourceColor(r.source) + "18",
-                    color: sourceColor(r.source), fontSize: 11, fontWeight: 600,
+                    color: sourceColor(r.source), fontSize: 13, fontWeight: 600,
                   }}>
                     {r.source || "direct"}
                   </span>
-                  <div style={{ fontSize: 10, color: "#9ca3af", marginTop: 1 }}>{r.medium}</div>
+                  <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 1 }}>{r.medium}</div>
                 </td>
                 {/* Device */}
                 <td style={{ padding: "10px 12px" }}>
@@ -499,7 +499,7 @@ function VisitorTable({ rows, loading }) {
                 {/* Browser */}
                 <td style={{ padding: "10px 12px", color: "#374151" }}>{r.browser || "—"}</td>
                 {/* Timezone */}
-                <td style={{ padding: "10px 12px", color: "#6b7280", fontSize: 11, whiteSpace: "nowrap" }}>{r.timezone}</td>
+                <td style={{ padding: "10px 12px", color: "#6b7280", fontSize: 13, whiteSpace: "nowrap" }}>{r.timezone}</td>
                 {/* Page Views */}
                 <td style={{ padding: "10px 12px", textAlign: "center" }}>
                   <span style={{ fontWeight: 700, color: "#0b6f1e" }}>{fmt(r.pageViews)}</span>
@@ -529,24 +529,24 @@ function VisitorTable({ rows, loading }) {
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 6, marginTop: 14 }}>
           <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
             style={{ padding: "5px 12px", borderRadius: 7, border: "1px solid #e5e7eb", background: "transparent",
-              cursor: page === 1 ? "not-allowed" : "pointer", color: "#6b7280", fontSize: 12 }}>
+              cursor: page === 1 ? "not-allowed" : "pointer", color: "#6b7280", fontSize: 14 }}>
             <i className="bi bi-chevron-left" />
           </button>
           {[...Array(Math.min(totalPages, 5))].map((_, i) => {
             const p = i + 1;
             return (
               <button key={p} onClick={() => setPage(p)}
-                style={{ padding: "5px 10px", borderRadius: 7, border: "1px solid #e5e7eb", fontSize: 12,
+                style={{ padding: "5px 10px", borderRadius: 7, border: "1px solid #e5e7eb", fontSize: 14,
                   background: page === p ? "#0b6f1e" : "transparent",
                   color: page === p ? "#fff" : "#6b7280", cursor: "pointer" }}>
                 {p}
               </button>
             );
           })}
-          {totalPages > 5 && <span style={{ color: "#9ca3af", fontSize: 12 }}>... {totalPages}</span>}
+          {totalPages > 5 && <span style={{ color: "#9ca3af", fontSize: 14 }}>... {totalPages}</span>}
           <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
             style={{ padding: "5px 12px", borderRadius: 7, border: "1px solid #e5e7eb", background: "transparent",
-              cursor: page === totalPages ? "not-allowed" : "pointer", color: "#6b7280", fontSize: 12 }}>
+              cursor: page === totalPages ? "not-allowed" : "pointer", color: "#6b7280", fontSize: 14 }}>
             <i className="bi bi-chevron-right" />
           </button>
         </div>

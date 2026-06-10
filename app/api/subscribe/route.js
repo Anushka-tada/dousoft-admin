@@ -29,28 +29,33 @@ export async function POST(req) {
     }
 
     // Check if already subscribed
-    const existingEmail = await Subscribe.findOne({ email });
+    const existingEmail = await Subscribe.findOne({email});
 
-    if (existingEmail) {
-    return NextResponse.json(
+   if (existingEmail) {
+  return NextResponse.json(
+    {
+      message: "Already subscribed",
+      data: existingEmail,
+    },
+    {
+      status: 200,
+      headers: corsHeaders,
+    }
+  );
+}
+
+    const subscriber = await Subscribe.create({ email , source , blogId });
+
+   return NextResponse.json(
   {
     message: "Thank you for subscribing to our newsletter!",
     data: subscriber,
   },
-  { status: 201, headers: corsHeaders }
+  {
+    status: 201,
+    headers: corsHeaders,
+  }
 );
-    }
-
-    const subscriber = await Subscribe.create({ email , source , blogId });
-
-    return NextResponse.json(
-      {
-        message: "Thank you for subscribing to our newsletter!",
-        data: subscriber,
-      },
-      { status: 201 },
-      { status: 201, headers: corsHeaders }
-    );
   } catch (error) {
     return NextResponse.json(
       { error: error.message },
