@@ -139,7 +139,7 @@ export async function GET(request) {
       client.runReport({
         property: PROPERTY,
         dateRanges: [dateRange],
-        dimensions: [{ name: "defaultChannelGroup" }],
+        dimensions: [{ name: "sessionDefaultChannelGroup" }],
         metrics: [{ name: "sessions" }, { name: "totalUsers" }],
         orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
       }),
@@ -254,6 +254,9 @@ export async function GET(request) {
       channelRes[0].metricHeaders
     );
 
+    console.log("channelRes raw:", JSON.stringify(channelRes[0], null, 2));
+
+
     const sources = parseRows(
       sourceRes[0].rows,
       sourceRes[0].dimensionHeaders,
@@ -286,6 +289,7 @@ export async function GET(request) {
 
   } catch (error) {
     console.error("GA4 API error:", error);
+    
     return Response.json({ success: false, error: error.message }, { status: 500 });
   }
 }

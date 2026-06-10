@@ -56,35 +56,176 @@ function SectionTitle({ title, subtitle }) {
   );
 }
 
-function BarList({ rows, labelKey, valueKey, color = "#0b6f1e", loading }) {
+function BarList({ rows, labelKey, valueKey, color = "#0b6f1e", loading, limit = 10, allLabel = "items" }) {
+  const [showModal, setShowModal] = useState(false);
+  const [search, setSearch] = useState("");
+
   if (loading) return (
     <div className="placeholder-glow d-flex flex-column gap-2">
       {[1,2,3,4,5].map(i => <span key={i} className="placeholder col-12" style={{ height: 28, borderRadius: 8 }} />)}
     </div>
   );
   if (!rows || rows.length === 0) return <Empty />;
+
   const max = Math.max(...rows.map(r => r[valueKey] || 0), 1);
+  const displayRows = rows.slice(0, limit);
+  const hasMore = rows.length > limit;
+
+  const openModal  = () => { setShowModal(true);  setSearch(""); };
+  const closeModal = () => { setShowModal(false); setSearch(""); };
+
+  const filtered = rows.filter(row =>
+    (row[labelKey] || "").toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-      {rows.map((row, i) => {
-        const pct = Math.max(((row[valueKey] || 0) / max) * 100, 2);
-        return (
-          <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ fontSize: 12, color: "#6b7280", minWidth: 130, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {row[labelKey] || "Unknown"}
-            </span>
-            <div style={{ flex: 1, height: 6, background: "#f3f4f6", borderRadius: 3, overflow: "hidden" }}>
-              <div style={{ height: "100%", width: `${pct}%`, background: color, borderRadius: 3, transition: "width 0.5s ease" }} />
+    <>
+      {/* ── Card bar list (top N) ── */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+        {displayRows.map((row, i) => {
+          const pct = Math.max(((row[valueKey] || 0) / max) * 100, 2);
+          return (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 12, color: "#6b7280", minWidth: 130, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {row[labelKey] || "Unknown"}
+              </span>
+              <div style={{ flex: 1, height: 6, background: "#f3f4f6", borderRadius: 3, overflow: "hidden" }}>
+                <div style={{ height: "100%", width: `${pct}%`, background: color, borderRadius: 3, transition: "width 0.5s ease" }} />
+              </div>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#374151", minWidth: 40, textAlign: "right" }}>
+                {fmt(row[valueKey])}
+              </span>
             </div>
-            <span style={{ fontSize: 12, fontWeight: 600, color: "#374151", minWidth: 40, textAlign: "right" }}>
-              {fmt(row[valueKey])}
-            </span>
+          );
+        })}
+      </div>
+
+      {/* ── View All button ── */}
+      {hasMore && (
+        <button
+          onClick={openModal}
+          style={{
+            marginTop: 12, width: "100%", padding: "7px 0",
+            border: "1px solid #e5e7eb", borderRadius: 8,
+            background: "transparent", color: "#6b7280",
+            fontSize: 12.5, fontWeight: 500, cursor: "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+          }}
+        >
+          <i className="bi bi-list-ul" />
+          View all {rows.length} {allLabel}
+        </button>
+      )}
+
+      {/* ── Modal ── */}
+      {showModal && (
+        <div
+          onClick={(e) => e.target === e.currentTarget && closeModal()}
+          style={{
+            position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            zIndex: 1050,
+          }}
+        >
+          <div style={{
+            background: "#fff", borderRadius: 14, width: 500, maxWidth: "95vw",
+            maxHeight: "80vh", display: "flex", flexDirection: "column",
+            boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
+          }}>
+
+            {/* Modal Header */}
+            <div style={{ padding: "16px 20px", borderBottom: "1px solid #f3f4f6" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 15, color: "#111827" }}>All {allLabel}</div>
+                  <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 2 }}>
+                    {search ? `${filtered.length} of ${rows.length} results` : `${rows.length} total · sorted by users`}
+                  </div>
+                </div>
+                <button
+                  onClick={closeModal}
+                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, color: "#9ca3af", lineHeight: 1, padding: 4 }}
+                >
+                  <i className="bi bi-x-lg" />
+                </button>
+              </div>
+
+              {/* Search Input */}
+              <div style={{ position: "relative" }}>
+                <i className="bi bi-search" style={{
+                  position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)",
+                  color: "#9ca3af", fontSize: 13, pointerEvents: "none",
+                }} />
+                <input
+                  type="text"
+                  placeholder={`Search ${allLabel}...`}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  autoFocus
+                  style={{
+                    width: "100%", padding: "8px 10px 8px 32px",
+                    border: "1px solid #e5e7eb", borderRadius: 8,
+                    fontSize: 13, color: "#374151", outline: "none",
+                    boxSizing: "border-box", background: "#f9fafb",
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = "#0b6f1e"}
+                  onBlur={(e)  => e.target.style.borderColor = "#e5e7eb"}
+                />
+                {search && (
+                  <button
+                    onClick={() => setSearch("")}
+                    style={{
+                      position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)",
+                      background: "none", border: "none", cursor: "pointer",
+                      color: "#9ca3af", fontSize: 14, padding: 2, lineHeight: 1,
+                    }}
+                  >
+                    <i className="bi bi-x-circle-fill" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Modal Body */}
+            <div style={{ overflowY: "auto", padding: "12px 20px", flex: 1 }}>
+              {filtered.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "30px 0", color: "#d1d5db" }}>
+                  <i className="bi bi-search" style={{ fontSize: 24, display: "block", marginBottom: 8 }} />
+                  <span style={{ fontSize: 13 }}>No results for &#34;{search}&#34;</span>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {filtered.map((row, i) => {
+                    const originalRank = rows.indexOf(row) + 1;
+                    const pct = Math.max(((row[valueKey] || 0) / max) * 100, 2);
+                    return (
+                      <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "5px 0", borderBottom: "1px solid #f9fafb" }}>
+                        <span style={{ fontSize: 11, color: "#d1d5db", minWidth: 20, textAlign: "right", flexShrink: 0 }}>
+                          {originalRank}
+                        </span>
+                        <span style={{ fontSize: 13, color: "#374151", flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {row[labelKey] || "Unknown"}
+                        </span>
+                        <div style={{ width: 80, height: 5, background: "#f3f4f6", borderRadius: 3, overflow: "hidden", flexShrink: 0 }}>
+                          <div style={{ height: "100%", width: `${pct}%`, background: color, borderRadius: 3 }} />
+                        </div>
+                        <span style={{ fontSize: 12, fontWeight: 600, color: "#374151", minWidth: 48, textAlign: "right" }}>
+                          {fmt(row[valueKey])}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
           </div>
-        );
-      })}
-    </div>
+        </div>
+      )}
+    </>
   );
 }
+
 
 function PieDonut({ data, labelKey, valueKey, colors, loading }) {
   if (loading) return (
@@ -136,7 +277,7 @@ function LineChart({ daily, loading }) {
   );
   if (!daily || daily.length === 0) return <Empty />;
 
-  const W = 560, H = 110, PAD = { t: 10, r: 10, b: 24, l: 38 };
+  const W = 500, H = 110, PAD = { t: 10, r: 20, b: 24, l: 20 };
   const iW = W - PAD.l - PAD.r, iH = H - PAD.t - PAD.b;
   const maxU = Math.max(...daily.map(d => d.users), 1);
   const maxP = Math.max(...daily.map(d => d.pageViews), 1);
@@ -232,6 +373,8 @@ export default function AnalyticsDashboard() {
       const json = await res.json();
       if (!json.success) throw new Error(json.error || "Unknown error");
       setData(json);
+      console.log( "console.log(data?.traffic?.channels)", json?.traffic?.channels)
+      console.log( "console.log(data?.traffic?", json?.traffic)
     } catch (e) {
       setError(e.message);
     } finally {
@@ -327,22 +470,27 @@ export default function AnalyticsDashboard() {
           <div className="col-12 col-md-6 col-lg-4">
             <CardSoft style={{ height: "100%" }}>
               <SectionTitle title="Top Countries" subtitle="by users" />
-              <BarList rows={geo.countries} labelKey="country" valueKey="totalUsers" color="#0b6f1e" loading={loading} />
+             <BarList rows={geo.countries} labelKey="country" valueKey="totalUsers" 
+  color="#0b6f1e" loading={loading} allLabel="countries" />
+
             </CardSoft>
           </div>
           <div className="col-12 col-md-6 col-lg-4">
             <CardSoft style={{ height: "100%" }}>
               <SectionTitle title="Top Cities" subtitle="by users" />
-              <BarList rows={geo.cities} labelKey="city" valueKey="totalUsers" color="#0e7490" loading={loading} />
+            {/* Top Cities */}
+<BarList rows={geo.cities} labelKey="city" valueKey="totalUsers" 
+  color="#0e7490" loading={loading} allLabel="cities" />
+
             </CardSoft>
           </div>
           <div className="col-12 col-md-6 col-lg-4">
             <CardSoft style={{ height: "100%" }}>
               <SectionTitle title="Top Regions" subtitle="state / province" />
               <BarList
-                rows={geo.regions?.map(r => ({ label: `${r.region}, ${r.country}`, totalUsers: r.totalUsers }))}
-                labelKey="label" valueKey="totalUsers" color="#1d4ed8" loading={loading}
-              />
+  rows={geo.regions?.map(r => ({ label: `${r.region}, ${r.country}`, totalUsers: r.totalUsers }))}
+  labelKey="label" valueKey="totalUsers" color="#1d4ed8" loading={loading} allLabel="regions"
+/>
             </CardSoft>
           </div>
         </div>
@@ -380,7 +528,7 @@ export default function AnalyticsDashboard() {
           <div className="col-12 col-lg-5">
             <CardSoft style={{ height: "100%" }}>
               <SectionTitle title="Traffic Channels" subtitle="sessions by source" />
-              <PieDonut data={traffic.channels} labelKey="defaultChannelGroup" valueKey="sessions" colors={CHANNEL_COLORS} loading={loading} />
+              <PieDonut data={traffic.channels} labelKey="sessionDefaultChannelGroup" valueKey="sessions" colors={CHANNEL_COLORS} loading={loading} />
             </CardSoft>
           </div>
           <div className="col-12 col-lg-7">
