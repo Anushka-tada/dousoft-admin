@@ -24,7 +24,58 @@ function parseRows(rows = [], dimensionHeaders = [], metricHeaders = []) {
     });
     return obj;
   });
+
 }
+
+// Country → Timezone mapping
+const COUNTRY_TZ = {
+  "India": "Asia/Kolkata",
+  "United States": "America/New_York",
+  "United Kingdom": "Europe/London",
+  "Germany": "Europe/Berlin",
+  "France": "Europe/Paris",
+  "Japan": "Asia/Tokyo",
+  "Australia": "Australia/Sydney",
+  "Canada": "America/Toronto",
+  "Brazil": "America/Sao_Paulo",
+  "Singapore": "Asia/Singapore",
+  "Netherlands": "Europe/Amsterdam",
+  "Italy": "Europe/Rome",
+  "Spain": "Europe/Madrid",
+  "Russia": "Europe/Moscow",
+  "China": "Asia/Shanghai",
+  "South Korea": "Asia/Seoul",
+  "Indonesia": "Asia/Jakarta",
+  "Pakistan": "Asia/Karachi",
+  "Bangladesh": "Asia/Dhaka",
+  "Sri Lanka": "Asia/Colombo",
+  "Nepal": "Asia/Kathmandu",
+  "UAE": "Asia/Dubai",
+  "Saudi Arabia": "Asia/Riyadh",
+  "Turkey": "Europe/Istanbul",
+  "Poland": "Europe/Warsaw",
+  "Sweden": "Europe/Stockholm",
+  "Norway": "Europe/Oslo",
+  "Denmark": "Europe/Copenhagen",
+  "Finland": "Europe/Helsinki",
+  "Switzerland": "Europe/Zurich",
+  "Belgium": "Europe/Brussels",
+  "Portugal": "Europe/Lisbon",
+  "Greece": "Europe/Athens",
+  "Mexico": "America/Mexico_City",
+  "Argentina": "America/Argentina/Buenos_Aires",
+  "Colombia": "America/Bogota",
+  "Chile": "America/Santiago",
+  "South Africa": "Africa/Johannesburg",
+  "Nigeria": "Africa/Lagos",
+  "Kenya": "Africa/Nairobi",
+  "Egypt": "Africa/Cairo",
+  "New Zealand": "Pacific/Auckland",
+  "Malaysia": "Asia/Kuala_Lumpur",
+  "Thailand": "Asia/Bangkok",
+  "Vietnam": "Asia/Ho_Chi_Minh",
+  "Philippines": "Asia/Manila",
+};
 
 export async function GET(request) {
   try {
@@ -32,8 +83,6 @@ export async function GET(request) {
     const range = searchParams.get("range") || "30daysAgo"; // 7daysAgo | 30daysAgo | 90daysAgo
 
     const dateRange = { startDate: range, endDate: "today" };
-
-    const timezone = searchParams.get("tz");
 
     // ── Run all reports in parallel ──────────────────────────────────────────
     const [
@@ -278,6 +327,21 @@ export async function GET(request) {
       timezoneRes[0].metricHeaders
     );
 
+    // ── Timezones (country-based mapping) ───────────────────────────────────────
+const timezones = countries
+  .map(c => ({
+    timezone: COUNTRY_TZ[c.country] ?? `Other (${c.country})`,
+    country: c.country,
+    totalUsers: c.totalUsers,
+  }))
+  .reduce((acc, curr) => {
+    const ex = acc.find(a => a.timezone === curr.timezone);
+    if (ex) ex.totalUsers += curr.totalUsers;
+    else acc.push({ ...curr });
+    return acc;
+  }, [])
+  .sort((a, b) => b.totalUsers - a.totalUsers);
+
     return Response.json({
       success: true,
       range,
@@ -287,7 +351,7 @@ export async function GET(request) {
       devices: { devices, browsers, operatingSystems, screenSizes },
       traffic: { channels, sources },
       languages,
-      timezone
+      timezones
     });
 
   } catch (error) {
